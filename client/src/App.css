@@ -139,9 +139,6 @@
   color: #555;
 }
 
-/* ----------------------------------------------------------------------*/
-/* ----------------------------------------------------------------------*/
-
 /* Room list container */
 .room-list {
   margin-top: 1.5rem;
@@ -176,8 +173,41 @@
   border-bottom: 1px solid #9c9dd4;
 }
 
+/* A pastel-colored border slides in when you hover a row. */
+.room-list li {
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s;
+}
+
+.room-list li::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 4px;
+  background: linear-gradient(#66a6ff, #89f7fe);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease;
+}
+
+.room-list li:hover::before {
+  transform: scaleY(1);
+}
+
+/* The row gets a pastel highlight when hovered. */
+.room-list li:hover {
+  background-color: #d8e7fb; /* pastel blue highlight */
+  transition: background-color 0.3s;
+}
+
 .room-list li:last-child {
   border-bottom: none
+}
+
+/* When hovering a list item, the Join button glows slightly. */
+.room-list li:hover button {
+  box-shadow: 0 0 8px rgba(102, 166, 255, 0.5);
 }
 
 /* Join buttons */
@@ -196,9 +226,6 @@
   background-color: #0056b3;
   transform: translateY(-1px);
 }
-
-/* ----------------------------------------------------------------------*/
-/* ----------------------------------------------------------------------*/
 
 /* Mobile-friendly adjustments */
 @media (max-width: 480px) {
