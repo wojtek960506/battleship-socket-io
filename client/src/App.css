@@ -74,20 +74,11 @@
   from { opacity: 0.6; }
   to { opacity: 1; }
 }
-/* .lobby-card {
-  background-color: #fff;
-  padding: 2rem 1.5rem;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 360px;
-  text-align: center;
-} */
 
 .lobby-card h2 {
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
-  color: #333;
+  color: #4A6FA5;
 }
 
 .room-form {
@@ -102,6 +93,9 @@
   border: 1px solid #ccc;
   border-radius: 12px;
   outline: none;
+  background-color: #e3ebfa;
+  color: #3555a0;
+  
   transition: border-color 0.2s;
 }
 
@@ -116,7 +110,7 @@
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  color: white;
+  color: rgb(236, 242, 252);
   transition: background-color 0.2s, transform 0.1s;
 }
 
@@ -145,6 +139,67 @@
   color: #555;
 }
 
+/* ----------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------*/
+
+/* Room list container */
+.room-list {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.room-list h3 {
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  color: #359796;
+  text-align: center;
+}
+
+/* Scrollable list */
+.room-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 160px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #e3ebfa
+}
+
+/* Room list item */
+.room-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #9c9dd4;
+}
+
+.room-list li:last-child {
+  border-bottom: none
+}
+
+/* Join buttons */
+.room-list button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.4s, transform 0.3s;
+}
+
+.room-list button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+/* ----------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------*/
+
 /* Mobile-friendly adjustments */
 @media (max-width: 480px) {
   .app-header h1 {
@@ -163,5 +218,14 @@
   .room-form button {
     font-size: 0.9rem;
     padding: 0.65rem;
+  }
+
+  .room-list h3 {
+    font-size: 1rem;
+  }
+
+  .room-list button {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
   }
 }

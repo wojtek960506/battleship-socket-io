@@ -11,6 +11,7 @@ function App() {
       <main className="lobby-container">
         <div className="lobby-card">
           <h2>Join or Create a Room</h2>
+
           <div className="room-form">
             <input type="text" placeholder="Enter room name" />
             <div className="button-group">
@@ -18,7 +19,18 @@ function App() {
               <button className="join-btn">Join Room</button>
             </div>
           </div>
-          <p className="info-text">Enter a room name to start playing!</p>
+          
+          <div className="room-list">
+            <h3>Available Rooms</h3>
+            <ul>
+              <li>Room Alpha <button>Join</button></li>
+              <li>Room Bravo <button>Join</button></li>
+              <li>Room Charlie <button>Join</button></li>
+              <li>Room Delta <button>Join</button></li>
+            </ul>
+          </div>
+          
+          <p className="info-text">Join or create a room to start playing!</p>
         </div>
       </main>
     </div>
