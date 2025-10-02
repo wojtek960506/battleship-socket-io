@@ -4,22 +4,34 @@
   flex-direction: column;
   min-height: 100vh;
   font-family: 'Arial', sans-serif;
-  background-color: #f5f5f5;
   color: #222;
+
+  /* Gradient background */
+  background: linear-gradient(-45deg, #89f7fe, #66a6ff, #fbc2eb, #a6c0fe);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Header */
 .app-header {
   text-align: center;
   padding: 1.5rem 0;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background: transparent;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .app-header h1 {
   margin: 0;
   font-size: 2rem;
-  color: #333;
+  color: #fff; /* White text to pop over gradients */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 
 /* Lobby / Room form */
@@ -33,6 +45,8 @@
 
 /* Card style */
 .lobby-card {
+  position: relative;
+  z-index: 1;
   background-color: #fff;
   padding: 2rem 1.5rem;
   border-radius: 16px;
@@ -41,6 +55,34 @@
   max-width: 360px;
   text-align: center;
 }
+
+.lobby-card::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #66a6ff, #89f7fe, #fbc2eb);
+  filter: blur(40px);
+  z-index: -1;
+  animation: glow 6s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+/* .lobby-card {
+  background-color: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+} */
 
 .lobby-card h2 {
   margin-bottom: 1.5rem;
