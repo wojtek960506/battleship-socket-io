@@ -6,6 +6,8 @@ type RoomContextType = {
   handleCurrentRoom: (value: string) => void;
   isGameSet: boolean;
   handleIsGameSet: (value: boolean) => void;
+  playerWhoLeft: string;
+  handlePlayerWhoLeft: (value: string) => void;
   socket: io.Socket;
 }
 

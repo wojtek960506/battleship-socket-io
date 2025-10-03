@@ -82,6 +82,7 @@ io.on("connection", (socket) => {
         message: `Room with name '${room}' already exists`
       })
     }
+    console.log('create_room', io.sockets.adapter.rooms)
   })
 
   socket.on("get_rooms", () => {
@@ -145,6 +146,8 @@ io.on("connection", (socket) => {
     socket.leave(room);
     if (roomData.size === 1) {
       roomsMetadata.delete(room)
+      socket.emit("rooms_map", [...roomsMetadata.entries()])
+      socket.broadcast.emit("rooms_map", [...roomsMetadata.entries()])
     } else {
       roomsMetadata.set(room, {...roomData, size: roomData.size - 1})
     }
@@ -154,8 +157,9 @@ io.on("connection", (socket) => {
     })
     socket.to(room).emit('someone_left_room', {
       room,
-      message: `'${socket.id}' has just left room '${room}`}
-    )
+      message: `'${socket.id}' has just left room '${room}`,
+      playerWhoLeft: socket.id,
+    })
   })
 
   socket.on("shot", ({ 
@@ -188,13 +192,34 @@ io.on("connection", (socket) => {
   socket.on("disconnecting", () => {
     console.log("socket disconnecting")
     const rooms = io.sockets.adapter.rooms
-    console.log(rooms);
-    for (const room of rooms) {
-      console.log("room", room)
-      console.log("room size", room[1].size)
-    }
+    console.log('------------------')
+    console.log(rooms)
+    console.log('------------------')
+    
+    for (const [roomName, members] of rooms.entries()) {
+      if (members.has(socket.id)) {
+        console.log(`socket with id ${socket.id} was in room ${roomName} which has ${members.size} member(s)` )
 
-    console.log("socket rooms", socket.rooms)
+        const roomFromMetadata = roomsMetadata.get(roomName)
+
+        if (roomFromMetadata) { 
+          if (roomFromMetadata.size < 2) {
+            roomsMetadata.delete(roomName)
+          } else {
+            roomsMetadata.set(roomName, {...roomFromMetadata, size: roomFromMetadata.size - 1})
+            // other members of this room has to be informed that room was left
+            socket.to(roomName).emit('someone_left_room', {
+              roomName,
+              message: `'${socket.id}' has just left room '${roomName}`,
+              playerWhoLeft: socket.id,
+            })
+          }
+        }
+      }
+    }
+    console.log('there should be update here')
+    // update all rooms with changes
+    socket.broadcast.emit("rooms_map", [...roomsMetadata.entries()])
   })
 })
 

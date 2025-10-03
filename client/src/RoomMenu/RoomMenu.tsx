@@ -5,6 +5,7 @@ import { RoomContext } from "../context/RoomContext";
 type SocketData = {
   room: string;
   message: string;
+  playerWhoLeft?: string 
 }
 
 type SocketRoomsData = [string, RoomData][]
@@ -12,18 +13,24 @@ type SocketRoomsData = [string, RoomData][]
 
 export const RoomMenu = () => {
 
-  const { socket, currentRoom, handleCurrentRoom, handleIsGameSet } = useContext(RoomContext)!;
+  const { socket, currentRoom, handleCurrentRoom, handleIsGameSet, playerWhoLeft, handlePlayerWhoLeft } = useContext(RoomContext)!;
 
   const [newRoomName, setNewRoomName] = useState('');
   const [allRooms, setAllRooms] = useState<RoomData[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
+  
 
   const handleCreateRoom = () => {
+    if (newRoomName === '') return
     socket.emit("create_room", newRoomName)
   }
 
   const handleJoinRoom = (roomName: string) => {
     socket.emit("join_room", roomName)
+  }
+
+  const handleLeaveRoom = () => {
+    socket.emit("leave_room", currentRoom)
   }
 
   const handleAllRooms = (data: SocketRoomsData) => {
@@ -33,6 +40,9 @@ export const RoomMenu = () => {
     }
     setAllRooms(rooms)
   }
+
+  
+
 
   useEffect(() => {
     socket.emit("get_rooms")
@@ -44,6 +54,7 @@ export const RoomMenu = () => {
     })
     socket.on("room_created", ({ room, message }: SocketData) => {
       handleCurrentRoom(room)
+      handlePlayerWhoLeft('')
       console.log(message)
       // get updated rooms list for yourself
       socket.emit("get_rooms")
@@ -55,6 +66,7 @@ export const RoomMenu = () => {
     })
     socket.on("you_joined_room", ({ room, message }: SocketData) => {
       handleCurrentRoom(room);
+      handleIsGameSet(true);
       console.log(message)
     })
     socket.on("someone_joined_room", ({ room, message }: SocketData) => {
@@ -63,13 +75,37 @@ export const RoomMenu = () => {
         console.log(message);
       }
     })
-  }, [socket, currentRoom])
+    socket.on("you_left_room", (data: SocketData) => {
+      handleCurrentRoom('')
+      handleIsGameSet(false);
+      handlePlayerWhoLeft('')
+      console.log(data.message)
+    })
 
-  console.log('currentRoom in RoomMenu', currentRoom);
+    const someoneLeftRoom = (data: SocketData) => {
+      console.log('data.playerWhoLeft', data.playerWhoLeft)
+      handleIsGameSet(false);
+      handlePlayerWhoLeft(data.playerWhoLeft!)
+      console.log(data.message);
+    }
+
+    socket.on("someone_left_room", someoneLeftRoom);
+    
+    // return () => {
+    //   socket.off("someone_left_room", someoneLeftRoom)
+    // };
+  }, [currentRoom])
+
+  useEffect(() => {
+  console.log("playerWhoLeft changed:", playerWhoLeft);
+}, [playerWhoLeft]);
+
+  console.log('player who left', playerWhoLeft)
 
   return (
     <main className="lobby-container">
-        <div className="lobby-card">
+      { currentRoom === ''
+        ? (<div className="lobby-card">
           <h2>Join or Create a Room</h2>
 
           <div className="room-form">
@@ -98,7 +134,16 @@ export const RoomMenu = () => {
           </div>
           
           <p className="info-text">Join or create a room to start playing!</p>
-        </div>
-      </main>
+        </div>)
+        : (<div className="waiting-room">
+          {playerWhoLeft !== ''
+            ? <p className="info-text">Player with ID '{playerWhoLeft}' has just left room</p>
+            : <p className="info-text">You have just created new room with name '{currentRoom}'</p>
+          }
+          <h3>Waiting for other player to join</h3>
+          <button onClick={handleLeaveRoom}>Leave Room</button>
+        </div>)
+      }
+    </main>
   )
 }
