@@ -2,6 +2,8 @@ import './App.css'
 
 function App() {
 
+
+
   return (
     <div className="app-container">
       <header className="app-header">
@@ -13,11 +15,11 @@ function App() {
           <h2>Join or Create a Room</h2>
 
           <div className="room-form">
-            <input type="text" placeholder="Enter room name" />
-            <div className="button-group">
+            <div className="input-group">
+              <input type="text" placeholder="Enter room name" />
               <button className="create-btn">Create Room</button>
-              <button className="join-btn">Join Room</button>
             </div>
+            <div className="error-text">There is some error</div>
           </div>
           
           <div className="room-list">

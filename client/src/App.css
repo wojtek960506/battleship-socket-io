@@ -17,15 +17,16 @@
   --input-border: #a0c4ff;
   --input-focus-border: #95a5a6;
   --input-focus-shadow: 0 0 6px #95a5a6;
-  --btn-create-bg: #95a5a6;
-  --btn-create-shadow: 0 0 6px #95a5a6;
-  --btn-create-hover-bg: #7f8c8d;
-  --btn-create-hover-shadow: 0 0 10px #95a5a6;
-  --btn-join-bg: #a0c4ff;
-  --btn-join-color: #1f2a38;
-  --btn-join-shadow: 0 0 6px #a0c4ff;
-  --btn-join-hover-bg: #7da7d9;
-  --btn-join-hover-shadow: 0 0 10px #a0c4ff;
+  --btn-join-bg: #95a5a6;
+  --btn-join-shadow: 0 0 6px #95a5a6;
+  --btn-join-hover-bg: #7f8c8d;
+  --btn-join-hover-shadow: 0 0 10px #95a5a6;
+  --btn-create-bg: #a0c4ff;
+  --btn-create-color: #1f2a38;
+  --btn-create-shadow: 0 0 6px #a0c4ff;
+  --btn-create-hover-bg: #7da7d9;
+  --btn-create-hover-shadow: 0 0 10px #a0c4ff;
+  --error-text-color: rgb(226, 94, 94);
   --info-text-color: #ccc;
   --room-list-border: #34495e;
   --room-list-bg: #2c3e50;
@@ -76,6 +77,9 @@ body.pastel {
   --btn-join-shadow: 0 0 6px #a0e7e5;
   --btn-join-hover-bg: #7fdfe2;
   --btn-join-hover-shadow: 0 0 10px #a0e7e5;
+
+  /* Error text */
+  --error-text-color: rgb(212, 30, 30);
 
   /* Info text */
   --info-text-color: #666;
@@ -179,8 +183,14 @@ body.pastel {
 
 .room-form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 0.5rem;
+}
+
+.room-form .input-group {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
 }
 
 .room-form input {
@@ -221,16 +231,10 @@ body.pastel {
   box-shadow: var(--btn-create-hover-shadow);
 }
 
-.join-btn {
-  background-color: var(--btn-join-bg);
-  box-shadow: var(--btn-join-shadow);
-  color: var(--btn-join-color);
-}
-
-.join-btn:hover {
-  background-color: var(--btn-join-hover-bg);
-  transform: translateY(-1px);
-  box-shadow: var(--btn-join-hover-shadow);
+.error-text {
+  margin-top: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--error-text-color)
 }
 
 .info-text {
