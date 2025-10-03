@@ -82,7 +82,6 @@ io.on("connection", (socket) => {
         message: `Room with name '${room}' already exists`
       })
     }
-    console.log('create_room', io.sockets.adapter.rooms)
   })
 
   socket.on("get_rooms", () => {
@@ -190,16 +189,11 @@ io.on("connection", (socket) => {
 
 
   socket.on("disconnecting", () => {
-    console.log("socket disconnecting")
+    console.log(`User Disconnected: ${socket.id}`);
     const rooms = io.sockets.adapter.rooms
-    console.log('------------------')
-    console.log(rooms)
-    console.log('------------------')
     
     for (const [roomName, members] of rooms.entries()) {
       if (members.has(socket.id)) {
-        console.log(`socket with id ${socket.id} was in room ${roomName} which has ${members.size} member(s)` )
-
         const roomFromMetadata = roomsMetadata.get(roomName)
 
         if (roomFromMetadata) { 
@@ -217,7 +211,6 @@ io.on("connection", (socket) => {
         }
       }
     }
-    console.log('there should be update here')
     // update all rooms with changes
     socket.broadcast.emit("rooms_map", [...roomsMetadata.entries()])
   })

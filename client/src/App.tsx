@@ -1,19 +1,17 @@
-import * as io from 'socket.io-client';
+
 import { RoomMenu } from './RoomMenu/RoomMenu'
 import './App.css'
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { RoomContext } from './context/RoomContext';
-
-
-
-// const socket = io.connect("http://localhost:3001")
+import { useSocket } from './context/SocketContext';
 
 function App() {
   const [isGameSet, setIsGameSet] = useState(false);
   const [currentRoom, setCurrentRoom] = useState('');
   const [playerWhoLeft, setPlayerWhoLeft] = useState('');
 
-  const socket = useMemo(() => io.connect("http://192.168.0.213:3001"), []);
+  const socket = useSocket();
+
 
   const handlePlayerWhoLeft = (value: string) => {
     console.log('handlePlayerWhoLeft', value)
@@ -32,7 +30,6 @@ function App() {
       handleIsGameSet: (value: boolean) => setIsGameSet(value),
       playerWhoLeft,
       handlePlayerWhoLeft,
-      socket,
     }}>
       <div className="app-container">
         <header className="app-header">
@@ -45,7 +42,6 @@ function App() {
             </div>
           : <RoomMenu />
         }
-        
       </div>
     </RoomContext>
   )

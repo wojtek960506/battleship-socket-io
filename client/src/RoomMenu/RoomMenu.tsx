@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import type { RoomData } from "../types";
 import { RoomContext } from "../context/RoomContext";
+import { useSocket } from "../context/SocketContext";
 
 type SocketData = {
   room: string;
@@ -13,7 +14,8 @@ type SocketRoomsData = [string, RoomData][]
 
 export const RoomMenu = () => {
 
-  const { socket, currentRoom, handleCurrentRoom, handleIsGameSet, playerWhoLeft, handlePlayerWhoLeft } = useContext(RoomContext)!;
+  const { currentRoom, handleCurrentRoom, handleIsGameSet, playerWhoLeft, handlePlayerWhoLeft } = useContext(RoomContext)!;
+  const socket = useSocket();
 
   const [newRoomName, setNewRoomName] = useState('');
   const [allRooms, setAllRooms] = useState<RoomData[]>([]);
@@ -83,10 +85,8 @@ export const RoomMenu = () => {
     })
 
     const someoneLeftRoom = (data: SocketData) => {
-      console.log('data.playerWhoLeft', data.playerWhoLeft)
       handleIsGameSet(false);
       handlePlayerWhoLeft(data.playerWhoLeft!)
-      console.log(data.message);
     }
 
     socket.on("someone_left_room", someoneLeftRoom);
@@ -96,11 +96,6 @@ export const RoomMenu = () => {
     // };
   }, [currentRoom])
 
-  useEffect(() => {
-  console.log("playerWhoLeft changed:", playerWhoLeft);
-}, [playerWhoLeft]);
-
-  console.log('player who left', playerWhoLeft)
 
   return (
     <main className="lobby-container">

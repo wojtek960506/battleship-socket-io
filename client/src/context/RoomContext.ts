@@ -1,4 +1,3 @@
-import * as io from 'socket.io-client';
 import { createContext } from "react";
 
 type RoomContextType = {
@@ -8,7 +7,6 @@ type RoomContextType = {
   handleIsGameSet: (value: boolean) => void;
   playerWhoLeft: string;
   handlePlayerWhoLeft: (value: string) => void;
-  socket: io.Socket;
 }
 
 export const RoomContext = createContext<RoomContextType | undefined>(undefined);
