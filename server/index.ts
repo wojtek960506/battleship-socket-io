@@ -38,6 +38,7 @@ type RoomData = {
   name: string;
   owner: string;
   size: number;
+  members: string[];
   messages: MessageData[];
 }
 
@@ -75,7 +76,7 @@ io.on("connection", (socket) => {
     if (!roomsMetadata.get(room)) {
       // joining new room
       socket.join(room)
-      roomsMetadata.set(room, { name: room, owner: socket.id, size: 1, messages: []})
+      roomsMetadata.set(room, { name: room, owner: socket.id, members:[socket.id], size: 1, messages: []})
       socket.emit("room:created", {
         room,
         message: `You have just created and joined room '${room}'`,
@@ -123,7 +124,11 @@ io.on("connection", (socket) => {
 
       console.log('actual joining')
       socket.join(room);
-      roomsMetadata.set(room, {...roomData, size: roomData.size + 1})
+      roomsMetadata.set(room, {
+        ...roomData,
+        size: roomData.size + 1,
+        members: [...roomData.members, socket.id]
+      })
 
       socket.emit("room:you-joined", {
         room,
@@ -138,6 +143,7 @@ io.on("connection", (socket) => {
       })
       
     }
+    console.log('joining room', roomsMetadata)
   });
 
   socket.on("server:leave-room", (room: string) => {
@@ -168,7 +174,13 @@ io.on("connection", (socket) => {
       socket.emit("rooms:list", getRoomsList())
       socket.broadcast.emit("rooms:list", getRoomsList())
     } else {
-      roomsMetadata.set(room, {...roomData, size: roomData.size - 1})
+      const newMembers = [...roomData.members].filter(m => m !== socket.id)
+      roomsMetadata.set(room, {
+        ...roomData,
+        size: roomData.size - 1,
+        members: newMembers,
+        owner: newMembers[0]
+      })
     }
     socket.emit("room:you-left", {
       room,
@@ -180,6 +192,7 @@ io.on("connection", (socket) => {
       message: `Player with ID: '${socket.id}' left room '${room}'`,
       playerId: socket.id
     })
+    console.log('leaving room', roomsMetadata)
   })
 
   socket.on("shot", ({ 
@@ -223,7 +236,13 @@ io.on("connection", (socket) => {
           if (roomFromMetadata.size < 2) {
             roomsMetadata.delete(roomName)
           } else {
-            roomsMetadata.set(roomName, {...roomFromMetadata, size: roomFromMetadata.size - 1})
+            const newMembers = [...roomFromMetadata.members].filter(m => m !== socket.id)
+            roomsMetadata.set(roomName, {
+              ...roomFromMetadata,
+              size: roomFromMetadata.size - 1,
+              members: newMembers,
+              owner: newMembers[0]
+            })
             // other members of this room has to be informed that room was left
             socket.to(roomName).emit('room:someone-left', {
               roomName,
