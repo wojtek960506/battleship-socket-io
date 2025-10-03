@@ -78,7 +78,7 @@ io.on("connection", (socket) => {
     } else {
       socket.emit("room_exists", {
         room,
-        message: `You cannot create room with name '${room}', because it already exists`
+        message: `Room with name '${room}' already exists`
       })
     }
   })

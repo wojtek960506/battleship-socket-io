@@ -234,7 +234,8 @@ body.pastel {
 .error-text {
   margin-top: 0.6rem;
   font-size: 0.75rem;
-  color: var(--error-text-color)
+  color: var(--error-text-color);
+  min-height: 0.75rem;
 }
 
 .info-text {
