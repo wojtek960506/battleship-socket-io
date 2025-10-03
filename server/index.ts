@@ -124,24 +124,14 @@ io.on("connection", (socket) => {
       console.log('actual joining')
       socket.join(room);
       roomsMetadata.set(room, {...roomData, size: roomData.size + 1})
-      // OLD APPROACH
-      // socket.emit('you_joined_room', {
-      //   room,
-      //   message: `You have just joined room '${room}'`
-      // })
-      // socket.to(room).emit('someone_joined_room', {
-      //   room,  
-      //   message: `'${socket.id}' has just joined room '${room}'`
-      // })
-      
-      // NEW APPROACH
-      socket.emit("room:player-joined", {
+
+      socket.emit("room:you-joined", {
         room,
         message: `Player with ID: '${socket.id}' joined room '${room}'`,
-        playerId: socket.id
+        ownerId: roomsMetadata.get(room)?.owner,
 
       })
-      socket.to(room).emit('room:player-joined', {
+      socket.to(room).emit('room:someone-joined', {
         room,  
         message: `'${socket.id}' has just joined room '${room}'`,
         playerId: socket.id
@@ -180,22 +170,15 @@ io.on("connection", (socket) => {
     } else {
       roomsMetadata.set(room, {...roomData, size: roomData.size - 1})
     }
-    // OLD APPROACH
-    // socket.emit('you_left_room', {
-    //   room,
-    //   message: `You have just left room '${room}'`
-    // })
-    // socket.to(room).emit('someone_left_room', {
-    //   room,
-    //   message: `'${socket.id}' has just left room '${room}`,
-    //   playerWhoLeft: socket.id,
-    // })
-    // NEW APPROACH
-    socket.emit("room:player-left", {
+    socket.emit("room:you-left", {
       room,
       message: `Player with ID: '${socket.id}' left room '${room}'`,
       playerId: socket.id
-
+    })
+    socket.to(room).emit("room:someone-left", {
+      room,
+      message: `Player with ID: '${socket.id}' left room '${room}'`,
+      playerId: socket.id
     })
   })
 
@@ -229,6 +212,8 @@ io.on("connection", (socket) => {
   socket.on("disconnecting", () => {
     console.log(`User Disconnected: ${socket.id}`);
     const rooms = io.sockets.adapter.rooms
+
+    console.log('roomsMetadata', roomsMetadata)
     
     for (const [roomName, members] of rooms.entries()) {
       if (members.has(socket.id)) {
@@ -240,15 +225,16 @@ io.on("connection", (socket) => {
           } else {
             roomsMetadata.set(roomName, {...roomFromMetadata, size: roomFromMetadata.size - 1})
             // other members of this room has to be informed that room was left
-            socket.to(roomName).emit('someone_left_room', {
+            socket.to(roomName).emit('room:someone-left', {
               roomName,
               message: `'${socket.id}' has just left room '${roomName}`,
-              playerWhoLeft: socket.id,
+              playerId: socket.id,
             })
           }
         }
       }
     }
+    
     // update all rooms with changes
     socket.broadcast.emit("rooms:list", getRoomsList())
   })

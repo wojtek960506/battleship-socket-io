@@ -8,7 +8,7 @@ export const RoomMenu2 = () => {
   const [newRoomName, setNewRoomName] = useState('');
 
   const socket = useSocket();
-  const { roomName, errorMessage } = useRoomStore();
+  const { roomName, errorMessage, playerWhoLeft } = useRoomStore();
   const { rooms } = useRoomsStore();
 
   useEffect(() => {
@@ -63,10 +63,10 @@ export const RoomMenu2 = () => {
           <p className="info-text">Join or create a room to start playing!</p>
         </div>)
         : (<div className="waiting-room">
-          {/* {playerWhoLeft !== ''
+          {playerWhoLeft !== null
             ? <p className="info-text">Player with ID '{playerWhoLeft}' has just left room</p>
             : <p className="info-text">You have just created new room with name '{roomName}'</p>
-          } */}
+          }
           <h3>Waiting for other player to join</h3>
           <button onClick={handleLeaveRoom}>Leave Room</button>
         </div>)

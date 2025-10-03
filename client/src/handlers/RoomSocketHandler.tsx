@@ -9,10 +9,12 @@ export const RoomSocketHandler = () => {
     players,
     setRoom,
     setPlayer,
+    setPlayers,
     addPlayer,
     removePlayer,
     setStatus,
-    setErrorMessage
+    setErrorMessage,
+    setPlayerWhoLeft,
   } = useRoomStore();
 
   useEffect(() => {
@@ -24,6 +26,8 @@ export const RoomSocketHandler = () => {
       setRoom(room);
       addPlayer({ id: playerId });
       setStatus("waiting");
+      setErrorMessage('');
+      setPlayerWhoLeft(null);
 
       console.log(message)
       // update list for every user of server
@@ -32,30 +36,38 @@ export const RoomSocketHandler = () => {
     });
     socket.on("room:already-exists", (data) => {
       setErrorMessage(data.message)
-    })
-    socket.on("room:player-joined", ({ room, message, playerId }) => {
+    });
+
+    socket.on("room:you-joined", ({ room, message, ownerId }) => {
       console.log(message)
       setRoom(room)
       setStatus("ready")
-      console.log('player:', player)
-      console.log('playerId: ', playerId)
-      // if (player !== playerId) {
-        addPlayer({ id: playerId })
-      // }
-    });  
-    socket.on("room:player-left", ({ message, playerId }) => {
-      if (players.length === 2) {
-        console.log('2 players when leaving')
-        setStatus("waiting")
-      } else if (players.length === 1) {
-        console.log('one player when leaving')
-        setStatus("idle")
-        setRoom(null)
-      }
-      console.log(message);
-      removePlayer(playerId)
+      setErrorMessage('')
+      setPlayers([{ id: ownerId }, { id: player }])
     });
+
+    socket.on("room:someone-joined", ({ message, playerId }) => {
+      console.log(message)
+      setStatus("ready")
+      setPlayers([{ id: player}, { id: playerId }])
+    });  
+
+    socket.on("room:you-left", () => {
+      setErrorMessage("")
+      setStatus("idle")
+      setRoom(null)
+      setPlayers([])
+    });
+
+    socket.on("room:someone-left", ({ message, playerId }) => {
+      setStatus("waiting")
+      console.log(message);
+      removePlayer(playerId);
+      setPlayerWhoLeft(playerId)
+    });
+
     socket.on("room:ready", () => setStatus("ready"));
+
     socket.on("room:game-start", () => setStatus("in-game"));
 
     return () => {
@@ -65,7 +77,7 @@ export const RoomSocketHandler = () => {
       socket.off("room:ready");
       socket.off("room:game-start");
     }
-  }, [socket, player, players])
+  }, [player, players])
 
   return null;
 }
