@@ -35,6 +35,7 @@ type MessageData = {
 }
 
 type RoomData = {
+  name: string;
   owner: string;
   size: number;
   messages: MessageData[];
@@ -70,7 +71,7 @@ io.on("connection", (socket) => {
     if (!roomsMetadata.get(room)) {
       // joining new room
       socket.join(room)
-      roomsMetadata.set(room, { owner: socket.id, size: 1, messages: []})
+      roomsMetadata.set(room, { name: room, owner: socket.id, size: 1, messages: []})
       socket.emit("room_created", {
         room,
         message: `You have just created and joined room '${room}'`
@@ -85,6 +86,10 @@ io.on("connection", (socket) => {
 
   socket.on("get_rooms", () => {
     socket.emit("rooms_map", [...roomsMetadata.entries()])
+  })
+
+  socket.on("get_rooms_everyone", () => {
+    socket.broadcast.emit("rooms_map", [...roomsMetadata.entries()])
   })
 
   socket.on("join_room", (room) => {

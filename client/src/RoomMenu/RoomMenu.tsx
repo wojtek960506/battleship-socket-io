@@ -7,31 +7,65 @@ type SocketData = {
   message: string;
 }
 
+type SocketRoomsData = [string, RoomData][]
+
+
 export const RoomMenu = () => {
 
-  const { socket, currentRoom, handleCurrentRoom } = useContext(RoomContext)!;
+  const { socket, currentRoom, handleCurrentRoom, handleIsGameSet } = useContext(RoomContext)!;
 
   const [newRoomName, setNewRoomName] = useState('');
-  const [allRoomsList, setAllRoomsList] = useState<RoomData[]>([]);
+  const [allRooms, setAllRooms] = useState<RoomData[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleCreateRoom = () => {
     socket.emit("create_room", newRoomName)
   }
 
-  // useEffect(() => {
-  //   socket.emit("get_rooms")
-  // }, [])
+  const handleJoinRoom = (roomName: string) => {
+    socket.emit("join_room", roomName)
+  }
+
+  const handleAllRooms = (data: SocketRoomsData) => {
+    const rooms: RoomData[] = [];
+    for (const [_, roomData] of data) {
+      rooms.push(roomData)
+    }
+    setAllRooms(rooms)
+  }
 
   useEffect(() => {
+    socket.emit("get_rooms")
+  }, [])
+
+  useEffect(() => {
+    socket.on("rooms_map", (data: SocketRoomsData) => {
+      handleAllRooms(data)
+    })
     socket.on("room_created", ({ room, message }: SocketData) => {
       handleCurrentRoom(room)
       console.log(message)
+      // get updated rooms list for yourself
+      socket.emit("get_rooms")
+      // send message to everyone that the room was created to update list of available rooms
+      socket.emit("get_rooms_everyone")
     })
     socket.on("room_exists", (data: SocketData) => {
       setErrorMessage(data.message)
     })
-  }, [socket])
+    socket.on("you_joined_room", ({ room, message }: SocketData) => {
+      handleCurrentRoom(room);
+      console.log(message)
+    })
+    socket.on("someone_joined_room", ({ room, message }: SocketData) => {
+      if (currentRoom === room) {
+        handleIsGameSet(true);
+        console.log(message);
+      }
+    })
+  }, [socket, currentRoom])
+
+  console.log('currentRoom in RoomMenu', currentRoom);
 
   return (
     <main className="lobby-container">
@@ -53,10 +87,13 @@ export const RoomMenu = () => {
           <div className="room-list">
             <h3>Available Rooms</h3>
             <ul>
-              <li>Room Alpha <button>Join</button></li>
-              <li>Room Bravo <button>Join</button></li>
-              <li>Room Charlie <button>Join</button></li>
-              <li>Room Delta <button>Join</button></li>
+              {allRooms.filter(room => room.size < 2).map(room => {
+                return (
+                <li key={room.name}>
+                  {room.name}
+                  <button onClick={() => handleJoinRoom(room.name)}>Join</button>
+                </li>)
+              })}
             </ul>
           </div>
           

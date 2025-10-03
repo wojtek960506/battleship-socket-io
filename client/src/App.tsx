@@ -12,7 +12,6 @@ function App() {
   const [isGameSet, setIsGameSet] = useState(false);
   const [currentRoom, setCurrentRoom] = useState('');
 
-
   return (
     <RoomContext value={{
       currentRoom,
