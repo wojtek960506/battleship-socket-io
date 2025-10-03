@@ -64,37 +64,45 @@ const isInRoom = (socketId: string, room: string) => {
   return roomMembers.has(socketId);
 }
 
+const getRoomsList = () => {
+  return [...roomsMetadata.values()]
+}
+
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
-  socket.on("create_room", (room) => {
+  socket.on("server:create-room", (room) => {
     if (!roomsMetadata.get(room)) {
       // joining new room
       socket.join(room)
       roomsMetadata.set(room, { name: room, owner: socket.id, size: 1, messages: []})
-      socket.emit("room_created", {
+      socket.emit("room:created", {
         room,
-        message: `You have just created and joined room '${room}'`
+        message: `You have just created and joined room '${room}'`,
+        playerId: socket.id,
       });
     } else {
-      socket.emit("room_exists", {
+      socket.emit("room:already-exists", {
         room,
         message: `Room with name '${room}' already exists`
       })
     }
   })
 
-  socket.on("get_rooms", () => {
-    socket.emit("rooms_map", [...roomsMetadata.entries()])
+  socket.on("server:list-rooms", () => {
+    socket.emit("rooms:list", getRoomsList());
+    socket.emit("room:set-player", socket.id);
   })
 
-  socket.on("get_rooms_everyone", () => {
-    socket.broadcast.emit("rooms_map", [...roomsMetadata.entries()])
+  socket.on("server:list-rooms-for-everyone", () => {
+    socket.broadcast.emit("rooms:list", getRoomsList())
   })
 
-  socket.on("join_room", (room) => {
+  socket.on("server:join-room", (room) => {
     const roomData = roomsMetadata.get(room)
     
+    console.log('server:join-room:', room)
+
     if (!roomData) {
       socket.emit("room_not_found", {
         room,
@@ -112,21 +120,40 @@ io.on("connection", (socket) => {
         }
       )
     } else {
+
+      console.log('actual joining')
       socket.join(room);
       roomsMetadata.set(room, {...roomData, size: roomData.size + 1})
-      socket.emit('you_joined_room', {
+      // OLD APPROACH
+      // socket.emit('you_joined_room', {
+      //   room,
+      //   message: `You have just joined room '${room}'`
+      // })
+      // socket.to(room).emit('someone_joined_room', {
+      //   room,  
+      //   message: `'${socket.id}' has just joined room '${room}'`
+      // })
+      
+      // NEW APPROACH
+      socket.emit("room:player-joined", {
         room,
-        message: `You have just joined room '${room}'`
+        message: `Player with ID: '${socket.id}' joined room '${room}'`,
+        playerId: socket.id
+
       })
-      socket.to(room).emit('someone_joined_room', {
+      socket.to(room).emit('room:player-joined', {
         room,  
-        message: `'${socket.id}' has just joined room '${room}'`
+        message: `'${socket.id}' has just joined room '${room}'`,
+        playerId: socket.id
       })
+      
     }
   });
 
-  socket.on("leave_room", (room: string) => {
+  socket.on("server:leave-room", (room: string) => {
     const roomData = roomsMetadata.get(room)
+
+    console.log('leave-room', socket.id)
 
     if (!roomData) {
       socket.emit("room_not_found", {
@@ -142,22 +169,33 @@ io.on("connection", (socket) => {
       return
     }
 
+    console.log('actual-leaving')
+
     socket.leave(room);
+    // delete room if leaving user is the last one within it
     if (roomData.size === 1) {
       roomsMetadata.delete(room)
-      socket.emit("rooms_map", [...roomsMetadata.entries()])
-      socket.broadcast.emit("rooms_map", [...roomsMetadata.entries()])
+      socket.emit("rooms:list", getRoomsList())
+      socket.broadcast.emit("rooms:list", getRoomsList())
     } else {
       roomsMetadata.set(room, {...roomData, size: roomData.size - 1})
     }
-    socket.emit('you_left_room', {
+    // OLD APPROACH
+    // socket.emit('you_left_room', {
+    //   room,
+    //   message: `You have just left room '${room}'`
+    // })
+    // socket.to(room).emit('someone_left_room', {
+    //   room,
+    //   message: `'${socket.id}' has just left room '${room}`,
+    //   playerWhoLeft: socket.id,
+    // })
+    // NEW APPROACH
+    socket.emit("room:player-left", {
       room,
-      message: `You have just left room '${room}'`
-    })
-    socket.to(room).emit('someone_left_room', {
-      room,
-      message: `'${socket.id}' has just left room '${room}`,
-      playerWhoLeft: socket.id,
+      message: `Player with ID: '${socket.id}' left room '${room}'`,
+      playerId: socket.id
+
     })
   })
 
@@ -212,7 +250,7 @@ io.on("connection", (socket) => {
       }
     }
     // update all rooms with changes
-    socket.broadcast.emit("rooms_map", [...roomsMetadata.entries()])
+    socket.broadcast.emit("rooms:list", getRoomsList())
   })
 })
 
