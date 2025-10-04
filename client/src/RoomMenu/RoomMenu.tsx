@@ -3,7 +3,7 @@ import { useRoomStore } from "../store/RoomStore"
 import { useRoomsStore } from "../store/RoomsStore";
 import { useSocket } from "../context/SocketContext";
 
-export const RoomMenu2 = () => {
+export const RoomMenu = () => {
 
   const [newRoomName, setNewRoomName] = useState('');
 
@@ -12,7 +12,6 @@ export const RoomMenu2 = () => {
   const { rooms } = useRoomsStore();
 
   useEffect(() => {
-
     socket.emit("server:list-rooms")
   }, [])
 
@@ -30,9 +29,9 @@ export const RoomMenu2 = () => {
   }
 
   return (
-    <main className="lobby-container">
+    <main className="room-container">
       { roomName === null
-        ? (<div className="lobby-card">
+        ? (<div className="room-card">
           <h2>Join or Create a Room</h2>
 
           <div className="room-form">

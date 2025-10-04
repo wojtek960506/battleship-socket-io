@@ -9,7 +9,6 @@ export const RoomsSocketHandler = () => {
 
   useEffect(() => {
     socket.on("rooms:list", (rooms) => {
-      console.log('it should fetch rooms')
       setRooms(rooms)
     })
     return () => {

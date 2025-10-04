@@ -34,15 +34,10 @@ export const useRoomStore = create<RoomState>((set) => ({
   setRoom: (roomName: string | null) => set({ roomName }),
   setPlayer: (player: string) => set({ player }),
   setPlayers: (players: Player[]) => set({ players }),
-  addPlayer: (player: Player) => set((s) => {
-    console.log('addPlayer', player)
-    console.log('s.players', s.players)
-    return { players: [...s.players, player]}
-  }),
-  removePlayer: (playerId: string) => set((s) => {
-    console.log('abc:', s.players)
-    return ({ players: s.players.filter((p) => p.id !== playerId )})
-  }),
+  addPlayer: (player: Player) => set((s) => ({ players: [...s.players, player]})),
+  removePlayer: (playerId: string) => set((s) => (
+    { players: s.players.filter((p) => p.id !== playerId )}
+  )),
   setStatus: (status: RoomState["status"]) => set({ status }),
   setErrorMessage: (errorMessage: string) => set({ errorMessage }),
   setPlayerWhoLeft: (playerWhoLeft: string | null) => set({ playerWhoLeft }),
