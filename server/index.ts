@@ -141,6 +141,10 @@ io.on("connection", (socket) => {
         message: `'${socket.id}' has just joined room '${room}'`,
         playerId: socket.id
       })
+      // update other players lists so they know that given room is no longer available
+      socket.emit("rooms:list", getRoomsList())
+      socket.broadcast.emit("rooms:list", getRoomsList())
+
       
     }
     console.log('joining room', roomsMetadata)
@@ -192,6 +196,11 @@ io.on("connection", (socket) => {
       message: `Player with ID: '${socket.id}' left room '${room}'`,
       playerId: socket.id
     })
+
+    // update lists after leaving because new room is available
+    socket.emit("rooms:list", getRoomsList())
+    socket.broadcast.emit("rooms:list", getRoomsList())
+
     console.log('leaving room', roomsMetadata)
   })
 

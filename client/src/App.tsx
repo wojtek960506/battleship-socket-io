@@ -1,4 +1,4 @@
-import { RoomMenu } from './RoomMenu/RoomMenu';
+import { RoomSelection } from './RoomSelection/RoomSelection';
 import { RoomSocketHandler } from './handlers/RoomSocketHandler';
 import { RoomsSocketHandler } from './handlers/RoomsSocketHandler';
 import { useRoomStore } from './store/RoomStore';
@@ -18,7 +18,7 @@ function App() {
         </header>
         {status === "ready"
           ? <Game />
-          : <RoomMenu />
+          : <RoomSelection />
         }
       </div>
       <RoomSocketHandler />
