@@ -7,6 +7,12 @@ import { RoomSelection } from "./RoomSelection";
 describe("RoomSelection with socket mock", () => {
   let mockSocket = { emit: jest.fn() };
 
+  test("emit socket event to get list of rooms after render", () => {
+    renderWithMockSocket(<RoomSelection />, mockSocket);
+
+    expect(mockSocket.emit).toHaveBeenCalledWith("server:list-rooms")
+  })
+
   test("choosing room when room name is not set yet", () => {
     useRoomStore.setState({ roomName: null });
     renderWithMockSocket(<RoomSelection />, mockSocket);

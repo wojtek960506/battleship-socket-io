@@ -14,7 +14,7 @@ export const Game = () => {
 
   return (
     <div>
-      Game2
+      Game
       <button onClick={handleLeaveRoom}>Leave room</button>
     </div>
   )
