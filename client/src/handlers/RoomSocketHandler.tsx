@@ -66,10 +66,6 @@ export const RoomSocketHandler = () => {
       setPlayerWhoLeft(playerId)
     });
 
-    socket.on("room:ready", () => setStatus("ready"));
-
-    socket.on("room:game-start", () => setStatus("in-game"));
-
     return () => {
       socket.off("room:set-player");
       socket.off("room:created");
@@ -78,8 +74,6 @@ export const RoomSocketHandler = () => {
       socket.off("room:someone-joined");
       socket.off("room:you-left");
       socket.off("room:someone-left");
-      socket.off("room:ready");
-      socket.off("room:game-start");
     }
   }, [player, players])
 
