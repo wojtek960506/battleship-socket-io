@@ -13,8 +13,14 @@ type RoomsState = {
   setRooms: (rooms: Room[]) => void;
 }
 
+const initialRoomsState: Omit<RoomsState, "setRooms"> = {
+  rooms: []
+}
+
 export const useRoomsStore = create<RoomsState>((set) => ({
-  rooms: [],
+  ...initialRoomsState,
 
   setRooms: (rooms: Room[]) => set({ rooms })
 }));
+
+export const resetRoomsStore = () => useRoomsStore.setState(initialRoomsState)

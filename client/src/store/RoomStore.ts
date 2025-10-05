@@ -23,13 +23,27 @@ type RoomState = {
   setPlayerWhoLeft: (playerWhoLeft: string | null) => void;
 }
 
-export const useRoomStore = create<RoomState>((set) => ({
+const initialRoomState: Omit<
+  RoomState,
+  "setRoom" |
+  "setPlayer" |
+  "setPlayers" |
+  "addPlayer" |
+  "removePlayer" |
+  "setStatus" |
+  "setErrorMessage" |
+  "setPlayerWhoLeft"
+> = {
   roomName: null,
   player: null,
   players: [],
   status: "idle",
   errorMessage: '',
   playerWhoLeft: null,
+}
+
+export const useRoomStore = create<RoomState>((set) => ({
+  ...initialRoomState,
 
   setRoom: (roomName: string | null) => set({ roomName }),
   setPlayer: (player: string) => set({ player }),
@@ -42,3 +56,5 @@ export const useRoomStore = create<RoomState>((set) => ({
   setErrorMessage: (errorMessage: string) => set({ errorMessage }),
   setPlayerWhoLeft: (playerWhoLeft: string | null) => set({ playerWhoLeft }),
 }))
+
+export const resetRoomStore = () => useRoomStore.setState(initialRoomState);

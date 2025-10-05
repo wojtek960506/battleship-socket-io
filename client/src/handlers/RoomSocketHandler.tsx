@@ -71,9 +71,13 @@ export const RoomSocketHandler = () => {
     socket.on("room:game-start", () => setStatus("in-game"));
 
     return () => {
+      socket.off("room:set-player");
       socket.off("room:created");
-      socket.off("room:player-joined");
-      socket.off("room:player-left");
+      socket.off("room:already-exists");
+      socket.off("room:you-joined");
+      socket.off("room:someone-joined");
+      socket.off("room:you-left");
+      socket.off("room:someone-left");
       socket.off("room:ready");
       socket.off("room:game-start");
     }
