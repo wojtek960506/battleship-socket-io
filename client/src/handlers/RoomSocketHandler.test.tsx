@@ -1,21 +1,9 @@
 import { act } from "@testing-library/react";
-import { renderWithMockSocket } from "../context/renderWithMockSocket"
+import { renderWithMockSocket } from "../helpers/renderWithMockSocket"
 import { resetRoomStore, useRoomStore } from "../store/RoomStore";
 import { RoomSocketHandler } from "./RoomSocketHandler"
+import { triggerSocketEvent, type MockSocketType } from "../helpers/testHelpers";
 
-type MockSocketType = {
-  emit: jest.Mock;
-  on: jest.Mock;
-  off: jest.Mock;
-}
-
-const triggerSocketEvent = (mockSocket: MockSocketType, eventName: string, args: any) => {
-  const handler = mockSocket.on.mock.calls
-    .find(([name]) => name === eventName)?.[1];
-  if (!handler) throw new Error(`Handler for '${eventName}' not found`);
-
-  act(() => handler(args))
-}
 
 describe("test RoomSocketHandler", () => {
 
@@ -54,6 +42,9 @@ describe("test RoomSocketHandler", () => {
     expect(roomState.status).toBe("waiting");
     expect(roomState.errorMessage).toBe("");
     expect(roomState.playerWhoLeft).toBe(null);
+    expect(mockSocket.emit).toHaveBeenCalledTimes(2);
+    expect(mockSocket.emit).toHaveBeenNthCalledWith(1, "server:list-rooms")
+    expect(mockSocket.emit).toHaveBeenNthCalledWith(2, "server:list-rooms-for-everyone")
   })
 
   test("handling 'room:already-exists", () => {

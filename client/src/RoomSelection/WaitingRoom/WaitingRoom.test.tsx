@@ -1,4 +1,4 @@
-import { renderWithMockSocket } from "../../context/renderWithMockSocket";
+import { renderWithMockSocket } from "../../helpers/renderWithMockSocket";
 import { useRoomStore } from "../../store/RoomStore";
 import { WaitingRoom } from "./WaitingRoom";
 import { fireEvent, screen } from "@testing-library/react";

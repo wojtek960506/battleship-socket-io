@@ -3,7 +3,7 @@ import { userEvent } from "@testing-library/user-event";
 
 import { useRoomsStore } from "../../store/RoomsStore";
 import { ChooseRoom } from "./ChooseRoom";
-import { renderWithMockSocket } from "../../context/renderWithMockSocket";
+import { renderWithMockSocket } from "../../helpers/renderWithMockSocket";
 
 
 describe("ChooseRoom with mocked socket", () => {

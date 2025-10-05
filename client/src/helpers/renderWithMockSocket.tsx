@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { SocketContext } from "./SocketContext";
+import { SocketContext } from "../context/SocketContext";
 import { render } from "@testing-library/react";
 
 
