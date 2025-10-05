@@ -3,7 +3,7 @@ import { createContext } from "react";
 import { socket } from "../socket/socket";
 
 
-const SocketContext = createContext(socket);
+export const SocketContext = createContext(socket);
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {

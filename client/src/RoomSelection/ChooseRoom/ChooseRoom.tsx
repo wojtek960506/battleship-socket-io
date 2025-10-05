@@ -28,10 +28,15 @@ export const ChooseRoom = () => {
         <div className="input-group">
           <input
             type="text"
+            data-testid="input-room-name"
             onChange={e => setNewRoomName(e.target.value)}
             placeholder="Enter room name"
           />
-          <button className="create-btn" onClick={handleCreateRoom}>Create Room</button>
+          <button
+            data-testid="create-room-btn"
+            className="create-btn"
+            onClick={handleCreateRoom}
+          >Create Room</button>
         </div>
         <div className="error-text">{errorMessage}</div>
       </div>
