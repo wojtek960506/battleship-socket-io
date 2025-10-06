@@ -26,7 +26,7 @@ export const getEmptyBoard = (): FieldType[][] => (
 
 export const getDefaultShips = (): Ship[] => (
   [5,4,3,3,2].map((length, i) => ({
-    id: i + 1,
+    id: i,
     direction: "horizontal",
     startColumn: null,
     startRow: null,

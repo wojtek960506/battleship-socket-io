@@ -29,7 +29,7 @@ describe("test utils", () => {
 
     expect(defaultShips).toHaveLength(5);
     defaultShips.forEach((ship, index) => {
-      expect(ship.id).toBe(index + 1);
+      expect(ship.id).toBe(index);
       expect(ship.direction).toBe("horizontal");
       expect(ship.startColumn).toBeNull();
       expect(ship.startRow).toBeNull();

@@ -32,7 +32,7 @@ describe("test GameStore", () => {
   test("updateShipsDirection", () => {
     const ships: Ship[] = getDefaultShips();
 
-    useGameStore.getState().updateShipsDirection([1,3,5], "vertical")
+    useGameStore.getState().updateShipsDirection([0,2,4], "vertical")
     ships[0].direction = "vertical"
     ships[2].direction = "vertical"
     ships[4].direction = "vertical"
@@ -44,7 +44,7 @@ describe("test GameStore", () => {
     const board: FieldType[][] = getEmptyBoard();
     const ships: Ship[] = getDefaultShips();
 
-    useGameStore.getState().placeShipOnBoard(1, 1, 2);
+    useGameStore.getState().placeShipOnBoard(0, 1, 2);
     board[1][2] = "taken";
     board[1][3] = "taken";
     board[1][4] = "taken";
@@ -73,9 +73,9 @@ describe("test GameStore", () => {
     const ships: Ship[] = getDefaultShips();
 
     
-    useGameStore.getState().updateShipsDirection([2], "vertical")
-    useGameStore.getState().placeShipOnBoard(2, 1, 2);
-    useGameStore.getState().moveShipOnBoard(2, 3, 4);
+    useGameStore.getState().updateShipsDirection([1], "vertical")
+    useGameStore.getState().placeShipOnBoard(1, 1, 2);
+    useGameStore.getState().moveShipOnBoard(1, 3, 4);
     board[3][4] = "taken";
     board[4][4] = "taken";
     board[5][4] = "taken";
