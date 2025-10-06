@@ -5,7 +5,11 @@ import {
   type Direction,
   type Ship,
   getDefaultShips,
-  type Board
+  type Board,
+  getPlacedShip,
+  getBoardPlacingShip,
+  getBoardRemovingShip,
+  getRemovedShip
 } from "../helpers/utils";
 
 
@@ -18,10 +22,12 @@ type GameState = {
   // actions
   setYourBoard: (newBoard: FieldType[][]) => void;
   setOpponentBoard: (newBoard: FieldType[][]) => void;
-  setOpponentBoardField: (column: number, row: number, value: FieldType) => void;
+  setOpponentBoardField: (row:number, column: number, value: FieldType) => void;
   setShips: (newShips: Ship[]) => void;
   updateShipsDirection: (ids: number[], direction: Direction) => void;
-  updateShipCoordinates: (id: number, startColumn: number, startRow: number) => void;
+  placeShipOnBoard: (id: number, startRow: number, startColumn: number) => void;
+  removeShipFromBoard: (id: number) => void;
+  moveShipOnBoard: (id: number, startRow: number, startColumn: number) => void;
 }
 
 const initialGameState: Omit<
@@ -31,7 +37,9 @@ const initialGameState: Omit<
   "setOpponentBoardField" |
   "setShips" |
   "updateShipsDirection" |
-  "updateShipCoordinates"
+  "placeShipOnBoard" |
+  "removeShipFromBoard" |
+  "moveShipOnBoard"
 > = {
   yourBoard: getEmptyBoard(),
   opponentBoard: getEmptyBoard(),
@@ -46,32 +54,57 @@ export const useGameStore = create<GameState>((set) => ({
 
   setOpponentBoard: (newBoard: FieldType[][]) => set({ opponentBoard: newBoard }),
 
-  setOpponentBoardField: (column: number, row: number, value: FieldType) => set(state => {
-    if (column >= 10 || column < 0 || row >= 10 || row < 0) return state;
-    return { opponentBoard: state.opponentBoard.map((stateRow, i) => {
-      if (i == row) return stateRow;
+  setOpponentBoardField: (row: number, column: number, value: FieldType) => set(state => ({
+    opponentBoard: state.opponentBoard.map((stateRow, i) => {
+      if (i !== row) return stateRow;
       return stateRow.map((stateValue, j) => {
         if (j === column) return value
         return stateValue
-      }) 
-    })}
-  }),
+      })
+    })
+  })),
 
   setShips: (newShips: Ship[]) => set({ ships: newShips }),
-
 
   // should be used only for ships which are not yet placed
   updateShipsDirection: (ids: number[], direction: Direction) => set(state => ({
     ships: state.ships.map(ship => 
-      ids.includes(ship.id) ? ship : { ...ship, direction }  
+      ids.includes(ship.id) ? { ...ship, direction }  : ship
     )
   })),
 
-  updateShipCoordinates: (id: number, startColumn: number, startRow: number) => set(state => ({
-    ships: state.ships.map(ship => 
-      ship.id !== id ? ship : { ...ship, startColumn, startRow }  
-    )
-  })),
+  placeShipOnBoard: (id: number, startRow: number, startColumn: number) => set(state => {
+    const ship = state.ships.find(s => s.id === id)
+    if (!ship) return state;
+
+    const placedShip = getPlacedShip(ship, startRow, startColumn);
+    const yourBoard = getBoardPlacingShip(state.yourBoard, placedShip);
+    const ships = state.ships.map(s => (s.id === id ? placedShip : s))
+    return { yourBoard, ships }
+  }),
+
+  removeShipFromBoard: (id: number) => set(state => {
+    const ship = state.ships.find(s => s.id === id)
+    if (!ship) return state;
+
+    const yourBoard = getBoardRemovingShip(state.yourBoard, ship)
+    const removedShip = getRemovedShip(ship)
+    const ships = state.ships.map(s => (s.id === id ? removedShip : s))
+    return { yourBoard, ships }
+  }),
+
+  moveShipOnBoard: (id: number, startRow: number, startColumn: number) => set(state => {
+    const ship = state.ships.find(s => s.id === id)
+    if (!ship) return state;
+
+    let yourBoard = getBoardRemovingShip(state.yourBoard, ship)
+    const removedShip = getRemovedShip(ship)
+    const placedShip = getPlacedShip(removedShip, startRow, startColumn);
+    yourBoard = getBoardPlacingShip(yourBoard, placedShip);
+    const ships = state.ships.map(s => s.id === id ? placedShip : s)
+    return { yourBoard, ships }
+  }),
+
 }));
 
-export const resetGameState = () => useGameStore.setState(initialGameState);
+export const resetGameStore = () => useGameStore.setState(initialGameState);

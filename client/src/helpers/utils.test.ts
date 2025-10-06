@@ -75,7 +75,7 @@ describe("test utils", () => {
       status: "not-placed"
     }
 
-    const newShip = getPlacedShip(ship, 2, 3);
+    const newShip = getPlacedShip(ship, 3, 2);
     expect(newShip).not.toEqual(ship)
     expect(newShip.startColumn).toBe(2)
     expect(newShip.startRow).toBe(3)

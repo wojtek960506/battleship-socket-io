@@ -55,7 +55,7 @@ export const calculateShipFields = (ship: Ship): ShipField[] => {
   return shipFields;
 }
 
-export const getPlacedShip = (ship: Ship, startColumn: number, startRow: number, ) => {
+export const getPlacedShip = (ship: Ship, startRow: number, startColumn: number ) => {
   let newShip: Ship = { ...ship, startColumn, startRow, status: "placed" };
 
   const fields = calculateShipFields(newShip)
@@ -63,7 +63,7 @@ export const getPlacedShip = (ship: Ship, startColumn: number, startRow: number,
   return { ...newShip, fields }
 }
 
-export const getRemovedShip = (ship: Ship) => {
+export const getRemovedShip = (ship: Ship): Ship => {
   return {
     ...ship,
     startColumn: null,
