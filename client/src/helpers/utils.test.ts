@@ -1,4 +1,4 @@
-import { calculateShipFields, getDefaultShips, getEmptyBoard, getPlacedShip, type Ship } from "./utils";
+import { calculateShipFields, getDefaultShips, getEmptyBoard, getPlacedShip, getRemovedShip, type Ship } from "./utils";
 
 const COMMON_SHIP: Ship = {
   id: 1,
@@ -11,6 +11,33 @@ const COMMON_SHIP: Ship = {
 }
 
 describe("test utils", () => {
+
+  test("getEmptyBoard", () => {
+    const emptyBoard = getEmptyBoard();
+    expect(emptyBoard).toHaveLength(10);
+    for (let row of emptyBoard) {
+      expect(row).toHaveLength(10);
+      for (let field of row) {
+        expect(field).toBe("empty")
+      }
+    }
+  })
+
+  test("getDefaultShips", () => {
+    const defaultShips = getDefaultShips();
+    const defaultLenghts = [5,4,3,3,2];
+
+    expect(defaultShips).toHaveLength(5);
+    defaultShips.forEach((ship, index) => {
+      expect(ship.id).toBe(index + 1);
+      expect(ship.direction).toBe("horizontal");
+      expect(ship.startColumn).toBeNull();
+      expect(ship.startRow).toBeNull();
+      expect(ship.length).toBe(defaultLenghts[index]);
+      expect(ship.fields).toHaveLength(0);
+      expect(ship.status).toBe("not-placed")
+    })
+  })
 
   test("calculateShipFields - horizontal", () => {
     const fields = calculateShipFields(COMMON_SHIP);
@@ -40,18 +67,7 @@ describe("test utils", () => {
     ])
   })
 
-  test("getPlacedShip - ship with wrong status", () => {
-    const ship: Ship = {
-      ...COMMON_SHIP,
-      startColumn: null,
-      startRow: null,
-    }
-
-    const newShip = getPlacedShip(ship, 2, 3);
-    expect(newShip).toEqual(ship)
-  })
-
-  test("getPlacedShip - ship with correct status", () => {
+  test("getPlacedShip", () => {
     const ship: Ship = {
       ...COMMON_SHIP,
       startColumn: null,
@@ -71,29 +87,12 @@ describe("test utils", () => {
     ])
   })
 
-  test("getEmptyBoard", () => {
-    const emptyBoard = getEmptyBoard();
-    expect(emptyBoard).toHaveLength(10);
-    for (let row of emptyBoard) {
-      expect(row).toHaveLength(10);
-      for (let field of row) {
-        expect(field).toBe("empty")
-      }
-    }
-  })
-  test("getDefaultShips", () => {
-    const defaultShips = getDefaultShips();
-    const defaultLenghts = [5,4,3,3,2];
+  test("getRemovedShip", () => {
+    const ship = getRemovedShip(COMMON_SHIP);
 
-    expect(defaultShips).toHaveLength(5);
-    defaultShips.forEach((ship, index) => {
-      expect(ship.id).toBe(index + 1);
-      expect(ship.direction).toBe("horizontal");
-      expect(ship.startColumn).toBeNull();
-      expect(ship.startRow).toBeNull();
-      expect(ship.length).toBe(defaultLenghts[index]);
-      expect(ship.fields).toHaveLength(0);
-      expect(ship.status).toBe("not-placed")
-    })
+    expect(ship.startColumn).toBeNull();
+    expect(ship.startRow).toBeNull();
+    expect(ship.fields).toHaveLength(0);
+    expect(ship.status).toBe("not-placed")
   })
 })
