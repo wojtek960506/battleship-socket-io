@@ -52,14 +52,20 @@ export const calculateShipFields = (ship: Ship): ShipField[] => {
   return shipFields;
 }
 
-// ship was not yet on board
-export const getPlacedShip = (ship: Ship, startColumn: number, startRow: number) => {
-  // we can only place ship which is not yet on board
-  if (ship.status !== "not-placed") return ship;
-
+export const getPlacedShip = (ship: Ship, startColumn: number, startRow: number, ) => {
   let newShip: Ship = { ...ship, startColumn, startRow, status: "placed" };
 
   const fields = calculateShipFields(newShip)
 
   return { ...newShip, fields }
+}
+
+export const getRemovedShip = (ship: Ship) => {
+  return {
+    ...ship,
+    startColumn: null,
+    startRow: null,
+    fields: [],
+    status: "not-placed"
+  }
 }
