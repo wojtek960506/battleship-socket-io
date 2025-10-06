@@ -68,6 +68,32 @@ describe("test GameStore", () => {
     expect(useGameStore.getState().ships).toEqual(ships);
   })
 
+    test("removeShipFromBoard", () => {
+    const board: FieldType[][] = getEmptyBoard();
+    const ships: Ship[] = getDefaultShips();
+
+    useGameStore.getState().placeShipOnBoard(2, 4, 6);
+    board[4][6] = "taken";
+    board[4][7] = "taken";
+    board[4][8] = "taken";
+    expect(useGameStore.getState().yourBoard).toEqual(board);
+    
+    useGameStore.getState().removeShipFromBoard(2)
+    board[4][6] = "empty";
+    board[4][7] = "empty";
+    board[4][8] = "empty";
+    ships[2] = {
+      ...ships[2],
+      startRow: null,
+      startColumn: null,
+      status: "not-placed",
+      fields: []
+    }
+
+    expect(useGameStore.getState().yourBoard).toEqual(board);
+    expect(useGameStore.getState().ships).toEqual(ships);
+  })
+
   test("moveShipOnBoard", () => {
     const board: FieldType[][] = getEmptyBoard();
     const ships: Ship[] = getDefaultShips();
