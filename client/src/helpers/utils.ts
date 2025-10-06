@@ -7,6 +7,9 @@ export type ShipStatus = "not-placed" | "placed" | "sunk"
 
 export type ShipField = { column: number, row: number }
 
+export type Board = FieldType[][];
+
+
 export type Ship = {
   id: number;
   direction: Direction;
@@ -68,4 +71,26 @@ export const getRemovedShip = (ship: Ship) => {
     fields: [],
     status: "not-placed"
   }
+}
+
+export const getBoardPlacingShip = (board: Board, ship: Ship) => {
+  // copy of board as it is mostly coming from store
+  const newBoard = board.map(row => [...row]); 
+
+  ship.fields.forEach(({column, row}) => {
+    newBoard[row][column] = "taken"
+  })
+
+  return newBoard;
+}
+
+export const getBoardRemovingShip = (board: Board, ship: Ship) => {
+  // copy of board as it is mostly coming from store
+  const newBoard = board.map(row => [...row]);
+
+  ship.fields.forEach(({column, row}) => {
+    newBoard[row][column] = "empty"
+  })
+
+  return newBoard;
 }

@@ -4,10 +4,10 @@ import {
   type FieldType,
   type Direction,
   type Ship,
-  getDefaultShips
+  getDefaultShips,
+  type Board
 } from "../helpers/utils";
 
-type Board = FieldType[][];
 
 type GameState = {
   yourBoard: Board;
@@ -41,7 +41,7 @@ const initialGameState: Omit<
 
 export const useGameStore = create<GameState>((set) => ({
   ...initialGameState,
-
+ 
   setYourBoard: (newBoard: FieldType[][]) => set({ yourBoard: newBoard }),
 
   setOpponentBoard: (newBoard: FieldType[][]) => set({ opponentBoard: newBoard }),

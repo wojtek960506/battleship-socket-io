@@ -1,4 +1,4 @@
-import { calculateShipFields, getDefaultShips, getEmptyBoard, getPlacedShip, getRemovedShip, type Ship } from "./utils";
+import { calculateShipFields, getBoardPlacingShip, getBoardRemovingShip, getDefaultShips, getEmptyBoard, getPlacedShip, getRemovedShip, type Ship } from "./utils";
 
 const COMMON_SHIP: Ship = {
   id: 1,
@@ -94,5 +94,28 @@ describe("test utils", () => {
     expect(ship.startRow).toBeNull();
     expect(ship.fields).toHaveLength(0);
     expect(ship.status).toBe("not-placed")
+  })
+
+  test("placing and removing ship from board", () => {
+    let board = getEmptyBoard();
+    const ships = getDefaultShips();
+
+    const ship = getPlacedShip(ships[0], 1, 1)
+
+    for (const { column, row } of ship.fields) {
+      expect(board[row][column]).toBe("empty")
+    }
+
+    board = getBoardPlacingShip(board, ship);
+
+    for (const { column, row } of ship.fields) {
+      expect(board[row][column]).toBe("taken")
+    }
+
+    board = getBoardRemovingShip(board, ship);
+
+    for (const { column, row } of ship.fields) {
+      expect(board[row][column]).toBe("empty")
+    }    
   })
 })
