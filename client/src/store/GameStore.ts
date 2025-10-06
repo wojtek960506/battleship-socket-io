@@ -7,13 +7,7 @@ import {
   getDefaultShips
 } from "../helpers/utils";
 
-
-
 type Board = FieldType[][];
-
-
-
-
 
 type GameState = {
   yourBoard: Board;
@@ -26,8 +20,6 @@ type GameState = {
   setOpponentBoard: (newBoard: FieldType[][]) => void;
   setOpponentBoardField: (column: number, row: number, value: FieldType) => void;
   setShips: (newShips: Ship[]) => void;
-  updateShip: (id: number, direction: Direction, startColumn: number, startRow: number) => void;
-  updateShipDirection: (id: number, direction: Direction) => void;
   updateShipsDirection: (ids: number[], direction: Direction) => void;
   updateShipCoordinates: (id: number, startColumn: number, startRow: number) => void;
 }
@@ -38,8 +30,6 @@ const initialGameState: Omit<
   "setOpponentBoard" |
   "setOpponentBoardField" |
   "setShips" |
-  "updateShip" |
-  "updateShipDirection" |
   "updateShipsDirection" |
   "updateShipCoordinates"
 > = {
@@ -68,21 +58,9 @@ export const useGameStore = create<GameState>((set) => ({
   }),
 
   setShips: (newShips: Ship[]) => set({ ships: newShips }),
-  
-  updateShip: (
-    id: number, direction: Direction, startColumn: number, startRow: number
-  ) => set(state => ({
-    ships: state.ships.map(ship => 
-      ship.id !== id ? ship : { ...ship, direction, startColumn, startRow }  
-    )
-  })),
 
-  updateShipDirection: (id: number, direction: Direction) => set(state => ({
-    ships: state.ships.map(ship => 
-      ship.id !== id ? ship : { ...ship, direction }  
-    )
-  })),
 
+  // should be used only for ships which are not yet placed
   updateShipsDirection: (ids: number[], direction: Direction) => set(state => ({
     ships: state.ships.map(ship => 
       ids.includes(ship.id) ? ship : { ...ship, direction }  
