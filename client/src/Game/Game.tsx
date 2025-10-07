@@ -1,12 +1,15 @@
 import { useSocket } from "../context/SocketContext";
+import { useGameStore } from "../store/GameStore";
 import { useRoomStore } from "../store/RoomStore";
 import { Board } from "./Board/Board";
 import "./Game.css"
+import { ShipsDock } from "./ShipsDock/ShipsDock";
 
 
 export const Game = () => {
 
   const { roomName } = useRoomStore()
+  const { gameStatus } = useGameStore()
   
   const socket = useSocket();
   
@@ -19,7 +22,10 @@ export const Game = () => {
       
       <div className="boards-container">
         <Board />
-        <Board />
+        { gameStatus === "setting-board"
+          ? <ShipsDock />
+          : <Board />
+        }
       </div>
       
       <button onClick={handleLeaveRoom}>Leave room</button>

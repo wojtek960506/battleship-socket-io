@@ -1,68 +1,102 @@
+/* =========================
+   THEME VARIABLES
+========================= */
+
+
+/* Default Battleship Theme */
+/* body.battleship { */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --bg-gradient: linear-gradient(-45deg, #1f2a38, #2c3e50, #1f2a38, #34495e);
+  --header-color: #a0c4ff;
+  --header-shadow: 0 0 6px #a0c4ff, 0 0 12px #1f2a38;
+  --card-bg: #2c3e50;
+  --card-glow: rgba(160,196,255,0.3);
+  --card-title-color: #95a5a6;
+  --card-title-shadow: 0 0 4px #95a5a6;
+  --text-color: #f8f8f8;
+  --input-border: #a0c4ff;
+  --input-focus-border: #95a5a6;
+  --input-focus-shadow: 0 0 6px #95a5a6;
+  --btn-join-color: #95a5a6;
+  --btn-join-shadow: 0 0 6px #95a5a6;
+  --btn-join-hover-bg: #7f8c8d;
+  --btn-join-hover-shadow: 0 0 10px #95a5a6;
+  --btn-create-bg: #a0c4ff;
+  --btn-create-color: #1f2a38;
+  --btn-create-shadow: 0 0 6px #a0c4ff;
+  --btn-create-hover-bg: #7da7d9;
+  --btn-create-hover-shadow: 0 0 10px #a0c4ff;
+  --error-text-color: rgb(226, 94, 94);
+  --info-text-color: #ccc;
+  --room-list-border: #34495e;
+  --room-list-bg: #2c3e50;
+  --room-list-item-border: #34495e;
+  --room-list-item-hover: rgba(160,196,255,0.1);
+  --room-list-item-line: linear-gradient(#a0c4ff, #95a5a6);
+  --room-list-btn-bg: #95a5a6;
+  --room-list-btn-hover-bg: #7f8c8d;
+  --room-list-btn-hover-shadow: 0 0 8px #a0c4ff;
+  --cell-water: #a0c4ff;
+  --cell-ship: #555;
+  --cell-hit: #ff4c4c;
+  --cell-miss: #d9d9d9;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+/* Pastel Theme */
+/* :root { */
+body.pastel {
+  /* Background gradient */
+  --bg-gradient: linear-gradient(-45deg, #ffd1dc, #a0e7e5, #ffb347, #c3f0ca);
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+  /* Header */
+  --header-color: #ff7f9c;       /* soft pink */
+  --header-shadow: 0 0 6px #ff7f9c, 0 0 12px #fcd77f;
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+  /* Card */
+  --card-bg: #fef9f4;            /* cream/off-white */
+  --card-glow: rgba(255, 191, 128, 0.3); /* soft glow */
+  --card-title-color: #ff7f9c;   /* soft pink */
+  --card-title-shadow: 0 0 4px #ff7f9c;
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+  /* Text */
+  --text-color: #333;            /* soft dark gray */
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  /* Input fields */
+  --input-border: #a0e7e5;       /* pastel cyan */
+  --input-focus-border: #ffb347; /* pastel orange */
+  --input-focus-shadow: 0 0 6px #ffb347;
+
+  /* Buttons */
+  --btn-create-bg: #ffb347;      /* pastel orange */
+  --btn-create-shadow: 0 0 6px #ffb347;
+  --btn-create-hover-bg: #ffaa33;
+  --btn-create-hover-shadow: 0 0 10px #ffb347;
+
+  --btn-join-bg: #a0e7e5;        /* pastel cyan */
+  --btn-join-color: #333;        /* soft gray text */
+  --btn-join-shadow: 0 0 6px #a0e7e5;
+  --btn-join-hover-bg: #7fdfe2;
+  --btn-join-hover-shadow: 0 0 10px #a0e7e5;
+
+  /* Error text */
+  --error-text-color: rgb(212, 30, 30);
+
+  /* Info text */
+  --info-text-color: #666;
+
+  /* Room list */
+  --room-list-border: #ccc;
+  --room-list-bg: #fef9f4;
+  --room-list-item-border: #e0e0e0;
+  --room-list-item-hover: rgba(255, 191, 128, 0.1);
+  --room-list-item-line: linear-gradient(#ffb347, #a0e7e5);
+  --room-list-btn-bg: #ffb347;
+  --room-list-btn-hover-bg: #ffaa33;
+  --room-list-btn-hover-shadow: 0 0 8px #ffb347;
+
+  /* Game board cells */
+  --cell-water: #c3f0ca;   /* pastel greenish-blue */
+  --cell-ship: #f7d794;    /* soft yellow/tan */
+  --cell-hit: #ff7f9c;     /* pastel pink/red */
+  --cell-miss: #d9d9d9;    /* light gray */
 }

@@ -12,7 +12,7 @@ describe("App", () => {
     renderWithMockSocket(<App />, mockSocket);
 
     expect(screen.queryByTestId("create-room-btn")).toBeInTheDocument();
-    expect(screen.queryByText("Game")).not.toBeInTheDocument();
+    expect(screen.queryByText("Vertical")).not.toBeInTheDocument();
   })
 
   test("show game screen when setting rooms is finished", () => {
@@ -20,7 +20,7 @@ describe("App", () => {
     renderWithMockSocket(<App />, mockSocket);
 
     expect(screen.queryByTestId("create-room-btn")).not.toBeInTheDocument();
-    expect(screen.queryByText("Game")).toBeInTheDocument();
+    expect(screen.queryByText("Vertical")).toBeInTheDocument();
   })
 
   test('renders app title', () => {

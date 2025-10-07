@@ -6,13 +6,18 @@
 .boards-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 10px;
+  /* justify-content: space-around; */
 }
 
-.board-container {
+.board-container,
+.ships-container {
   margin: 20px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 500px;
 }
 
 .board-row {
@@ -24,7 +29,7 @@
   height: 30px;
   width: 30px;
   border: 2px solid black;
-  margin: 2px;
+  margin: 1px;
 }
 
 .row-number,
@@ -32,15 +37,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  color: var(--header-color);
+  text-shadow: var(--header-shadow);
 }
 
 .empty-cell {
-  background-color: white;
+  /* background-color: white; */
+  background-color: var(--cell-water);
   opacity: 0.1;
 }
 
 .hit-cell {
-  background-color: red;
+  /* background-color: red; */
+  background-color: var(--cell-hit);
 }
 
 .sunk-cell {
@@ -48,9 +58,58 @@
 }
 
 .missed-cell {
-  background-color: rgb(54, 54, 170);
+  /* background-color: rgb(54, 54, 170); */
+  background-color: var(--cell-miss)
 }
 
 .taken-cell {
-  background-color: gray;
+  /* background-color: gray; */
+  background-color: var(--cell-ship)
 }
+
+.ship-direction-btn {
+  /* flex: 1; */
+  width: 150px;
+  height: 35px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #212424;
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.3s;
+  background-color: var(--btn-create-bg);
+  box-shadow: var(--btn-create-shadow);
+  margin-bottom: 20px;
+}
+
+.ship-direction-btn:hover {
+  background-color: var(--btn-create-hover-bg);
+  transform: translateY(-1px);
+  box-shadow: var(--btn-create-hover-shadow);
+}
+
+.horizontal-ship {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+}
+
+.horizontal-ships {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.vertical-ship {
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.vertical-ships {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+

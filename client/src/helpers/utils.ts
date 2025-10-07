@@ -94,3 +94,15 @@ export const getBoardRemovingShip = (board: BoardType, ship: Ship) => {
 
   return newBoard;
 }
+
+const classMapBoardField: Record<FieldType, string> = {
+  hit: "hit-cell",
+  sunk: "sunk-cell",
+  missed: "missed-cell",
+  taken: "taken-cell",
+  empty: "empty-cell",
+};
+
+export const getBoardCellClass = (boardField: FieldType): string => {
+  return classMapBoardField[boardField];
+}
