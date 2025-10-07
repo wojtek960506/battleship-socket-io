@@ -2,49 +2,39 @@ import { getBoardCellClass, type BoardType } from "../../helpers/utils"
 import { useGameStore } from "../../store/GameStore"
 import "./Board.css"
 
-const renderBoard = (board: BoardType) => {
-    const renderedBoard = board.map((boardRow, i) => {
-      const boardFields = boardRow.map((boardField, j) => {
-        const className = "board-field " + getBoardCellClass(boardField);
-        const key = `${i}-${j}`
+const ColumnLabels = () => (
+  <div className="board-row">
+    {["", ...[...Array(10).keys()].map(i => (i + 1).toString())].map((number, index) => (
+      <div key={`col-label-${index}`} className="board-field column-number">{number}</div>
+    ))}
+  </div>
+)
 
-        return <div key={key} className={className} />
-      })
-
-      const key = `row-number-${i}`
-      boardFields.unshift(
-        <div key={key} className="board-field row-number">{String.fromCharCode(65 + i)}</div>
-      )
-
-      return <div key={i} className="board-row">{boardFields}</div>
-    })
-
-    const numbers = [...Array(10).keys()].map(i => (i + 1).toString())
-    numbers.unshift("")
-  
-    const boardColumnNumbers = numbers.map((number, index) => {
-      const key = `column-number-${index}`;
-      return <div key={key} className="board-field column-number">{number}</div>
-    })
-
-    renderedBoard.unshift(
-      <div key="column-numbers" className="board-row">{boardColumnNumbers}</div>
-    )
-    return renderedBoard
-  }
+const BoardGrid = ({ board }: { board: BoardType }) => {
+  return (
+    <>
+      {board.map((boardRow, i) => (
+        <div key={`row-${i}`} className="board-row">
+          <div key={`row-number-${i}`} className="board-field row-number">
+            {String.fromCharCode(65 + i)}
+          </div>
+          {boardRow.map((boardCell, j) => (
+            <div
+              key={`cell-${i}-${j}`}
+              className={`board-field ${getBoardCellClass(boardCell)}`}
+            />
+          ))}
+        </div>
+      ))}
+    </>
+  )
+}
 
 export const Board = () => {
-  const {
-    yourBoard,
-    
-    // ships,
-    // placeShipOnBoard,
-    // removeShipFromBoard,
-    // moveShipOnBoard
-  } = useGameStore()
+  const { yourBoard } = useGameStore()
 
-
-
-
-  return <div className="board-container">{renderBoard(yourBoard)}</div>
+  return <div className="board-container">
+    <ColumnLabels />
+    <BoardGrid board={yourBoard} />
+  </div>
 }
