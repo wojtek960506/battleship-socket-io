@@ -1,5 +1,7 @@
 import { useSocket } from "../context/SocketContext";
 import { useRoomStore } from "../store/RoomStore";
+import { Board } from "./Board/Board";
+import "./Game.css"
 
 
 export const Game = () => {
@@ -13,8 +15,13 @@ export const Game = () => {
   }
 
   return (
-    <div>
-      Game
+    <div className="game-container">
+      
+      <div className="boards-container">
+        <Board />
+        <Board />
+      </div>
+      
       <button onClick={handleLeaveRoom}>Leave room</button>
     </div>
   )

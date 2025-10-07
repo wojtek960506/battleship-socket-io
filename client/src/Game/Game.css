@@ -1,0 +1,56 @@
+.game-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.boards-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.board-container {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.board-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.board-field {
+  height: 30px;
+  width: 30px;
+  border: 2px solid black;
+  margin: 2px;
+}
+
+.row-number,
+.column-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-cell {
+  background-color: white;
+  opacity: 0.1;
+}
+
+.hit-cell {
+  background-color: red;
+}
+
+.sunk-cell {
+  background-color: darkred;
+}
+
+.missed-cell {
+  background-color: rgb(54, 54, 170);
+}
+
+.taken-cell {
+  background-color: gray;
+}

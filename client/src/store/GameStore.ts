@@ -5,19 +5,23 @@ import {
   type Direction,
   type Ship,
   getDefaultShips,
-  type Board,
+  type BoardType,
   getPlacedShip,
   getBoardPlacingShip,
   getBoardRemovingShip,
   getRemovedShip
 } from "../helpers/utils";
 
+type GameStatus = "setting-board" | "board-set" | "playing" | "finished"
+
 
 type GameState = {
-  yourBoard: Board;
-  opponentBoard: Board;
+  yourBoard: BoardType;
+  opponentBoard: BoardType;
   currentPlayer: string | null;
   ships: Ship[];
+  gameStatus: GameStatus;
+  winner: string | null;
 
   // actions
   setYourBoard: (newBoard: FieldType[][]) => void;
@@ -28,6 +32,8 @@ type GameState = {
   placeShipOnBoard: (id: number, startRow: number, startColumn: number) => void;
   removeShipFromBoard: (id: number) => void;
   moveShipOnBoard: (id: number, startRow: number, startColumn: number) => void;
+  setWinner: (winner: string) => void;
+  setGameStatus: (gameStatus: GameStatus) => void;
 }
 
 const initialGameState: Omit<
@@ -39,12 +45,16 @@ const initialGameState: Omit<
   "updateShipsDirection" |
   "placeShipOnBoard" |
   "removeShipFromBoard" |
-  "moveShipOnBoard"
+  "moveShipOnBoard" |
+  "setWinner" |
+  "setGameStatus"
 > = {
   yourBoard: getEmptyBoard(),
   opponentBoard: getEmptyBoard(),
   currentPlayer: null,
   ships: getDefaultShips(),
+  gameStatus: "setting-board",
+  winner: null
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -53,6 +63,10 @@ export const useGameStore = create<GameState>((set) => ({
   setYourBoard: (newBoard: FieldType[][]) => set({ yourBoard: newBoard }),
 
   setOpponentBoard: (newBoard: FieldType[][]) => set({ opponentBoard: newBoard }),
+
+  setWinner: (winner: string | null) => set({ winner }),
+
+  setGameStatus: (gameStatus: GameStatus) => set({ gameStatus }),
 
   setOpponentBoardField: (row: number, column: number, value: FieldType) => set(state => ({
     opponentBoard: state.opponentBoard.map((stateRow, i) => {

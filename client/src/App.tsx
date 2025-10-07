@@ -10,16 +10,18 @@ import { SocketProvider } from './context/SocketContext';
 function App() {
   const { status } = useRoomStore();
 
+  // temporary commented code in return for faster testing of setting ships on board
+
   return (
     <SocketProvider>
       <div className="app-container">
         <header className="app-header">
           <h1>Battleship</h1>
         </header>
-        {status === "ready"
+        {/* {status === "ready"
           ? <Game />
           : <RoomSelection />
-        }
+        } */ <Game />}
       </div>
       <RoomSocketHandler />
       <RoomsSocketHandler />
