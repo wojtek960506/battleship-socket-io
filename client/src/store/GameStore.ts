@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { 
   getEmptyBoard,
-  type FieldType,
+  type BoardCellType,
   type Direction,
   type Ship,
   getDefaultShips,
@@ -25,9 +25,9 @@ type GameState = {
   chosenShipId: number | null;
 
   // actions
-  setYourBoard: (newBoard: FieldType[][]) => void;
-  setOpponentBoard: (newBoard: FieldType[][]) => void;
-  setOpponentBoardField: (row:number, column: number, value: FieldType) => void;
+  setYourBoard: (newBoard: BoardCellType[][]) => void;
+  setOpponentBoard: (newBoard: BoardCellType[][]) => void;
+  setOpponentBoardCell: (row:number, column: number, value: BoardCellType) => void;
   setShips: (newShips: Ship[]) => void;
   updateShipsDirection: (ids: number[], direction: Direction) => void;
   placeShipOnBoard: (id: number, startRow: number, startColumn: number) => void;
@@ -42,7 +42,7 @@ const initialGameState: Omit<
   GameState,
   "setYourBoard" |
   "setOpponentBoard" |
-  "setOpponentBoardField" |
+  "setOpponentBoardCell" |
   "setShips" |
   "updateShipsDirection" |
   "placeShipOnBoard" |
@@ -64,9 +64,9 @@ const initialGameState: Omit<
 export const useGameStore = create<GameState>((set) => ({
   ...initialGameState,
  
-  setYourBoard: (newBoard: FieldType[][]) => set({ yourBoard: newBoard }),
+  setYourBoard: (newBoard: BoardCellType[][]) => set({ yourBoard: newBoard }),
 
-  setOpponentBoard: (newBoard: FieldType[][]) => set({ opponentBoard: newBoard }),
+  setOpponentBoard: (newBoard: BoardCellType[][]) => set({ opponentBoard: newBoard }),
 
   setWinner: (winner: string | null) => set({ winner }),
 
@@ -74,7 +74,7 @@ export const useGameStore = create<GameState>((set) => ({
 
   setChosenShipId: (chosenShipId: number | null) => set({ chosenShipId}),
 
-  setOpponentBoardField: (row: number, column: number, value: FieldType) => set(state => ({
+  setOpponentBoardCell: (row: number, column: number, value: BoardCellType) => set(state => ({
     opponentBoard: state.opponentBoard.map((stateRow, i) => {
       if (i !== row) return stateRow;
       return stateRow.map((stateValue, j) => {

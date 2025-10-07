@@ -1,4 +1,4 @@
-import { getDefaultShips, getEmptyBoard, type FieldType, type Ship } from "../helpers/utils"
+import { getDefaultShips, getEmptyBoard, type BoardCellType, type Ship } from "../helpers/utils"
 import { resetGameStore, useGameStore } from "./GameStore"
 
 
@@ -7,7 +7,7 @@ describe("test GameStore", () => {
   beforeEach(() => resetGameStore())
 
   test("setYourBoard", () => {
-    const smallBoard: FieldType[][] = [
+    const smallBoard: BoardCellType[][] = [
       ["empty", "empty"],
       ["empty", "empty"]
     ]
@@ -15,15 +15,15 @@ describe("test GameStore", () => {
     expect(useGameStore.getState().yourBoard).toEqual(smallBoard)
   })
 
-  test("setOpponentBoardField", () => {
-    const smallBoard: FieldType[][] = [
+  test("setOpponentBoardCell", () => {
+    const smallBoard: BoardCellType[][] = [
       ["empty", "empty"],
       ["empty", "empty"]
     ]
     useGameStore.getState().setOpponentBoard(smallBoard)
     expect(useGameStore.getState().opponentBoard).toEqual(smallBoard)
-    useGameStore.getState().setOpponentBoardField(1,1,"hit");
-    useGameStore.getState().setOpponentBoardField(0,1, "missed");
+    useGameStore.getState().setOpponentBoardCell(1,1,"hit");
+    useGameStore.getState().setOpponentBoardCell(0,1, "missed");
     smallBoard[1][1] = "hit";
     smallBoard[0][1] = "missed";
     expect(useGameStore.getState().opponentBoard).toEqual(smallBoard);
@@ -41,7 +41,7 @@ describe("test GameStore", () => {
   })
 
   test("placeShipOnBoard", () => {
-    const board: FieldType[][] = getEmptyBoard();
+    const board: BoardCellType[][] = getEmptyBoard();
     const ships: Ship[] = getDefaultShips();
 
     useGameStore.getState().placeShipOnBoard(0, 1, 2);
@@ -55,7 +55,7 @@ describe("test GameStore", () => {
       startRow: 1,
       startColumn: 2,
       status: "placed",
-      fields: [
+      cells: [
         { row: 1, column: 2 },
         { row: 1, column: 3 },
         { row: 1, column: 4 },
@@ -69,7 +69,7 @@ describe("test GameStore", () => {
   })
 
     test("removeShipFromBoard", () => {
-    const board: FieldType[][] = getEmptyBoard();
+    const board: BoardCellType[][] = getEmptyBoard();
     const ships: Ship[] = getDefaultShips();
 
     useGameStore.getState().placeShipOnBoard(2, 4, 6);
@@ -87,7 +87,7 @@ describe("test GameStore", () => {
       startRow: null,
       startColumn: null,
       status: "not-placed",
-      fields: []
+      cells: []
     }
 
     expect(useGameStore.getState().yourBoard).toEqual(board);
@@ -95,7 +95,7 @@ describe("test GameStore", () => {
   })
 
   test("moveShipOnBoard", () => {
-    const board: FieldType[][] = getEmptyBoard();
+    const board: BoardCellType[][] = getEmptyBoard();
     const ships: Ship[] = getDefaultShips();
 
     
@@ -112,7 +112,7 @@ describe("test GameStore", () => {
       startColumn: 4,
       status: "placed",
       direction: "vertical",
-      fields: [
+      cells: [
         { row: 3, column: 4 },
         { row: 4, column: 4 },
         { row: 5, column: 4 },

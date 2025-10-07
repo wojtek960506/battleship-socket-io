@@ -31,7 +31,7 @@ export const ShipsDock = () => {
       onClick={() => handleShipClick(ship.id)}
     >
       {[...Array(ship.length)].map((_, index) => (
-        <div key={index} className="board-field taken-cell" />
+        <div key={index} className="board-cell taken-cell" />
       ))}
     </div>
   ))

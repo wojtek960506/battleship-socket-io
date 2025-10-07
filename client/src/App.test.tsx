@@ -20,7 +20,7 @@ describe("App", () => {
     renderWithMockSocket(<App />, mockSocket);
 
     expect(screen.queryByTestId("create-room-btn")).not.toBeInTheDocument();
-    expect(screen.queryByText("Vertical")).toBeInTheDocument();
+    expect(screen.queryByText("Rotate to Vertical")).toBeInTheDocument();
   })
 
   test('renders app title', () => {

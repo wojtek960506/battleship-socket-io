@@ -1,4 +1,4 @@
-import { calculateShipFields, getBoardPlacingShip, getBoardRemovingShip, getDefaultShips, getEmptyBoard, getPlacedShip, getRemovedShip, type Ship } from "./utils";
+import { calculateShipCells, getBoardPlacingShip, getBoardRemovingShip, getDefaultShips, getEmptyBoard, getPlacedShip, getRemovedShip, type Ship } from "./utils";
 
 const COMMON_SHIP: Ship = {
   id: 1,
@@ -6,7 +6,7 @@ const COMMON_SHIP: Ship = {
   startColumn: 1,
   startRow: 2,
   length: 4,
-  fields: [],
+  cells: [],
   status: "placed"
 }
 
@@ -17,8 +17,8 @@ describe("test utils", () => {
     expect(emptyBoard).toHaveLength(10);
     for (let row of emptyBoard) {
       expect(row).toHaveLength(10);
-      for (let field of row) {
-        expect(field).toBe("empty")
+      for (let cell of row) {
+        expect(cell).toBe("empty")
       }
     }
   })
@@ -34,15 +34,15 @@ describe("test utils", () => {
       expect(ship.startColumn).toBeNull();
       expect(ship.startRow).toBeNull();
       expect(ship.length).toBe(defaultLenghts[index]);
-      expect(ship.fields).toHaveLength(0);
+      expect(ship.cells).toHaveLength(0);
       expect(ship.status).toBe("not-placed")
     })
   })
 
-  test("calculateShipFields - horizontal", () => {
-    const fields = calculateShipFields(COMMON_SHIP);
-    expect(fields).toHaveLength(COMMON_SHIP.length);
-    expect(fields).toEqual([
+  test("calculateShipCells - horizontal", () => {
+    const cells = calculateShipCells(COMMON_SHIP);
+    expect(cells).toHaveLength(COMMON_SHIP.length);
+    expect(cells).toEqual([
       { column: 1, row: 2 },
       { column: 2, row: 2 },
       { column: 3, row: 2 },
@@ -50,15 +50,15 @@ describe("test utils", () => {
     ])
   });
 
-  test("calculateShipFields - vertical", () => {
+  test("calculateShipCells - vertical", () => {
     const ship: Ship = {
       ...COMMON_SHIP,
       direction: "vertical",
       length: 5,
     }
-    const fields = calculateShipFields(ship);
-    expect(fields).toHaveLength(ship.length);
-    expect(fields).toEqual([
+    const cells = calculateShipCells(ship);
+    expect(cells).toHaveLength(ship.length);
+    expect(cells).toEqual([
       { column: 1, row: 2 },
       { column: 1, row: 3 },
       { column: 1, row: 4 },
@@ -79,7 +79,7 @@ describe("test utils", () => {
     expect(newShip).not.toEqual(ship)
     expect(newShip.startColumn).toBe(2)
     expect(newShip.startRow).toBe(3)
-    expect(newShip.fields).toEqual([
+    expect(newShip.cells).toEqual([
       { column: 2, row: 3 },
       { column: 3, row: 3 },
       { column: 4, row: 3 },
@@ -92,7 +92,7 @@ describe("test utils", () => {
 
     expect(ship.startColumn).toBeNull();
     expect(ship.startRow).toBeNull();
-    expect(ship.fields).toHaveLength(0);
+    expect(ship.cells).toHaveLength(0);
     expect(ship.status).toBe("not-placed")
   })
 
@@ -102,19 +102,19 @@ describe("test utils", () => {
 
     const ship = getPlacedShip(ships[0], 1, 1)
 
-    for (const { column, row } of ship.fields) {
+    for (const { column, row } of ship.cells) {
       expect(board[row][column]).toBe("empty")
     }
 
     board = getBoardPlacingShip(board, ship);
 
-    for (const { column, row } of ship.fields) {
+    for (const { column, row } of ship.cells) {
       expect(board[row][column]).toBe("taken")
     }
 
     board = getBoardRemovingShip(board, ship);
 
-    for (const { column, row } of ship.fields) {
+    for (const { column, row } of ship.cells) {
       expect(board[row][column]).toBe("empty")
     }    
   })

@@ -22,7 +22,7 @@
   width: 500px;
 }
 
-.board-field {
+.board-cell {
   height: 35px;
   width: 35px;
   border: 2px solid black;

@@ -1,13 +1,13 @@
 
-export type FieldType = "empty" | "hit" | "sunk" | "missed" | "taken";
+export type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";
 
 export type Direction = "horizontal" | "vertical"
 
 export type ShipStatus = "not-placed" | "placed" | "sunk"
 
-export type ShipField = { column: number, row: number }
+export type ShipCells = { column: number, row: number }
 
-export type BoardType = FieldType[][];
+export type BoardType = BoardCellType[][];
 
 
 export type Ship = {
@@ -16,11 +16,11 @@ export type Ship = {
   startColumn: number | null // in UI: 1,2,...
   startRow: number | null // in UI: A,B,...
   length: number
-  fields: ShipField[] // maybe for easier detection of sunk
+  cells: ShipCells[] // maybe for easier detection of sunk
   status: ShipStatus
 }
 
-export const getEmptyBoard = (): FieldType[][] => (
+export const getEmptyBoard = (): BoardCellType[][] => (
   Array(10).fill(null).map(() => Array(10).fill("empty"))
 );
 
@@ -31,13 +31,13 @@ export const getDefaultShips = (): Ship[] => (
     startColumn: null,
     startRow: null,
     length,
-    fields: [],
+    cells: [],
     status: "not-placed"
   }))
 )
 
-export const calculateShipFields = (ship: Ship): ShipField[] => {
-  let shipFields: ShipField[] = [];
+export const calculateShipCells = (ship: Ship): ShipCells[] => {
+  let shipCells: ShipCells[] = [];
 
   for (let i = 0 ; i < ship.length ; i++) {
     let column = ship.startColumn!;
@@ -49,18 +49,18 @@ export const calculateShipFields = (ship: Ship): ShipField[] => {
       row = ship.startRow! + i
     }
 
-    shipFields.push({ column, row })
+    shipCells.push({ column, row })
   }
   
-  return shipFields;
+  return shipCells;
 }
 
 export const getPlacedShip = (ship: Ship, startRow: number, startColumn: number ) => {
   let newShip: Ship = { ...ship, startColumn, startRow, status: "placed" };
 
-  const fields = calculateShipFields(newShip)
+  const cells = calculateShipCells(newShip)
 
-  return { ...newShip, fields }
+  return { ...newShip, cells }
 }
 
 export const getRemovedShip = (ship: Ship): Ship => {
@@ -68,7 +68,7 @@ export const getRemovedShip = (ship: Ship): Ship => {
     ...ship,
     startColumn: null,
     startRow: null,
-    fields: [],
+    cells: [],
     status: "not-placed"
   }
 }
@@ -77,7 +77,7 @@ export const getBoardPlacingShip = (board: BoardType, ship: Ship) => {
   // copy of board as it is mostly coming from store
   const newBoard = board.map(row => [...row]);
 
-  ship.fields.forEach(({column, row}) => {
+  ship.cells.forEach(({column, row}) => {
     newBoard[row][column] = "taken"
   })
 
@@ -88,14 +88,14 @@ export const getBoardRemovingShip = (board: BoardType, ship: Ship) => {
   // copy of board as it is mostly coming from store
   const newBoard = board.map(row => [...row]);
 
-  ship.fields.forEach(({column, row}) => {
+  ship.cells.forEach(({column, row}) => {
     newBoard[row][column] = "empty"
   })
 
   return newBoard;
 }
 
-const classMapBoardField: Record<FieldType, string> = {
+const classMapBoardCell: Record<BoardCellType, string> = {
   hit: "hit-cell",
   sunk: "sunk-cell",
   missed: "missed-cell",
@@ -103,6 +103,6 @@ const classMapBoardField: Record<FieldType, string> = {
   empty: "empty-cell",
 };
 
-export const getBoardCellClass = (boardField: FieldType): string => {
-  return classMapBoardField[boardField];
+export const getBoardCellClass = (boardCell: BoardCellType): string => {
+  return classMapBoardCell[boardCell];
 }
