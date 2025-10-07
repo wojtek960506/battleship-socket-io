@@ -1,37 +1,41 @@
+/* Layout Base */
 .game-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
+/* Boards */
 .boards-container {
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  gap: 10px;
-  /* justify-content: space-around; */
+  gap: var(--space-lg, 20px);
+  
 }
 
 .board-container,
 .ships-container {
-  margin: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: var(--space-lg, 20px);
   width: 500px;
 }
 
+/* Board structure */
 .board-row {
   display: flex;
-  flex-direction: row;
 }
 
 .board-field {
-  height: 30px;
-  width: 30px;
+  height: 35px;
+  width: 35px;
   border: 2px solid black;
   margin: 1px;
+  box-sizing: border-box;
 }
 
+/* Labels */
 .row-number,
 .column-number {
   display: flex;
@@ -42,14 +46,13 @@
   text-shadow: var(--header-shadow);
 }
 
+/* Board cell states */
 .empty-cell {
-  /* background-color: white; */
   background-color: var(--cell-water);
   opacity: 0.1;
 }
 
 .hit-cell {
-  /* background-color: red; */
   background-color: var(--cell-hit);
 }
 
@@ -58,18 +61,44 @@
 }
 
 .missed-cell {
-  /* background-color: rgb(54, 54, 170); */
   background-color: var(--cell-miss)
 }
 
 .taken-cell {
-  /* background-color: gray; */
   background-color: var(--cell-ship)
 }
 
+/* Ship Dock */
+.ships-display {
+  display: flex;
+  gap: var(--space-lg, 20px);
+}
+
+.ships-display.horizontal-ships {
+  flex-direction: column;
+}
+
+.ships-display.vertical-ships {
+  flex-direction: row;
+}
+
+.ship {
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+}
+
+.ship.horizontal-ship {
+  flex-direction: row;
+}
+
+.ship.vertical-ship {
+  flex-direction: column;
+}
+
+/* Direction Button */
 .ship-direction-btn {
-  /* flex: 1; */
-  width: 150px;
+  width: 200px;
   height: 35px;
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
@@ -80,7 +109,7 @@
   transition: background-color 0.2s, transform 0.1s, box-shadow 0.3s;
   background-color: var(--btn-create-bg);
   box-shadow: var(--btn-create-shadow);
-  margin-bottom: 20px;
+  margin-bottom: var(--space-lg, 20px);
 }
 
 .ship-direction-btn:hover {
@@ -88,28 +117,3 @@
   transform: translateY(-1px);
   box-shadow: var(--btn-create-hover-shadow);
 }
-
-.horizontal-ship {
-  width: fit-content;
-  display: flex;
-  flex-direction: row;
-}
-
-.horizontal-ships {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.vertical-ship {
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-}
-
-.vertical-ships {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-}
-

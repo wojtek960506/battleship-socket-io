@@ -7,43 +7,26 @@ export const ShipsDock = () => {
   const [shipsDirection, setShipsDirection] = useState<Direction>("horizontal")
 
   const { ships } = useGameStore()
-
   const shipsToSet = ships.filter(s => s.status === "not-placed")
 
   const handleShipDirectionClick = () => {
-    if (shipsDirection === "horizontal") {
-      setShipsDirection("vertical")
-    } else {
-      setShipsDirection("horizontal")
-    }
+    setShipsDirection(prev => (prev === "horizontal" ? "vertical" : "horizontal"));
   }
 
-  const shipsToShow = shipsToSet.map((ship, i) => {
-    
-    const shipElems = [...Array(ship.length)].map((_, index) => {
-      let className ="board-field taken-cell "
-
-
-      return <div key={index} className={className} />
-    })
-
-    return (
-        <div key={i}className={
-          shipsDirection === "horizontal" ? "horizontal-ship" : "vertical-ship"
-        }>{shipElems}</div>
-    )
-
-  })
-
-  const nextDirection = shipsDirection === "vertical" ? "Horizontal" : "Vertical"
+  const shipsToShow = shipsToSet.map((ship, i) => (
+    <div key={i} className={`ship ${shipsDirection}-ship`}>
+      {[...Array(ship.length)].map((_, index) => (
+        <div key={index} className="board-field taken-cell" />
+      ))}
+    </div>
+  ))
 
   return (
     <div className="ships-container">
-      <button 
-        onClick={handleShipDirectionClick}
-        className="ship-direction-btn"
-      >{nextDirection}</button>
-      <div className={shipsDirection === "horizontal" ? "horizontal-ships" : "vertical-ships"}>
+      <button onClick={handleShipDirectionClick} className="ship-direction-btn">
+        Rotate to {`${shipsDirection === "vertical" ? "Horizontal" : "Vertical"}`}
+      </button>
+      <div className={`ships-display ${shipsDirection}-ships`}>
         {shipsToShow}
       </div>
     </div>
