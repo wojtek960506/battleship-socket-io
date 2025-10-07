@@ -1,0 +1,33 @@
+/* Board structure */
+.board-row {
+  display: flex;
+}
+
+/* Labels */
+.row-number,
+.column-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  color: var(--header-color);
+  text-shadow: var(--header-shadow);
+}
+
+/* Board cell states */
+.empty-cell {
+  background-color: var(--cell-water);
+  opacity: 0.1;
+}
+
+.hit-cell {
+  background-color: var(--cell-hit);
+}
+
+.sunk-cell {
+  background-color: darkred;
+}
+
+.missed-cell {
+  background-color: var(--cell-miss)
+}

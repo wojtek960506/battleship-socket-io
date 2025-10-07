@@ -1,0 +1,58 @@
+/* Ship Dock */
+.ships-display {
+  display: flex;
+  gap: var(--space-lg, 20px);
+}
+
+.ships-display.horizontal-ships {
+  flex-direction: column;
+}
+
+.ships-display.vertical-ships {
+  flex-direction: row;
+}
+
+.ship {
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.ship.chosen {
+  filter: brightness(0.6)
+}
+
+.ship:hover {
+  filter: brightness(0.75)
+}
+
+.ship.horizontal-ship {
+  flex-direction: row;
+}
+
+.ship.vertical-ship {
+  flex-direction: column;
+}
+
+/* Direction Button */
+.ship-direction-btn {
+  width: 200px;
+  height: 35px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #212424;
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.3s;
+  background-color: var(--btn-create-bg);
+  box-shadow: var(--btn-create-shadow);
+  margin-bottom: var(--space-lg, 20px);
+}
+
+.ship-direction-btn:hover {
+  background-color: var(--btn-create-hover-bg);
+  transform: translateY(-1px);
+  box-shadow: var(--btn-create-hover-shadow);
+}

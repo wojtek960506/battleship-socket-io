@@ -1,5 +1,6 @@
 import { getBoardCellClass, type BoardType } from "../../helpers/utils"
 import { useGameStore } from "../../store/GameStore"
+import "./Board.css"
 
 const renderBoard = (board: BoardType) => {
     const renderedBoard = board.map((boardRow, i) => {

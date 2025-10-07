@@ -22,11 +22,6 @@
   width: 500px;
 }
 
-/* Board structure */
-.board-row {
-  display: flex;
-}
-
 .board-field {
   height: 35px;
   width: 35px;
@@ -35,85 +30,8 @@
   box-sizing: border-box;
 }
 
-/* Labels */
-.row-number,
-.column-number {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  user-select: none;
-  color: var(--header-color);
-  text-shadow: var(--header-shadow);
-}
-
-/* Board cell states */
-.empty-cell {
-  background-color: var(--cell-water);
-  opacity: 0.1;
-}
-
-.hit-cell {
-  background-color: var(--cell-hit);
-}
-
-.sunk-cell {
-  background-color: darkred;
-}
-
-.missed-cell {
-  background-color: var(--cell-miss)
-}
-
 .taken-cell {
   background-color: var(--cell-ship)
 }
 
-/* Ship Dock */
-.ships-display {
-  display: flex;
-  gap: var(--space-lg, 20px);
-}
 
-.ships-display.horizontal-ships {
-  flex-direction: column;
-}
-
-.ships-display.vertical-ships {
-  flex-direction: row;
-}
-
-.ship {
-  display: flex;
-  width: fit-content;
-  height: fit-content;
-}
-
-.ship.horizontal-ship {
-  flex-direction: row;
-}
-
-.ship.vertical-ship {
-  flex-direction: column;
-}
-
-/* Direction Button */
-.ship-direction-btn {
-  width: 200px;
-  height: 35px;
-  padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  color: #212424;
-  transition: background-color 0.2s, transform 0.1s, box-shadow 0.3s;
-  background-color: var(--btn-create-bg);
-  box-shadow: var(--btn-create-shadow);
-  margin-bottom: var(--space-lg, 20px);
-}
-
-.ship-direction-btn:hover {
-  background-color: var(--btn-create-hover-bg);
-  transform: translateY(-1px);
-  box-shadow: var(--btn-create-hover-shadow);
-}

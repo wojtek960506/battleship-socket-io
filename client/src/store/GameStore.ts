@@ -22,6 +22,7 @@ type GameState = {
   ships: Ship[];
   gameStatus: GameStatus;
   winner: string | null;
+  chosenShipId: number | null;
 
   // actions
   setYourBoard: (newBoard: FieldType[][]) => void;
@@ -34,6 +35,7 @@ type GameState = {
   moveShipOnBoard: (id: number, startRow: number, startColumn: number) => void;
   setWinner: (winner: string) => void;
   setGameStatus: (gameStatus: GameStatus) => void;
+  setChosenShipId: (chosenShipId: number | null) => void;
 }
 
 const initialGameState: Omit<
@@ -47,14 +49,16 @@ const initialGameState: Omit<
   "removeShipFromBoard" |
   "moveShipOnBoard" |
   "setWinner" |
-  "setGameStatus"
+  "setGameStatus" |
+  "setChosenShipId"
 > = {
   yourBoard: getEmptyBoard(),
   opponentBoard: getEmptyBoard(),
   currentPlayer: null,
   ships: getDefaultShips(),
   gameStatus: "setting-board",
-  winner: null
+  winner: null,
+  chosenShipId: null
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -67,6 +71,8 @@ export const useGameStore = create<GameState>((set) => ({
   setWinner: (winner: string | null) => set({ winner }),
 
   setGameStatus: (gameStatus: GameStatus) => set({ gameStatus }),
+
+  setChosenShipId: (chosenShipId: number | null) => set({ chosenShipId}),
 
   setOpponentBoardField: (row: number, column: number, value: FieldType) => set(state => ({
     opponentBoard: state.opponentBoard.map((stateRow, i) => {
