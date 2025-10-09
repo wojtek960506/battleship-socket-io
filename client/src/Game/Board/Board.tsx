@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react"
 import { calculateShipCells, getBoardCellClass, type BoardType, type Ship } from "../../helpers/utils"
 import { useGameStore } from "../../store/GameStore"
 import "./Board.css"
-import { canShipBePlaced } from "../../helpers/shipPlacement"
+import { canShipBePlaced, findShip, isWithinBoard } from "../../helpers/shipPlacement"
 import { BOARD_SIZE, type ShipCells } from "../../helpers/utils"
 
 const ColumnLabels = () => (
@@ -52,23 +52,52 @@ const BoardGrid = React.memo(
 )
 
 export const Board = () => {
-  const { yourBoard, chosenShipId, ships, setChosenShipId, placeShipOnBoard } = useGameStore()
+  const {
+    yourBoard,
+    chosenShipId,
+    ships,
+    setChosenShipId,
+    placeShipOnBoard,
+    removeShipFromBoard
+  } = useGameStore()
   const [hoverPreview, setHoverPreview] = useState<ShipCells[]>([])
 
   const handleCellClick = useCallback((rowIndex: number, columnIndex: number) => {
-    if (chosenShipId === null) return;
+    const boardValue = yourBoard[rowIndex][columnIndex]
 
-    const ship = ships.find(s => s.id === chosenShipId)
-    if (!ship) return;
+    if (boardValue === "empty") {
+    
+      if (chosenShipId === null) return;
 
-    const newShip = {...ship, startRow: rowIndex, startColumn: columnIndex}
-    if (!canShipBePlaced(yourBoard, newShip)) {
-      return;
+      const ship = ships.find(s => s.id === chosenShipId)
+      if (!ship) return;
+
+      const newShip = { ...ship, startRow: rowIndex, startColumn: columnIndex };
+      if (!canShipBePlaced(newShip, ships)) {
+        return;
+      }
+
+      placeShipOnBoard(chosenShipId, rowIndex, columnIndex);
+      setChosenShipId(null);
+      setHoverPreview([]);
+
+    } else {
+      // in the current logic when setting ships the values on board are only
+      // "empty" or "taken". In case of adding some handling for ship surrounding
+      // I will need to change those conditions a little
+
+      const ship = findShip(ships, rowIndex, columnIndex);
+      if (!ship) return;
+
+      setChosenShipId(ship.id);
+      const newShip = { ...ship, startRow: rowIndex, startColumn: columnIndex };
+      if (!isWithinBoard(newShip)) {
+        setHoverPreview([]);
+      } else {
+        setHoverPreview(calculateShipCells(newShip!).shipCells);
+      }
+      removeShipFromBoard(ship.id);
     }
-
-    placeShipOnBoard(chosenShipId, rowIndex, columnIndex)
-    setChosenShipId(null);
-    setHoverPreview([]);
     
   }, [chosenShipId, ships, yourBoard])
 
@@ -79,7 +108,7 @@ export const Board = () => {
     if (!ship) return [false, undefined];
 
     const newShip = {...ship, startRow: row, startColumn: column}
-    if (!canShipBePlaced(yourBoard, newShip)) {
+    if (!canShipBePlaced(newShip, ships)) {
       return [false, undefined];
     }
 
