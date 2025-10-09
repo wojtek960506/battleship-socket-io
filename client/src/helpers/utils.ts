@@ -1,4 +1,3 @@
-
 export type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";
 
 export type Direction = "horizontal" | "vertical"
@@ -9,6 +8,7 @@ export type ShipCells = { column: number, row: number }
 
 export type BoardType = BoardCellType[][];
 
+export const BOARD_SIZE = 10;
 
 export type Ship = {
   id: number;
@@ -21,7 +21,7 @@ export type Ship = {
 }
 
 export const getEmptyBoard = (): BoardCellType[][] => (
-  Array(10).fill(null).map(() => Array(10).fill("empty"))
+  Array(BOARD_SIZE).fill(null).map(() => Array(BOARD_SIZE).fill("empty"))
 );
 
 export const getDefaultShips = (): Ship[] => (

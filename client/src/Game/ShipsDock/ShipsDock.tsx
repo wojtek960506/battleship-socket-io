@@ -7,11 +7,13 @@ export const ShipsDock = () => {
 
   const [shipsDirection, setShipsDirection] = useState<Direction>("horizontal")
 
-  const { ships, chosenShipId, setChosenShipId } = useGameStore()
+  const { ships, chosenShipId, setChosenShipId, updateShipsDirection } = useGameStore()
   const shipsToSet = ships.filter(s => s.status === "not-placed")
 
   const handleShipDirectionClick = () => {
-    setShipsDirection(prev => (prev === "horizontal" ? "vertical" : "horizontal"));
+    const nextDirection = shipsDirection === "horizontal" ? "vertical" : "horizontal"
+    setShipsDirection(nextDirection);
+    updateShipsDirection(shipsToSet.map(s => s.id), nextDirection)
   }
 
   const handleShipClick = (shipId: number) => {
@@ -21,8 +23,6 @@ export const ShipsDock = () => {
       setChosenShipId(null)
     }
   }
-
-  console.log(chosenShipId);
 
   const shipsToShow = shipsToSet.map((ship, i) => (
     <div 

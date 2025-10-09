@@ -34,4 +34,9 @@
   background-color: var(--cell-ship)
 }
 
+.preview-cell {
+  background-color: var(--cell-ship);
+  filter: brightness(0.6);
+}
+
 

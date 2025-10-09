@@ -72,7 +72,7 @@ export const useGameStore = create<GameState>((set) => ({
 
   setGameStatus: (gameStatus: GameStatus) => set({ gameStatus }),
 
-  setChosenShipId: (chosenShipId: number | null) => set({ chosenShipId}),
+  setChosenShipId: (chosenShipId: number | null) => set({ chosenShipId }),
 
   setOpponentBoardCell: (row: number, column: number, value: BoardCellType) => set(state => ({
     opponentBoard: state.opponentBoard.map((stateRow, i) => {
