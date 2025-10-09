@@ -17,7 +17,7 @@
 /* Board cell states */
 .empty-cell {
   background-color: var(--cell-water);
-  opacity: 0.2;
+  opacity: 0.15;
 }
 
 .hit-cell {

@@ -1,4 +1,4 @@
-import { getDefaultShips, getEmptyBoard, type BoardCellType, type Ship } from "../helpers/utils"
+import { calculateShipCells, getDefaultShips, getEmptyBoard, type BoardCellType, type Ship } from "../helpers/utils"
 import { resetGameStore, useGameStore } from "./GameStore"
 
 
@@ -61,8 +61,9 @@ describe("test GameStore", () => {
         { row: 1, column: 4 },
         { row: 1, column: 5 },
         { row: 1, column: 6 },
-      ]
+      ],
     }
+    ships[0].surroundingCells = calculateShipCells(ships[0]).surroundingCells
 
     expect(useGameStore.getState().yourBoard).toEqual(board);
     expect(useGameStore.getState().ships).toEqual(ships);
@@ -87,7 +88,8 @@ describe("test GameStore", () => {
       startRow: null,
       startColumn: null,
       status: "not-placed",
-      cells: []
+      cells: [],
+      surroundingCells: [],
     }
 
     expect(useGameStore.getState().yourBoard).toEqual(board);
@@ -117,8 +119,10 @@ describe("test GameStore", () => {
         { row: 4, column: 4 },
         { row: 5, column: 4 },
         { row: 6, column: 4 },
-      ]
+      ],
     }
+    ships[1].surroundingCells = calculateShipCells(ships[1]).surroundingCells
+
     expect(useGameStore.getState().yourBoard).toEqual(board);
     expect(useGameStore.getState().ships).toEqual(ships);
   })

@@ -7,6 +7,7 @@ const COMMON_SHIP: Ship = {
   startRow: 2,
   length: 4,
   cells: [],
+  surroundingCells: [],
   status: "placed"
 }
 
@@ -40,9 +41,9 @@ describe("test utils", () => {
   })
 
   test("calculateShipCells - horizontal", () => {
-    const cells = calculateShipCells(COMMON_SHIP);
-    expect(cells).toHaveLength(COMMON_SHIP.length);
-    expect(cells).toEqual([
+    const { shipCells } = calculateShipCells(COMMON_SHIP);
+    expect(shipCells).toHaveLength(COMMON_SHIP.length);
+    expect(shipCells).toEqual([
       { column: 1, row: 2 },
       { column: 2, row: 2 },
       { column: 3, row: 2 },
@@ -56,9 +57,9 @@ describe("test utils", () => {
       direction: "vertical",
       length: 5,
     }
-    const cells = calculateShipCells(ship);
-    expect(cells).toHaveLength(ship.length);
-    expect(cells).toEqual([
+    const { shipCells } = calculateShipCells(ship);
+    expect(shipCells).toHaveLength(ship.length);
+    expect(shipCells).toEqual([
       { column: 1, row: 2 },
       { column: 1, row: 3 },
       { column: 1, row: 4 },

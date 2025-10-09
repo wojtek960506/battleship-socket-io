@@ -17,6 +17,7 @@ export type Ship = {
   startRow: number | null // in UI: A,B,...
   length: number
   cells: ShipCells[] // maybe for easier detection of sunk
+  surroundingCells: ShipCells[],
   status: ShipStatus
 }
 
@@ -32,12 +33,19 @@ export const getDefaultShips = (): Ship[] => (
     startRow: null,
     length,
     cells: [],
+    surroundingCells: [],
     status: "not-placed"
   }))
 )
 
-export const calculateShipCells = (ship: Ship): ShipCells[] => {
+type AllShipCells = {
+  shipCells: ShipCells[];
+  surroundingCells: ShipCells[];
+}
+
+export const calculateShipCells = (ship: Ship): AllShipCells => {
   let shipCells: ShipCells[] = [];
+  let surroundingCells: ShipCells[] = [];
 
   for (let i = 0 ; i < ship.length ; i++) {
     let column = ship.startColumn!;
@@ -45,22 +53,42 @@ export const calculateShipCells = (ship: Ship): ShipCells[] => {
 
     if (ship.direction === "horizontal") {
       column = ship.startColumn! + i
+
+      surroundingCells.push({ row: row - 1, column })
+      surroundingCells.push({ row: row + 1, column })
     } else {
       row = ship.startRow! + i
+
+      surroundingCells.push({ row, column: column - 1 })
+      surroundingCells.push({ row, column: column + 1 })
     }
 
     shipCells.push({ column, row })
   }
-  
-  return shipCells;
+
+  const startRow = ship.startRow!
+  const startColumn = ship.startColumn!
+  if (ship.direction === "horizontal") {
+    [-1, 0, 1].forEach(num => {
+      surroundingCells.push({ row: startRow + num, column: startColumn - 1 })
+      surroundingCells.push({ row: startRow + num, column: startColumn + ship.length })
+    });
+  } else {
+    [-1, 0, 1].forEach(num => {
+      surroundingCells.push({ row: startRow -1, column: startColumn + num })
+      surroundingCells.push({ row: startRow + ship.length, column: startColumn + num })
+    });
+  }
+    
+  return { shipCells, surroundingCells };
 }
 
 export const getPlacedShip = (ship: Ship, startRow: number, startColumn: number ) => {
   let newShip: Ship = { ...ship, startColumn, startRow, status: "placed" };
 
-  const cells = calculateShipCells(newShip)
+  const { shipCells, surroundingCells } = calculateShipCells(newShip)
 
-  return { ...newShip, cells }
+  return { ...newShip, cells: shipCells, surroundingCells }
 }
 
 export const getRemovedShip = (ship: Ship): Ship => {
@@ -69,7 +97,8 @@ export const getRemovedShip = (ship: Ship): Ship => {
     startColumn: null,
     startRow: null,
     cells: [],
-    status: "not-placed"
+    surroundingCells: [],
+    status: "not-placed",
   }
 }
 

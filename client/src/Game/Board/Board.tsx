@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { calculateShipCells, getBoardCellClass, type BoardType } from "../../helpers/utils"
+import { calculateShipCells, getBoardCellClass, type BoardType, type Ship } from "../../helpers/utils"
 import { useGameStore } from "../../store/GameStore"
 import "./Board.css"
 import { canShipBePlaced } from "../../helpers/shipPlacement"
@@ -52,7 +52,7 @@ const BoardGrid = React.memo(
 )
 
 export const Board = () => {
-  const { yourBoard, chosenShipId, ships } = useGameStore()
+  const { yourBoard, chosenShipId, ships, setChosenShipId, placeShipOnBoard } = useGameStore()
   const [hoverPreview, setHoverPreview] = useState<ShipCells[]>([])
 
   const handleCellClick = useCallback((rowIndex: number, columnIndex: number) => {
@@ -66,30 +66,36 @@ export const Board = () => {
       return;
     }
 
+    placeShipOnBoard(chosenShipId, rowIndex, columnIndex)
+    setChosenShipId(null);
+    setHoverPreview([]);
+    
   }, [chosenShipId, ships, yourBoard])
 
-  const handleCellEnter = useCallback((rowIndex: number, columnIndex: number) => {
-    if (chosenShipId === null) return;
+  const hoverConditions = (row: number, column: number): [boolean, Ship | undefined] => {
+    if (chosenShipId === null) return [false, undefined];
 
     const ship = ships.find(s => s.id === chosenShipId)
-    if (!ship) return;
+    if (!ship) return [false, undefined];
 
-    const newShip = {...ship, startRow: rowIndex, startColumn: columnIndex}
+    const newShip = {...ship, startRow: row, startColumn: column}
     if (!canShipBePlaced(yourBoard, newShip)) {
-      return;
+      return [false, undefined];
     }
 
-    setHoverPreview(calculateShipCells(newShip));
+    return [true, newShip];
+  }
+
+  const handleCellEnter = useCallback((rowIndex: number, columnIndex: number) => {
+    const [result, newShip] = hoverConditions(rowIndex, columnIndex)
+    if (!result) return
+
+    setHoverPreview(calculateShipCells(newShip!).shipCells);
   }, [chosenShipId, ships, yourBoard])
 
   const handleCellLeave = useCallback((rowIndex: number, columnIndex: number) => {
-    if (chosenShipId === null) return;
-
-    const ship = ships.find(s => s.id === chosenShipId)
-    if (!ship) return;
-
-    const newShip = {...ship, startRow: rowIndex, startColumn: columnIndex}
-    if (!canShipBePlaced(yourBoard, newShip)) return;
+    const [result, _] = hoverConditions(rowIndex, columnIndex)
+    if (!result) return
 
     setHoverPreview([])
   }, [chosenShipId, ships, yourBoard])
