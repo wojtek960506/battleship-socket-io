@@ -39,20 +39,32 @@ export const ShipsDock = () => {
     </div>
   ))
 
+  const handleStartGame = () => {
+    console.log('TODO - add start game logic')
+  }
+
   return (
     <div className="ships-container">
-      <button
-        onClick={(event) => {
+      { shipsToSet.length !== 0
+        ? (<>
+            <button
+              onClick={(event) => {
+                event.stopPropagation()
+                handleShipDirectionClick()
+              }}
+              className="ship-direction-btn"
+            >
+              Rotate to {`${shipsDirection === "vertical" ? "Horizontal" : "Vertical"}`}
+            </button>
+            <div className={`ships-display ${shipsDirection}-ships`}>
+              {shipsToShow}
+            </div>
+          </>)
+        : <button onClick={(event) => {
           event.stopPropagation()
-          handleShipDirectionClick()
-        }}
-        className="ship-direction-btn"
-      >
-        Rotate to {`${shipsDirection === "vertical" ? "Horizontal" : "Vertical"}`}
-      </button>
-      <div className={`ships-display ${shipsDirection}-ships`}>
-        {shipsToShow}
-      </div>
+          handleStartGame()
+        }}>Start game</button>
+      }
     </div>
   )
 }
