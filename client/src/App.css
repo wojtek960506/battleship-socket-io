@@ -4,17 +4,20 @@
 
 body {
   margin: 0;
+  overflow-x: auto;
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 120vh;
   font-family: 'Orbitron', sans-serif;
   color: var(--text-color);
   background: var(--bg-gradient);
   background-size: 400% 400%;
-  animation: gradientBG 12s ease infinite;
+  animation: gradientBG 20s ease infinite;
+  background-repeat: repeat;
 }
 
 @keyframes gradientBG {

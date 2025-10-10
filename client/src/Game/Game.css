@@ -10,7 +10,8 @@
   display: flex;
   justify-content: center;
   gap: var(--space-lg, 20px);
-  
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .board-container,
@@ -19,7 +20,7 @@
   flex-direction: column;
   align-items: center;
   margin: var(--space-lg, 20px);
-  width: 500px;
+  width: 450px;
 }
 
 .board-cell {

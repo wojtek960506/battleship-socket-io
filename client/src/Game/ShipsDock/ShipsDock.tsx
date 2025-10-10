@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useGameStore } from "../../store/GameStore"
-import { type Direction } from "../../helpers/utils"
+import { type Direction, type Ship } from "../../helpers/utils"
 import "./ShipsDock.css"
 
 export const ShipsDock = () => {
@@ -24,10 +24,15 @@ export const ShipsDock = () => {
     }
   }
 
-  const shipsToShow = shipsToSet.map((ship, i) => (
-    <div 
-      key={i}
-      className={`ship ${shipsDirection}-ship ${chosenShipId === ship.id ? "chosen" : ""}` }
+  const handleStartGame = () => {
+    console.log('TODO - add start game logic')
+  }
+
+  const ShipToShow = ({ ship }: { ship: Ship }) => {
+    return (
+      <div 
+      key={ship.id}
+      className={`ship ${ship.direction}-ship ${chosenShipId === ship.id ? "chosen" : ""}` }
       onClick={(event) => {
         event.stopPropagation()
         handleShipClick(ship.id)
@@ -37,11 +42,32 @@ export const ShipsDock = () => {
         <div key={index} className="board-cell taken-cell" />
       ))}
     </div>
-  ))
+    )
 
-  const handleStartGame = () => {
-    console.log('TODO - add start game logic')
   }
+
+  const ShipsToShow = () => {
+    
+    const horizontalShips = shipsToSet.filter(s => s.direction === "horizontal");
+    const verticalShips = shipsToSet.filter(s => s.direction === "vertical");
+    
+    return (
+      <div style={{display: "flex", gap: 20}}>
+        {horizontalShips.length > 0 && (
+          <div className={`ships-display horizontal-ships`}>
+            {horizontalShips.map(((ship, i) => <ShipToShow key={i} ship={ship} />))}
+          </div>
+        )}
+        {verticalShips.length > 0 && (
+          <div className={`ships-display vertical-ships`}>
+            {verticalShips.map(((ship, i) => <ShipToShow key={i} ship={ship} />))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  
 
   return (
     <div className="ships-container">
@@ -56,14 +82,16 @@ export const ShipsDock = () => {
             >
               Rotate to {`${shipsDirection === "vertical" ? "Horizontal" : "Vertical"}`}
             </button>
-            <div className={`ships-display ${shipsDirection}-ships`}>
-              {shipsToShow}
-            </div>
+            <ShipsToShow />
           </>)
-        : <button onClick={(event) => {
-          event.stopPropagation()
-          handleStartGame()
-        }}>Start game</button>
+        : <button 
+            onClick={(event) => {
+              event.stopPropagation()
+              handleStartGame()
+            }}
+            className="start-game-btn"
+            data-testid="start-game-btn"
+          >Start Game</button>
       }
     </div>
   )
