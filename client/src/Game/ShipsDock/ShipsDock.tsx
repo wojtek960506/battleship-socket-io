@@ -28,7 +28,10 @@ export const ShipsDock = () => {
     <div 
       key={i}
       className={`ship ${shipsDirection}-ship ${chosenShipId === ship.id ? "chosen" : ""}` }
-      onClick={() => handleShipClick(ship.id)}
+      onClick={(event) => {
+        event.stopPropagation()
+        handleShipClick(ship.id)
+      }}
     >
       {[...Array(ship.length)].map((_, index) => (
         <div key={index} className="board-cell taken-cell" />
@@ -38,7 +41,13 @@ export const ShipsDock = () => {
 
   return (
     <div className="ships-container">
-      <button onClick={handleShipDirectionClick} className="ship-direction-btn">
+      <button
+        onClick={(event) => {
+          event.stopPropagation()
+          handleShipDirectionClick()
+        }}
+        className="ship-direction-btn"
+      >
         Rotate to {`${shipsDirection === "vertical" ? "Horizontal" : "Vertical"}`}
       </button>
       <div className={`ships-display ${shipsDirection}-ships`}>

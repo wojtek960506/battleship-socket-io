@@ -38,7 +38,10 @@ const BoardGrid = React.memo(
 
             return (
               <div
-                onClick={() => onCellClick(rowIndex, columnIndex)}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  onCellClick(rowIndex, columnIndex)
+                }}
                 onMouseEnter={() => onCellEnter(rowIndex, columnIndex)}
                 onMouseLeave={() => onCellLeave(rowIndex, columnIndex)}
                 key={`cell-${rowIndex}-${columnIndex}`}

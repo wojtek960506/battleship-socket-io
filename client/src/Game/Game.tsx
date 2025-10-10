@@ -9,7 +9,7 @@ import { ShipsDock } from "./ShipsDock/ShipsDock";
 export const Game = () => {
 
   const { roomName } = useRoomStore()
-  const { gameStatus } = useGameStore()
+  const { gameStatus, setChosenShipId } = useGameStore()
   
   const socket = useSocket();
   
@@ -20,7 +20,10 @@ export const Game = () => {
   return (
     <div className="game-container">
       
-      <div className="boards-container">
+      <div 
+        onClick={() => setChosenShipId(null)}
+        className="boards-container"
+      >
         <Board />
         { gameStatus === "setting-board"
           ? <ShipsDock />
