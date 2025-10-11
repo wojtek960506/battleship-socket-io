@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSocket } from "../context/SocketContext"
 import { useRoomStore } from "../store/RoomStore";
+import { resetGameStore } from "../store/GameStore";
 
 export const RoomSocketHandler = () => {
   const socket = useSocket();
@@ -57,13 +58,15 @@ export const RoomSocketHandler = () => {
       setStatus("idle")
       setRoom(null)
       setPlayers([])
+      resetGameStore();
     });
 
     socket.on("room:someone-left", ({ message, playerId }) => {
       setStatus("waiting")
       console.log(message);
       removePlayer(playerId);
-      setPlayerWhoLeft(playerId)
+      setPlayerWhoLeft(playerId);
+      resetGameStore();
     });
 
     return () => {

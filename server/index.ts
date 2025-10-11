@@ -230,6 +230,11 @@ io.on("connection", (socket) => {
     )
   })
 
+  socket.on("server:board-set", ({ roomName, player }: { roomName: string, player: string }) => {
+    console.log(`Player '${player}' set its board in room '${roomName}'`)
+    socket.to(roomName).emit('player:board-set', { player })
+  })
+
 
   socket.on("disconnecting", () => {
     console.log(`User Disconnected: ${socket.id}`);

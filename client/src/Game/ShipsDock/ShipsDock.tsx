@@ -2,12 +2,22 @@ import { useState } from "react"
 import { useGameStore } from "../../store/GameStore"
 import { type Direction, type Ship } from "../../helpers/utils"
 import "./ShipsDock.css"
+import { useSocket } from "../../context/SocketContext"
+import { useRoomStore } from "../../store/RoomStore"
 
 export const ShipsDock = () => {
 
   const [shipsDirection, setShipsDirection] = useState<Direction>("horizontal")
-
-  const { ships, chosenShipId, setChosenShipId, updateShipsDirection } = useGameStore()
+  const { 
+    ships,
+    chosenShipId,
+    isOtherBoardSet,
+    setChosenShipId,
+    updateShipsDirection,
+    setGameStatus,
+  } = useGameStore()
+  const { roomName, player } = useRoomStore();
+  const socket = useSocket()
   const shipsToSet = ships.filter(s => s.status === "not-placed")
 
   const handleShipDirectionClick = () => {
@@ -25,7 +35,13 @@ export const ShipsDock = () => {
   }
 
   const handleStartGame = () => {
-    console.log('TODO - add start game logic')
+    if (isOtherBoardSet) {
+      setGameStatus("playing");
+    } else {
+      setGameStatus("board-set");
+    }  
+    
+    socket.emit("server:board-set", { roomName, player })
   }
 
   const ShipToShow = ({ ship }: { ship: Ship }) => {

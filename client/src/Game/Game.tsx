@@ -1,5 +1,5 @@
 import { useSocket } from "../context/SocketContext";
-import { useGameStore } from "../store/GameStore";
+import { resetGameStore, useGameStore } from "../store/GameStore";
 import { useRoomStore } from "../store/RoomStore";
 import { Board } from "./Board/Board";
 import "./Game.css"
@@ -15,8 +15,15 @@ export const Game = () => {
   
   const handleLeaveRoom = () => {
     socket.emit("server:leave-room", roomName)
+    resetGameStore();
   }
 
+  // TODO - rename it
+  const Abc = () => gameStatus === "board-set"
+    ? <div>Waiting for other player to set its board</div>
+    : <Board />
+
+  // clicking anywhere outside the board or ship dock reseting chosen ship
   return (
     <div className="game-container">
       
@@ -27,7 +34,7 @@ export const Game = () => {
         <Board />
         { gameStatus === "setting-board"
           ? <ShipsDock />
-          : <Board />
+          : <Abc />
         }
       </div>
       

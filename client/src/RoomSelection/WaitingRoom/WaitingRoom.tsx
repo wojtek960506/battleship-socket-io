@@ -1,4 +1,5 @@
 import { useSocket } from "../../context/SocketContext";
+import { resetGameStore } from "../../store/GameStore";
 import { useRoomStore } from "../../store/RoomStore";
 
 export const WaitingRoom = () => {
@@ -8,6 +9,7 @@ export const WaitingRoom = () => {
 
    const handleLeaveRoom = () => {
     socket.emit("server:leave-room", roomName);
+    resetGameStore();
   }
 
   return (

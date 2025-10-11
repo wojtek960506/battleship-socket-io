@@ -5,12 +5,11 @@ import { useRoomStore } from './store/RoomStore';
 import './App.css'
 import { Game } from './Game/Game';
 import { SocketProvider } from './context/SocketContext';
+import { GameSocketHandler } from './handlers/GameSocketHandler';
 
 
 function App() {
   const { status } = useRoomStore();
-
-  // temporary commented code in return for faster testing of setting ships on board
 
   return (
     <SocketProvider>
@@ -18,13 +17,14 @@ function App() {
         <header className="app-header">
           <h1>Battleship</h1>
         </header>
-        {/* {status === "ready"
+        {status === "ready"
           ? <Game />
           : <RoomSelection />
-        } */ <Game />}
+        }
       </div>
       <RoomSocketHandler />
       <RoomsSocketHandler />
+      <GameSocketHandler />
     </SocketProvider>
   )
 }
