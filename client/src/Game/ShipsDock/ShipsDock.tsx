@@ -4,6 +4,7 @@ import { type Direction, type Ship } from "../../helpers/utils"
 import "./ShipsDock.css"
 import { useSocket } from "../../context/SocketContext"
 import { useRoomStore } from "../../store/RoomStore"
+import { useRandomShips } from "../../hooks/useRandomShips"
 
 export const ShipsDock = () => {
 
@@ -17,7 +18,9 @@ export const ShipsDock = () => {
     setGameStatus,
   } = useGameStore()
   const { roomName, player } = useRoomStore();
-  const socket = useSocket()
+  const { placeShipsRandomly } = useRandomShips();
+  const socket = useSocket();
+  
   const shipsToSet = ships.filter(s => s.status === "not-placed")
 
   const handleShipDirectionClick = () => {
@@ -83,7 +86,6 @@ export const ShipsDock = () => {
     )
   }
 
-  
 
   return (
     <div className="ships-container">
@@ -102,12 +104,10 @@ export const ShipsDock = () => {
             <button
               onClick={(event) => {
                 event.stopPropagation()
-                console.log('random ships placement')
+                placeShipsRandomly()
               }}
               className="random-ships-btn"
-            >
-              Random ships placement
-            </button>
+            >Random ships placement</button>
           </>)
         : <button 
             onClick={(event) => {

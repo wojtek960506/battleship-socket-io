@@ -25,6 +25,7 @@
 
 .ships-container {
   justify-content: space-between;
+  gap: var(--space-lg, 20px);
 }
 
 .board-cell {

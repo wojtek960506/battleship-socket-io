@@ -51,7 +51,7 @@ export const YourBoard = () => {
 
       setChosenShipId(ship.id);
       const newShip = { ...ship, startRow: rowIndex, startColumn: columnIndex };
-      if (!isWithinBoard(newShip)) {
+      if (!canShipBePlaced(newShip, ships)) {
         setHoverPreview([]);
       } else {
         setHoverPreview(calculateShipCells(newShip!).shipCells);
