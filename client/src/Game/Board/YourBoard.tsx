@@ -1,75 +1,32 @@
-import React, { useCallback, useState } from "react"
-import { calculateShipCells, getBoardCellClass, type BoardType, type Ship } from "../../helpers/utils"
+import { useCallback, useState } from "react"
+import { calculateShipCells, type Ship } from "../../helpers/utils"
 import { useGameStore } from "../../store/GameStore"
 import "./Board.css"
 import { canShipBePlaced, findShip, isWithinBoard } from "../../helpers/shipPlacement"
-import { BOARD_SIZE, type ShipCells } from "../../helpers/utils"
+import { type ShipCells } from "../../helpers/utils"
+import { BoardGrid } from "./BoardGrid"
 
-const ColumnLabels = () => (
-  <div className="board-row">
-    {["", ...[...Array(BOARD_SIZE).keys()].map(i => (i + 1).toString())].map((number, index) => (
-      <div key={`col-label-${index}`} className="board-cell column-number">{number}</div>
-    ))}
-  </div>
-)
 
-type BoardGridProps = {
-  board: BoardType,
-  hoverPreview: ShipCells[],
-  onCellClick: (row: number, column: number) => void,
-  onCellEnter: (row: number, column: number) => void,
-  onCellLeave: (row: number, column: number) => void,
-}
-
-const BoardGrid = React.memo(
-  ({ board, hoverPreview, onCellClick, onCellEnter, onCellLeave } : BoardGridProps) => (
-    <>
-      {board.map((boardRow, rowIndex) => (
-        <div key={`row-${rowIndex}`} className="board-row">
-          <div key={`row-number-${rowIndex}`} className="board-cell row-number">
-            {String.fromCharCode(65 + rowIndex)}
-          </div>
-          {boardRow.map((boardCell, columnIndex) => {
-            // showing preview of ship when hovering
-            const additionalClass = hoverPreview
-              .some(p => p.column === columnIndex && p.row === rowIndex) 
-              ? "preview-cell"
-              : getBoardCellClass(boardCell)
-
-            return (
-              <div
-                onClick={(event) => {
-                  event.stopPropagation()
-                  onCellClick(rowIndex, columnIndex)
-                }}
-                onMouseEnter={() => onCellEnter(rowIndex, columnIndex)}
-                onMouseLeave={() => onCellLeave(rowIndex, columnIndex)}
-                key={`cell-${rowIndex}-${columnIndex}`}
-                className={`board-cell ${additionalClass}`}
-              />
-          )})}
-        </div>
-      ))}
-    </>
-  )
-)
-
-export const Board = () => {
+export const YourBoard = () => {
   const {
     yourBoard,
     chosenShipId,
     ships,
     setChosenShipId,
     placeShipOnBoard,
-    removeShipFromBoard
+    removeShipFromBoard,
+    gameStatus,
   } = useGameStore()
   const [hoverPreview, setHoverPreview] = useState<ShipCells[]>([])
 
   const handleCellClick = useCallback((rowIndex: number, columnIndex: number) => {
+    // clicking on your board outside of the ship placement phase
+    // has no effect
+    if (gameStatus !== "setting-board") return;
+    
     const boardValue = yourBoard[rowIndex][columnIndex]
 
     if (boardValue === "empty") {
-    
       if (chosenShipId === null) return;
 
       const ship = ships.find(s => s.id === chosenShipId)
@@ -102,9 +59,13 @@ export const Board = () => {
       removeShipFromBoard(ship.id);
     }
     
-  }, [chosenShipId, ships, yourBoard])
+  }, [chosenShipId, ships, yourBoard, gameStatus])
 
-  const hoverConditions = (row: number, column: number): [boolean, Ship | undefined] => {
+  const hoverConditions = useCallback((row: number, column: number): [boolean, Ship | undefined] => {
+    // hovering on your board outside of the ship placement phase
+    // has no effect
+    if (gameStatus !== "setting-board") return [false, undefined];
+    
     if (chosenShipId === null) return [false, undefined];
 
     const ship = ships.find(s => s.id === chosenShipId)
@@ -116,7 +77,7 @@ export const Board = () => {
     }
 
     return [true, newShip];
-  }
+  }, [gameStatus, chosenShipId, ships])
 
   const handleCellEnter = useCallback((rowIndex: number, columnIndex: number) => {
     const [result, newShip] = hoverConditions(rowIndex, columnIndex)
@@ -132,14 +93,11 @@ export const Board = () => {
     setHoverPreview([])
   }, [chosenShipId, ships, yourBoard])
 
-  return <div className="board-container">
-    <ColumnLabels />
-    <BoardGrid
-      board={yourBoard}
-      hoverPreview={hoverPreview}
-      onCellClick={handleCellClick}
-      onCellEnter={handleCellEnter}
-      onCellLeave={handleCellLeave}
-    />
-  </div>
+  return <BoardGrid
+    board={yourBoard}
+    hoverPreview={hoverPreview}
+    onCellClick={handleCellClick}
+    onCellEnter={handleCellEnter}
+    onCellLeave={handleCellLeave}
+  />
 }

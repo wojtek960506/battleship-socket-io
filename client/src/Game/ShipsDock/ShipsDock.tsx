@@ -99,6 +99,15 @@ export const ShipsDock = () => {
               Rotate to {`${shipsDirection === "vertical" ? "Horizontal" : "Vertical"}`}
             </button>
             <ShipsToShow />
+            <button
+              onClick={(event) => {
+                event.stopPropagation()
+                console.log('random ships placement')
+              }}
+              className="random-ships-btn"
+            >
+              Random ships placement
+            </button>
           </>)
         : <button 
             onClick={(event) => {

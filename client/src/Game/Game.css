@@ -23,6 +23,10 @@
   min-width: 400px;
 }
 
+.ships-container {
+  justify-content: space-between;
+}
+
 .board-cell {
   height: 35px;
   width: 35px;

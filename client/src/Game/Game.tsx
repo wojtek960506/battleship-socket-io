@@ -1,7 +1,8 @@
 import { useSocket } from "../context/SocketContext";
 import { resetGameStore, useGameStore } from "../store/GameStore";
 import { useRoomStore } from "../store/RoomStore";
-import { Board } from "./Board/Board";
+import { OpponentBoard } from "./Board/OpponentBoard";
+import { YourBoard } from "./Board/YourBoard";
 import "./Game.css"
 import { ShipsDock } from "./ShipsDock/ShipsDock";
 
@@ -21,7 +22,7 @@ export const Game = () => {
   // TODO - rename it
   const Abc = () => gameStatus === "board-set"
     ? <div>Waiting for other player to set its board</div>
-    : <Board />
+    : <OpponentBoard />
 
   // clicking anywhere outside the board or ship dock reseting chosen ship
   return (
@@ -31,7 +32,7 @@ export const Game = () => {
         onClick={() => setChosenShipId(null)}
         className="boards-container"
       >
-        <Board />
+        <YourBoard />
         { gameStatus === "setting-board"
           ? <ShipsDock />
           : <Abc />
