@@ -230,11 +230,17 @@ io.on("connection", (socket) => {
     )
   })
 
-  socket.on("server:board-set", ({ roomName, player }: { roomName: string, player: string }) => {
+  type RoomNamePlayer = { roomName: string, player: string }
+
+  socket.on("server:board-set", ({ roomName, player }: RoomNamePlayer) => {
     console.log(`Player '${player}' set its board in room '${roomName}'`)
-    socket.to(roomName).emit('player:board-set', { player })
+    socket.to(roomName).emit('player:board-set', { otherPlayer: player })
   })
 
+  socket.on("server:reposition-ships", ({ roomName, player }: RoomNamePlayer) => {
+    console.log(`Player '${player}' is repositioning its ships in room '${roomName}'`)
+    socket.to(roomName).emit('player:reposition-ships', { otherPlayer: player })
+  })
 
   socket.on("disconnecting", () => {
     console.log(`User Disconnected: ${socket.id}`);

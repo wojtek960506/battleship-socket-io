@@ -42,7 +42,7 @@ export const ShipsDock = () => {
       setGameStatus("playing");
     } else {
       setGameStatus("board-set");
-    }  
+    }
     
     socket.emit("server:board-set", { roomName, player })
   }
@@ -97,6 +97,7 @@ export const ShipsDock = () => {
                 handleShipDirectionClick()
               }}
               className="ship-direction-btn"
+              data-testid="ship-direction-btn"
             >
               Rotate to {`${shipsDirection === "vertical" ? "Horizontal" : "Vertical"}`}
             </button>
@@ -107,16 +108,17 @@ export const ShipsDock = () => {
                 placeShipsRandomly()
               }}
               className="random-ships-btn"
+              data-testid="random-ships-btn"
             >Random ships placement</button>
           </>)
-        : <button 
-            onClick={(event) => {
-              event.stopPropagation()
-              handleStartGame()
+        : (<button 
+          onClick={(event) => {
+            event.stopPropagation()
+            handleStartGame()
             }}
-            className="start-game-btn"
-            data-testid="start-game-btn"
-          >Start Game</button>
+          className="ship-direction-btn"
+          data-testid="start-game-btn"
+        >Start Game</button>)
       }
     </div>
   )
