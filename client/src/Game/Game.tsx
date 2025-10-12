@@ -10,7 +10,14 @@ import { ShipsDock } from "./ShipsDock/ShipsDock";
 export const Game = () => {
 
   const { roomName, player } = useRoomStore()
-  const { gameStatus, setGameStatus, setChosenShipId } = useGameStore()
+  const {
+    gameStatus,
+    currentPlayer,
+    setCurrentPlayer,
+    isOtherBoardSet,
+    setGameStatus,
+    setChosenShipId
+  } = useGameStore()
   
   const socket = useSocket();
   
@@ -22,6 +29,10 @@ export const Game = () => {
    const handleShipsReposition = () => {
       setGameStatus("setting-board");
       socket.emit("server:reposition-ships", { roomName, player })
+      
+      if (!isOtherBoardSet) {
+        setCurrentPlayer(null)
+      }
     }
 
   // TODO - rename it
@@ -42,7 +53,8 @@ export const Game = () => {
   // clicking anywhere outside the board or ship dock reseting chosen ship
   return (
     <div className="game-container">
-      
+      <div>Your player id: {player}</div>
+      <div>Current Player: {currentPlayer !== null ? currentPlayer : 'no current player'}</div>
       <div 
         onClick={() => setChosenShipId(null)}
         className="boards-container"

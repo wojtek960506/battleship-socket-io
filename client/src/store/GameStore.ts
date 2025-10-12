@@ -38,6 +38,7 @@ type GameState = {
   setGameStatus: (gameStatus: GameStatus) => void;
   setChosenShipId: (chosenShipId: number | null) => void;
   setIsOtherBoardSet: (isOtherBoardSet: boolean) => void;
+  setCurrentPlayer: (currentPlayer: string | null) => void;
 }
 
 const initialGameState: Omit<
@@ -53,7 +54,8 @@ const initialGameState: Omit<
   "setWinner" |
   "setGameStatus" |
   "setChosenShipId" |
-  "setIsOtherBoardSet"
+  "setIsOtherBoardSet" |
+  "setCurrentPlayer"
 > = {
   yourBoard: getEmptyBoard(),
   opponentBoard: getEmptyBoard(),
@@ -79,6 +81,8 @@ export const useGameStore = create<GameState>((set) => ({
   setChosenShipId: (chosenShipId: number | null) => set({ chosenShipId }),
 
   setIsOtherBoardSet: (isOtherBoardSet: boolean) => set({ isOtherBoardSet }),
+
+  setCurrentPlayer: (currentPlayer: string | null) => set({ currentPlayer }),
 
   setOpponentBoardCell: (row: number, column: number, value: BoardCellType) => set(state => ({
     opponentBoard: state.opponentBoard.map((stateRow, i) => {

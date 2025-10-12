@@ -6,7 +6,7 @@ import { useRoomStore } from "../store/RoomStore";
 
 export const GameSocketHandler = () => {
   const socket = useSocket();
-  const { setIsOtherBoardSet, gameStatus, setGameStatus } = useGameStore();
+  const { setIsOtherBoardSet, gameStatus, setGameStatus, setCurrentPlayer, currentPlayer } = useGameStore();
   const { player } = useRoomStore();
 
   useEffect(() => {
@@ -16,11 +16,18 @@ export const GameSocketHandler = () => {
       setIsOtherBoardSet(true);
       if (gameStatus === "board-set") {
         setGameStatus("playing")
+      } else {
+        setCurrentPlayer(otherPlayer)
       }
     });
 
     socket.on("player:reposition-ships", ({ otherPlayer }: { otherPlayer: string }) => {
       if (player === otherPlayer) return;
+
+      if (otherPlayer === currentPlayer) {
+        console.log('set current player to null')
+        setCurrentPlayer(null);
+      }
 
       setIsOtherBoardSet(false);
     })
@@ -29,7 +36,7 @@ export const GameSocketHandler = () => {
       socket.off("player:board-set");
       socket.off("player:reposition-ships")
     }
-  }, [gameStatus, player])
+  }, [gameStatus, player, currentPlayer])
 
   return null;
 }

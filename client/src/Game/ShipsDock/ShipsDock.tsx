@@ -16,6 +16,7 @@ export const ShipsDock = () => {
     setChosenShipId,
     updateShipsDirection,
     setGameStatus,
+    setCurrentPlayer,
   } = useGameStore()
   const { roomName, player } = useRoomStore();
   const { placeShipsRandomly } = useRandomShips();
@@ -42,6 +43,7 @@ export const ShipsDock = () => {
       setGameStatus("playing");
     } else {
       setGameStatus("board-set");
+      setCurrentPlayer(player)
     }
     
     socket.emit("server:board-set", { roomName, player })
