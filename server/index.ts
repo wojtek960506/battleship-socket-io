@@ -45,18 +45,20 @@ type RoomData = {
 const roomsMetadata: Map<string, RoomData> = new Map();
 
 type MoveSendData = {
-  room: string;
-  column: number;
+  roomName: string;
+  player: string;
   row: number;
-  playerFromServer: string
+  column: number;
 }
 
-type MoveReplyData = {
-  room: string;
+type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";
+
+type ShotResultData = {
+  roomName: string;
   column: number;
   row: number;
-  playerFromServer: string;
-  shotType: typeof ShotType;
+  player: string;
+  value: BoardCellType;
 }
 
 const isInRoom = (socketId: string, room: string) => {
@@ -204,29 +206,28 @@ io.on("connection", (socket) => {
     console.log('leaving room', roomsMetadata)
   })
 
-  socket.on("shot", ({ 
-    room,
+  socket.on("server:send-shot", ({ 
+    roomName,
+    player,
     column,
     row,
-    playerFromServer,
-
   }: MoveSendData) => {
-    socket.to(room).emit(
-      "receive_shot",
-      { column, row, playerFromServer}
+    socket.to(roomName).emit(
+      "player:receive-shot",
+      { row, column, playerFromServer: player }
     )
   })
 
-  socket.on("reply", ({
-    room,
+  socket.on("server:shot-result", ({
+    roomName,
+    player,
     column,
     row,
-    playerFromServer,
-    shotType
-  }: MoveReplyData) => {
-    socket.to(room).emit(
-      "shot_result",
-      { column, row, playerFromServer, shotType }
+    value,
+  }: ShotResultData) => {
+    socket.to(roomName).emit(
+      "player:receive-shot-result",
+      { playerFromServer: player, column, row, value }
     )
   })
 

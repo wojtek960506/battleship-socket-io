@@ -2,7 +2,7 @@ import { useCallback, useState } from "react"
 import { calculateShipCells, type Ship } from "../../helpers/utils"
 import { useGameStore } from "../../store/GameStore"
 import "./Board.css"
-import { canShipBePlaced, findShip, isWithinBoard } from "../../helpers/shipPlacement"
+import { canShipBePlaced, findShip } from "../../helpers/shipPlacement"
 import { type ShipCells } from "../../helpers/utils"
 import { BoardGrid } from "./BoardGrid"
 

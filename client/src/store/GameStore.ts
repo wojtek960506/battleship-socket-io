@@ -29,6 +29,7 @@ type GameState = {
   setYourBoard: (newBoard: BoardCellType[][]) => void;
   setOpponentBoard: (newBoard: BoardCellType[][]) => void;
   setOpponentBoardCell: (row:number, column: number, value: BoardCellType) => void;
+  setYourBoardCell: (row:number, column: number, value: BoardCellType) => void;
   setShips: (newShips: Ship[]) => void;
   updateShipsDirection: (ids: number[], direction: Direction) => void;
   placeShipOnBoard: (id: number, startRow: number, startColumn: number) => void;
@@ -46,6 +47,7 @@ const initialGameState: Omit<
   "setYourBoard" |
   "setOpponentBoard" |
   "setOpponentBoardCell" |
+  "setYourBoardCell" |
   "setShips" |
   "updateShipsDirection" |
   "placeShipOnBoard" |
@@ -84,8 +86,19 @@ export const useGameStore = create<GameState>((set) => ({
 
   setCurrentPlayer: (currentPlayer: string | null) => set({ currentPlayer }),
 
+  // TODO add some helper function as both functions below are almost the same
   setOpponentBoardCell: (row: number, column: number, value: BoardCellType) => set(state => ({
     opponentBoard: state.opponentBoard.map((stateRow, i) => {
+      if (i !== row) return stateRow;
+      return stateRow.map((stateValue, j) => {
+        if (j === column) return value
+        return stateValue
+      })
+    })
+  })),
+
+  setYourBoardCell: (row: number, column: number, value: BoardCellType) => set(state => ({
+    yourBoard: state.yourBoard.map((stateRow, i) => {
       if (i !== row) return stateRow;
       return stateRow.map((stateValue, j) => {
         if (j === column) return value
