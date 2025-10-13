@@ -8,6 +8,7 @@ const COMMON_SHIP: Ship = {
   length: 4,
   cells: [],
   surroundingCells: [],
+  hitCells: [],
   status: "placed"
 }
 

@@ -160,9 +160,6 @@ export const getShipsAfterShot = (ships: Ship[], row: number, column: number) =>
   if (!hitShip) return { shipsAfterShot: ships, hitShip };
 
   const hitShipCopy = {...hitShip}
-
-  console.log('123456', hitShipCopy)
-
   
   if (isInShipCells(hitShipCopy.cells, row, column)) {
     hitShipCopy.hitCells.push({ row, column });

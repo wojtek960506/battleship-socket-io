@@ -251,9 +251,7 @@ io.on("connection", (socket) => {
   socket.on("disconnecting", () => {
     console.log(`User Disconnected: ${socket.id}`);
     const rooms = io.sockets.adapter.rooms
-
-    console.log('roomsMetadata', roomsMetadata)
-    
+  
     for (const [roomName, members] of rooms.entries()) {
       if (members.has(socket.id)) {
         const roomFromMetadata = roomsMetadata.get(roomName)

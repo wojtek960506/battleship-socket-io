@@ -40,8 +40,6 @@ export const isWithinBoard = (ship: Ship) => {
   return (finalColumn < BOARD_SIZE && finalRow < BOARD_SIZE);
 }
 
-
-
 const getRandomInt = (min: number, max: number) => {
   // ensure min and max are integers
   min = Math.ceil(min);
@@ -53,21 +51,12 @@ const getRandomInt = (min: number, max: number) => {
 
 export const getRandomlyPlacedShips = (board: BoardType, ships: Ship[]) => {
 
-  console.log('-----------------------------------------')
-  console.log('placeShipsRandomly')
-
   let placedShips = ships.filter(ship => ship.status === "placed")
-
-  console.log('placed ships before randomization:', [...placedShips])
-
-  let numberOfInvalidRandomPlacements = 0;
-
+  
   for (const ship of ships) {
-
     if (ship.status === "placed") continue;
 
     let isPlacementValid = false;
-
     let placedShip: Ship;
 
     while (!isPlacementValid) {
@@ -83,26 +72,14 @@ export const getRandomlyPlacedShips = (board: BoardType, ships: Ship[]) => {
         startRow,
       }
 
-      if (!canShipBePlaced(newShip, placedShips)) {
-        numberOfInvalidRandomPlacements += 1;
-        // continue;
-      } else {
+      if (canShipBePlaced(newShip, placedShips)) {
         placedShip = getPlacedShip(newShip, startRow, startColumn);
         placedShips.push(placedShip);
         board = getBoardPlacingShip(board, placedShip)
         isPlacementValid = true;
       }
     }
-
-    
   }
 
-  
-  console.log('numberOfInvalidRandomPlacements:', numberOfInvalidRandomPlacements)
-  console.log('board:', board)
-  console.log('ships:', placedShips)
-  console.log('-----------------------------------------')
-
   return { newBoard: board, newShips: placedShips }
-
 }

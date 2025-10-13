@@ -40,11 +40,7 @@ export const GameSocketHandler = () => {
     socket.on("player:reposition-ships", ({ otherPlayer }: { otherPlayer: string }) => {
       if (player === otherPlayer) return;
 
-      if (otherPlayer === currentPlayer) {
-        console.log('set current player to null')
-        setCurrentPlayer(null);
-      }
-
+      if (otherPlayer === currentPlayer) setCurrentPlayer(null);
       setIsOtherBoardSet(false);
     })
 
@@ -72,11 +68,7 @@ export const GameSocketHandler = () => {
         let sunkCells: ShipCell[] = [];
 
 
-        const { shipsAfterShot, hitShip } = getShipsAfterShot(ships, row, column);
-        console.log('getShipsAfterShot:', getShipsAfterShot);
-        console.log('hitShip', hitShip);
-
-        
+        const { shipsAfterShot, hitShip } = getShipsAfterShot(ships, row, column);  
         if (hitShip?.status === "sunk") {
           value = "sunk";
           sunkCells = hitShip.hitCells;
