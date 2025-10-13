@@ -61,6 +61,7 @@ type ShotResultData = {
   player: string;
   value: BoardCellType;
   sunkCells: ShipCell[];
+  isFinished: boolean;
 }
 
 const isInRoom = (socketId: string, room: string) => {
@@ -226,11 +227,12 @@ io.on("connection", (socket) => {
     column,
     row,
     value,
-    sunkCells
+    sunkCells,
+    isFinished,
   }: ShotResultData) => {
     socket.to(roomName).emit(
       "player:receive-shot-result",
-      { playerFromServer: player, column, row, value, sunkCells }
+      { playerFromServer: player, column, row, value, sunkCells, isFinished }
     )
   })
 

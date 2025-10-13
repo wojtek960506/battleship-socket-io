@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSocket } from "../context/SocketContext";
 import { useGameStore } from "../store/GameStore";
 import { useRoomStore } from "../store/RoomStore";
-import { findShip, getShipsAfterShot, type BoardCellType, type ShipCell } from "../helpers/utils";
+import { getShipsAfterShot, type BoardCellType, type ShipCell } from "../helpers/utils";
 
 
 export const GameSocketHandler = () => {
@@ -21,6 +21,7 @@ export const GameSocketHandler = () => {
     opponentBoard,
     setYourBoard,
     setOpponentBoard,
+    setWinner,
   } = useGameStore();
   const { player, roomName } = useRoomStore();
 
@@ -56,7 +57,6 @@ export const GameSocketHandler = () => {
     socket.on("player:receive-shot", ({ column, row, playerFromServer }: ReceiveShotType) => {
       if (player === playerFromServer) return;
       
-      console.log('player:receive-shot - player:', player)
 
       const currentValue = yourBoard[row][column]
       if (currentValue === "empty") {
@@ -92,12 +92,25 @@ export const GameSocketHandler = () => {
         }
 
 
+        // check game status
+        let isFinished = false;
+        if (shipsAfterShot.every(s => s.status === "sunk")) isFinished = true;
+
+        
+        
+
         // TODO add some logic for sending sunk values of the whole ship
-        socket.emit("server:shot-result", { player, roomName, value, column, row, sunkCells })
+        socket.emit("server:shot-result", { player, roomName, value, column, row, sunkCells, isFinished })
 
         setShips(shipsAfterShot);
         
         setCurrentPlayer(player);
+
+        if (isFinished) {
+          setGameStatus("finished");
+          setWinner(playerFromServer);
+          setCurrentPlayer(null);
+        }
       } else {
         // shot to the same cell as before (theoretically not possible, but maybe just in case
         // there should be some handling)
@@ -111,10 +124,15 @@ export const GameSocketHandler = () => {
       value: BoardCellType;
       playerFromServer: string;
       sunkCells: ShipCell[];
+      isFinished: boolean;
     }
     
+    // TODO - detect strange defect which occurs when on mobile phone you use "Version for computer"
+    // then sunk ships are not properly handled and thus the winner is not correctly marked when
+    // we sunk all ships on phone (colors are also not updated). It was only when I switched to
+    // the "Version on computer". When I started second game it works fine
     socket.on("player:receive-shot-result", (
-      { column, row, value, playerFromServer, sunkCells }: ReceiveShotResultType
+      { column, row, value, playerFromServer, sunkCells, isFinished }: ReceiveShotResultType
     ) => {
       if (playerFromServer === player) return;
           
@@ -129,7 +147,15 @@ export const GameSocketHandler = () => {
         setOpponentBoardCell(row, column, value);
       }
 
-      setCurrentPlayer(playerFromServer);
+      if (isFinished) {
+        setGameStatus("finished")
+        setWinner(player!);
+        setCurrentPlayer(null);
+      } else {
+        setCurrentPlayer(playerFromServer);
+      }
+
+
     })
 
     return () => {

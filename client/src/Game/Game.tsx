@@ -16,7 +16,8 @@ export const Game = () => {
     setCurrentPlayer,
     isOtherBoardSet,
     setGameStatus,
-    setChosenShipId
+    setChosenShipId,
+    winner,
   } = useGameStore()
   
   const socket = useSocket();
@@ -54,7 +55,10 @@ export const Game = () => {
   return (
     <div className="game-container">
       <div>Your player id: {player}</div>
-      <div>Current Player: {currentPlayer !== null ? currentPlayer : 'no current player'}</div>
+      { winner !== null
+        ? <div>Winner is: {winner}</div>        
+        : <div>Current Player: {currentPlayer !== null ? currentPlayer : 'no current player'}</div>
+      }
       <div 
         onClick={() => setChosenShipId(null)}
         className="boards-container"
