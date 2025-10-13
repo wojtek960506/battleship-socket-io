@@ -1,16 +1,13 @@
 import { create } from "zustand";
 import { 
-  getEmptyBoard,
-  type BoardCellType,
-  type Direction,
-  type Ship,
+  getEmptyBoard,  
   getDefaultShips,
-  type BoardType,
   getPlacedShip,
   getBoardPlacingShip,
   getBoardRemovingShip,
   getRemovedShip
 } from "../helpers/utils";
+import type { BoardCellType, BoardType, Direction, Ship } from "../helpers/types";
 
 type GameStatus = "setting-board" | "board-set" | "playing" | "finished"
 

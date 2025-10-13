@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useSocket } from "../context/SocketContext";
 import { useGameStore } from "../store/GameStore";
 import { useRoomStore } from "../store/RoomStore";
-import { getShipsAfterShot, type BoardCellType, type ShipCell } from "../helpers/utils";
+import { getShipsAfterShot } from "../helpers/utils";
+import type { BoardCellType, ReceiveShotResultType, ReceiveShotType, ShipCell } from "../helpers/types";
 
 
 export const GameSocketHandler = () => {
@@ -27,6 +28,7 @@ export const GameSocketHandler = () => {
 
   useEffect(() => {
     socket.on("player:board-set", ({ otherPlayer }: { otherPlayer: string}) => {
+      // just in case message was emited to the sender
       if (player === otherPlayer) return;
 
       setIsOtherBoardSet(true);
@@ -44,15 +46,8 @@ export const GameSocketHandler = () => {
       setIsOtherBoardSet(false);
     })
 
-    type ReceiveShotType = {
-      column: number;
-      row: number;
-      playerFromServer: string
-    }
-
     socket.on("player:receive-shot", ({ column, row, playerFromServer }: ReceiveShotType) => {
       if (player === playerFromServer) return;
-      
 
       const currentValue = yourBoard[row][column]
       if (currentValue === "empty") {
@@ -88,14 +83,10 @@ export const GameSocketHandler = () => {
         let isFinished = false;
         if (shipsAfterShot.every(s => s.status === "sunk")) isFinished = true;
 
-        
-        
-
-        // TODO add some logic for sending sunk values of the whole ship
+      
         socket.emit("server:shot-result", { player, roomName, value, column, row, sunkCells, isFinished })
 
-        setShips(shipsAfterShot);
-        
+        setShips(shipsAfterShot);  
         setCurrentPlayer(player);
 
         if (isFinished) {
@@ -110,14 +101,7 @@ export const GameSocketHandler = () => {
       }
     })
 
-    type ReceiveShotResultType = {
-      column: number;
-      row: number;
-      value: BoardCellType;
-      playerFromServer: string;
-      sunkCells: ShipCell[];
-      isFinished: boolean;
-    }
+    
     
     // TODO - detect strange defect which occurs when on mobile phone you use "Version for computer"
     // then sunk ships are not properly handled and thus the winner is not correctly marked when
@@ -146,8 +130,6 @@ export const GameSocketHandler = () => {
       } else {
         setCurrentPlayer(playerFromServer);
       }
-
-
     })
 
     return () => {

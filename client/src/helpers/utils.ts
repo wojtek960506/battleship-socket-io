@@ -1,26 +1,28 @@
-export type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";
+// export type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";
 
-export type Direction = "horizontal" | "vertical"
+import type { BoardCellType, BoardType, Ship, ShipCell } from "./types";
 
-export type ShipStatus = "not-placed" | "placed" | "sunk"
+// export type Direction = "horizontal" | "vertical"
 
-export type ShipCell = { column: number, row: number }
+// export type ShipStatus = "not-placed" | "placed" | "sunk"
 
-export type BoardType = BoardCellType[][];
+// export type ShipCell = { column: number, row: number }
+
+// export type BoardType = BoardCellType[][];
+
+// export type Ship = {
+//   id: number;
+//   direction: Direction;
+//   startColumn: number | null // in UI: 1,2,...
+//   startRow: number | null // in UI: A,B,...
+//   length: number
+//   cells: ShipCell[] // maybe for easier detection of sunk
+//   surroundingCells: ShipCell[],
+//   hitCells: ShipCell[],
+//   status: ShipStatus
+// }
 
 export const BOARD_SIZE = 10;
-
-export type Ship = {
-  id: number;
-  direction: Direction;
-  startColumn: number | null // in UI: 1,2,...
-  startRow: number | null // in UI: A,B,...
-  length: number
-  cells: ShipCell[] // maybe for easier detection of sunk
-  surroundingCells: ShipCell[],
-  hitCells: ShipCell[],
-  status: ShipStatus
-}
 
 export const getEmptyBoard = (): BoardCellType[][] => (
   Array(BOARD_SIZE).fill(null).map(() => Array(BOARD_SIZE).fill("empty"))
@@ -126,15 +128,17 @@ export const getBoardRemovingShip = (board: BoardType, ship: Ship) => {
   return newBoard;
 }
 
-const classMapBoardCell: Record<BoardCellType, string> = {
-  hit: "hit-cell",
-  sunk: "sunk-cell",
-  missed: "missed-cell",
-  taken: "taken-cell",
-  empty: "empty-cell",
-};
+
 
 export const getBoardCellClass = (boardCell: BoardCellType): string => {
+  const classMapBoardCell: Record<BoardCellType, string> = {
+    hit: "hit-cell",
+    sunk: "sunk-cell",
+    missed: "missed-cell",
+    taken: "taken-cell",
+    empty: "empty-cell",
+  };
+  
   return classMapBoardCell[boardCell];
 }
 

@@ -1,5 +1,6 @@
+import type { BoardType, Direction, Ship } from "./types";
 import { BOARD_SIZE, calculateShipCells, getBoardPlacingShip, getPlacedShip } from "./utils";
-import type { BoardType, Direction, Ship } from "./utils";
+
 
 export const canShipBePlaced = (ship: Ship, ships: Ship[]) => {
   

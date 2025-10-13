@@ -1,10 +1,11 @@
 import { useState } from "react"
 import { useGameStore } from "../../store/GameStore"
-import { type Direction, type Ship } from "../../helpers/utils"
-import "./ShipsDock.css"
 import { useSocket } from "../../context/SocketContext"
 import { useRoomStore } from "../../store/RoomStore"
 import { useRandomShips } from "../../hooks/useRandomShips"
+import type { Direction, Ship } from "../../helpers/types"
+import "./ShipsDock.css"
+
 
 export const ShipsDock = () => {
 
