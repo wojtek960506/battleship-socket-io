@@ -11,7 +11,7 @@ export const RoomSelection = () => {
 
   useEffect(() => {
     socket.emit("server:list-rooms")
-  }, [])
+  }, [socket])
 
   return (
     <main className="room-container">

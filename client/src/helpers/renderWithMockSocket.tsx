@@ -4,6 +4,6 @@ import { render } from "@testing-library/react";
 
 
 export const renderWithMockSocket = (ui: ReactNode, mockSocket: { emit: jest.Mock }) =>
-    render(<SocketContext.Provider value={mockSocket as any}>
+    render(<SocketContext.Provider value={mockSocket as never}>
       {ui}
     </SocketContext.Provider>)

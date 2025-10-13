@@ -14,7 +14,7 @@ export const RoomsSocketHandler = () => {
     return () => {
       socket.off("rooms:list")
     }
-  }, [socket])
+  }, [setRooms, socket])
 
   return null;
 }

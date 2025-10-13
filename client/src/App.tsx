@@ -4,8 +4,8 @@ import { RoomsSocketHandler } from './handlers/RoomsSocketHandler';
 import { useRoomStore } from './store/RoomStore';
 import './App.css'
 import { Game } from './Game/Game';
-import { SocketProvider } from './context/SocketContext';
 import { GameSocketHandler } from './handlers/GameSocketHandler';
+import { SocketProvider } from './context/SocketProvider';
 
 
 function App() {

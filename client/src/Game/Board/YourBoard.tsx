@@ -19,14 +19,8 @@ export const YourBoard = () => {
   } = useGameStore()
   const [hoverPreview, setHoverPreview] = useState<ShipCell[]>([])
 
-  const handleCellClick = useCallback((rowIndex: number, columnIndex: number) => {
-    // clicking on your board outside of the ship placement phase
-    // has no effect
-    if (gameStatus !== "setting-board") return;
-    
-    const boardValue = yourBoard[rowIndex][columnIndex]
-
-    if (boardValue === "empty") {
+  const handlePlaceShip = useCallback((rowIndex: number, columnIndex: number) => {
+    // placing ship on board
       if (chosenShipId === null) return;
 
       const ship = ships.find(s => s.id === chosenShipId)
@@ -40,12 +34,10 @@ export const YourBoard = () => {
       placeShipOnBoard(chosenShipId, rowIndex, columnIndex);
       setChosenShipId(null);
       setHoverPreview([]);
+  }, [chosenShipId, ships, placeShipOnBoard, setChosenShipId])
 
-    } else {
-      // in the current logic when setting ships the values on board are only
-      // "empty" or "taken". In case of adding some handling for ship surrounding
-      // I will need to change those conditions a little
-
+  const handleRemoveShip = useCallback((rowIndex: number, columnIndex: number) => {
+    // removing ship from board and putting it in state of placing
       const ship = findShip(ships, rowIndex, columnIndex);
       if (!ship) return;
 
@@ -57,41 +49,52 @@ export const YourBoard = () => {
         setHoverPreview(calculateShipCells(newShip!).shipCells);
       }
       removeShipFromBoard(ship.id);
-    }
+  }, [ships, removeShipFromBoard, setChosenShipId])
+
+  const handleCellClick = useCallback((rowIndex: number, columnIndex: number) => {
+    // clicking on your board outside of the ship placement phase has no effect
+    if (gameStatus !== "setting-board") return;
     
-  }, [chosenShipId, ships, yourBoard, gameStatus])
-
-  const hoverConditions = useCallback((row: number, column: number): [boolean, Ship | undefined] => {
-    // hovering on your board outside of the ship placement phase
-    // has no effect
-    if (gameStatus !== "setting-board") return [false, undefined];
+    // in the current logic when setting ships the values on board are only
+    // "empty" or "taken". In case of adding some handling for ship surrounding
+    // I will need to change those conditions a little
+    const boardValue = yourBoard[rowIndex][columnIndex]
+    if (boardValue === "empty") handlePlaceShip(rowIndex, columnIndex);
+    else handleRemoveShip(rowIndex, columnIndex);
     
-    if (chosenShipId === null) return [false, undefined];
+  }, [gameStatus, handlePlaceShip, handleRemoveShip, yourBoard])
 
-    const ship = ships.find(s => s.id === chosenShipId)
-    if (!ship) return [false, undefined];
+  const hoverConditions = useCallback(
+    (row: number, column: number): [boolean, Ship | undefined] => {
+      // hovering on your board outside of the ship placement phase has no effect
+      if (gameStatus !== "setting-board") return [false, undefined];
+      if (chosenShipId === null) return [false, undefined];
 
-    const newShip = {...ship, startRow: row, startColumn: column}
-    if (!canShipBePlaced(newShip, ships)) {
-      return [false, undefined];
-    }
+      const ship = ships.find(s => s.id === chosenShipId)
+      if (!ship) return [false, undefined];
 
-    return [true, newShip];
-  }, [gameStatus, chosenShipId, ships])
+      const newShip = {...ship, startRow: row, startColumn: column}
+      if (!canShipBePlaced(newShip, ships)) {
+        return [false, undefined];
+      }
+
+      return [true, newShip];
+    }, [gameStatus, chosenShipId, ships]
+  )
 
   const handleCellEnter = useCallback((rowIndex: number, columnIndex: number) => {
     const [result, newShip] = hoverConditions(rowIndex, columnIndex)
     if (!result) return
 
     setHoverPreview(calculateShipCells(newShip!).shipCells);
-  }, [chosenShipId, ships, yourBoard])
+  }, [hoverConditions])
 
   const handleCellLeave = useCallback((rowIndex: number, columnIndex: number) => {
-    const [result, _] = hoverConditions(rowIndex, columnIndex)
+    const [result] = hoverConditions(rowIndex, columnIndex)
     if (!result) return
 
     setHoverPreview([])
-  }, [chosenShipId, ships, yourBoard])
+  }, [hoverConditions])
 
   return <BoardGrid
     board={yourBoard}

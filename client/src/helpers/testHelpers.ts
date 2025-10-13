@@ -6,7 +6,7 @@ export type MockSocketType = {
   off: jest.Mock;
 }
 
-export const triggerSocketEvent = (mockSocket: MockSocketType, eventName: string, args: any) => {
+export const triggerSocketEvent = (mockSocket: MockSocketType, eventName: string, args: unknown) => {
   const handler = mockSocket.on.mock.calls
     .find(([name]) => name === eventName)?.[1];
   if (!handler) throw new Error(`Handler for '${eventName}' not found`);

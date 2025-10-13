@@ -1,4 +1,5 @@
-import { calculateShipCells, getDefaultShips, getEmptyBoard, type BoardCellType, type Ship } from "../helpers/utils"
+import type { BoardCellType, Ship } from "../helpers/types"
+import { calculateShipCells, getDefaultShips, getEmptyBoard } from "../helpers/utils"
 import { resetGameStore, useGameStore } from "./GameStore"
 
 

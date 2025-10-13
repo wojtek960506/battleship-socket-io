@@ -1,9 +1,6 @@
-import { type ReactNode, useContext, useEffect } from "react";
-import { createContext } from "react";
+import { useEffect, type ReactNode } from "react";
 import { socket } from "../socket/socket";
-
-
-export const SocketContext = createContext(socket);
+import { SocketContext } from "./SocketContext";
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
@@ -13,5 +10,3 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
   return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
 }
-
-export const useSocket = () => useContext(SocketContext);

@@ -78,7 +78,7 @@ export const RoomSocketHandler = () => {
       socket.off("room:you-left");
       socket.off("room:someone-left");
     }
-  }, [player, players])
+  }, [addPlayer, player, players, removePlayer, setErrorMessage, setPlayer, setPlayerWhoLeft, setPlayers, setRoom, setStatus, socket])
 
   return null;
 }

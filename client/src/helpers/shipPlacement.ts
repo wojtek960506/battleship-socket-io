@@ -52,7 +52,7 @@ const getRandomInt = (min: number, max: number) => {
 
 export const getRandomlyPlacedShips = (board: BoardType, ships: Ship[]) => {
 
-  let placedShips = ships.filter(ship => ship.status === "placed")
+  const placedShips = ships.filter(ship => ship.status === "placed")
   
   for (const ship of ships) {
     if (ship.status === "placed") continue;

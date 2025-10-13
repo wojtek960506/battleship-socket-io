@@ -18,9 +18,9 @@ describe("test utils", () => {
   test("getEmptyBoard", () => {
     const emptyBoard = getEmptyBoard();
     expect(emptyBoard).toHaveLength(BOARD_SIZE);
-    for (let row of emptyBoard) {
+    for (const row of emptyBoard) {
       expect(row).toHaveLength(BOARD_SIZE);
-      for (let cell of row) {
+      for (const cell of row) {
         expect(cell).toBe("empty")
       }
     }

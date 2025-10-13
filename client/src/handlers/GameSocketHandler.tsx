@@ -138,7 +138,7 @@ export const GameSocketHandler = () => {
       socket.off("player:receive-shot");
       socket.off("player:receive-shot-result");
     }
-  }, [gameStatus, player, currentPlayer, ships, opponentBoard])
+  }, [gameStatus, player, currentPlayer, ships, opponentBoard, socket, setIsOtherBoardSet, setGameStatus, setCurrentPlayer, yourBoard, roomName, setYourBoardCell, setShips, setYourBoard, setWinner, setOpponentBoard, setOpponentBoardCell])
 
   return null;
 }

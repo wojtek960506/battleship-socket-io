@@ -1,26 +1,4 @@
-// export type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";
-
 import type { BoardCellType, BoardType, Ship, ShipCell } from "./types";
-
-// export type Direction = "horizontal" | "vertical"
-
-// export type ShipStatus = "not-placed" | "placed" | "sunk"
-
-// export type ShipCell = { column: number, row: number }
-
-// export type BoardType = BoardCellType[][];
-
-// export type Ship = {
-//   id: number;
-//   direction: Direction;
-//   startColumn: number | null // in UI: 1,2,...
-//   startRow: number | null // in UI: A,B,...
-//   length: number
-//   cells: ShipCell[] // maybe for easier detection of sunk
-//   surroundingCells: ShipCell[],
-//   hitCells: ShipCell[],
-//   status: ShipStatus
-// }
 
 export const BOARD_SIZE = 10;
 
@@ -48,8 +26,8 @@ type AllShipCells = {
 }
 
 export const calculateShipCells = (ship: Ship): AllShipCells => {
-  let shipCells: ShipCell[] = [];
-  let surroundingCells: ShipCell[] = [];
+  const shipCells: ShipCell[] = [];
+  const surroundingCells: ShipCell[] = [];
 
   for (let i = 0 ; i < ship.length ; i++) {
     let column = ship.startColumn!;
@@ -88,10 +66,8 @@ export const calculateShipCells = (ship: Ship): AllShipCells => {
 }
 
 export const getPlacedShip = (ship: Ship, startRow: number, startColumn: number ) => {
-  let newShip: Ship = { ...ship, startColumn, startRow, status: "placed" };
-
+  const newShip: Ship = { ...ship, startColumn, startRow, status: "placed" };
   const { shipCells, surroundingCells } = calculateShipCells(newShip)
-
   return { ...newShip, cells: shipCells, surroundingCells }
 }
 
