@@ -15,17 +15,28 @@
 }
 
 .board-container,
-.ships-container {
+.ships-container,
+.waiting-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: var(--space-lg, 20px);
-  min-width: 400px;
+  margin: 0 var(--space-lg, 20px);
+  
+}
+
+.waiting-container {
+  font-weight: bold;
+  font-size: 1.25rem;
+  text-align: center;
+  justify-content: center;
+  gap: var(--space-lg, 20px);
+  max-width: 250px;
 }
 
 .ships-container {
   justify-content: space-between;
   gap: var(--space-lg, 20px);
+  min-width: 250px;
 }
 
 .board-cell {
@@ -43,6 +54,35 @@
 .preview-cell {
   background-color: var(--cell-ship);
   filter: brightness(0.6);
+}
+
+.info-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+}
+
+.leave-room-btn {
+  margin-top: 40px;
+  height: 35px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.3s;
+  color: #212424;
+  width: 200px;
+  padding: 0.5rem 1rem;
+  background-color: #ee8686;
+  box-shadow: 0 0 6px #ee8686;
+}
+
+
+.leave-room-btn:hover {
+  background-color: #b36565;
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px #b36565;
 }
 
 

@@ -22,7 +22,7 @@ export const WaitingShipsDock = () => {
   }
   
   return (
-    <>
+    <div className="waiting-container">
       <div>Waiting for other player to set its board</div>
       <button 
         onClick={(event) => {
@@ -32,6 +32,6 @@ export const WaitingShipsDock = () => {
         className="random-ships-btn"
         data-testid="reposition-ships-btn"
       >Reposition Ships</button>
-    </>
+    </div>
   )
 }

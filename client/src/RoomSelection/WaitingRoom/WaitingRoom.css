@@ -1,0 +1,19 @@
+.waiting-room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 450px;
+  text-align: center;
+  height: 250px;
+  justify-content: space-between;
+}
+
+.waiting-room p {
+  font-size: 1.5rem;
+}
+
+.waiting-room h3 {
+  font-size: 1.25rem;
+}
+
+

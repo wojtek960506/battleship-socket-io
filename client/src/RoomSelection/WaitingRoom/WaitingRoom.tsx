@@ -1,6 +1,8 @@
 import { useSocket } from "../../context/SocketContext";
 import { resetGameStore } from "../../store/GameStore";
 import { useRoomStore } from "../../store/RoomStore";
+import './WaitingRoom.css';
+
 
 export const WaitingRoom = () => {
 
@@ -25,7 +27,11 @@ export const WaitingRoom = () => {
         >You have just created new room with name '{roomName}'</p>
       }
       <h3>Waiting for other player to join</h3>
-      <button data-testid="leave-room-btn" onClick={handleLeaveRoom}>Leave Room</button>
+      <button
+        className="leave-room-btn"
+        data-testid="leave-room-btn"
+        onClick={handleLeaveRoom}
+      >Leave Room</button>
     </div>
   )
 }
