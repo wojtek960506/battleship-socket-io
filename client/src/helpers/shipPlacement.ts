@@ -40,9 +40,7 @@ export const isWithinBoard = (ship: Ship) => {
   return (finalColumn < BOARD_SIZE && finalRow < BOARD_SIZE);
 }
 
-export const findShip = (ships: Ship[], row: number, column: number) => (
-  ships.find(s => s.cells.some(cell => cell.row === row && cell.column === column))
-)
+
 
 const getRandomInt = (min: number, max: number) => {
   // ensure min and max are integers

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSocket } from "../context/SocketContext";
 import { useGameStore } from "../store/GameStore";
 import { useRoomStore } from "../store/RoomStore";
-import type { BoardCellType } from "../helpers/utils";
+import { findShip, getShipsAfterShot, type BoardCellType, type ShipCell } from "../helpers/utils";
 
 
 export const GameSocketHandler = () => {
@@ -14,8 +14,13 @@ export const GameSocketHandler = () => {
     setCurrentPlayer,
     currentPlayer,
     yourBoard,
+    ships,
+    setShips,
     setYourBoardCell,
     setOpponentBoardCell,
+    opponentBoard,
+    setYourBoard,
+    setOpponentBoard,
   } = useGameStore();
   const { player, roomName } = useRoomStore();
 
@@ -63,11 +68,35 @@ export const GameSocketHandler = () => {
         setCurrentPlayer(player);
       } else if (currentValue === "taken") {
         // hit or sunk shot
-        const value = "hit"
-        // TODO add some logic for sending sunk values of the whole ship
-        socket.emit("server:shot-result", { player, roomName, value, column, row })
+        let value: BoardCellType = "hit";
+        let sunkCells: ShipCell[] = [];
 
-        setYourBoardCell(row, column, value)
+
+        const { shipsAfterShot, hitShip } = getShipsAfterShot(ships, row, column);
+        console.log('getShipsAfterShot:', getShipsAfterShot);
+        console.log('hitShip', hitShip);
+
+        
+        if (hitShip?.status === "sunk") {
+          value = "sunk";
+          sunkCells = hitShip.hitCells;
+          
+          const newBoard = yourBoard.map(row => [...row]);
+          sunkCells.forEach(({column, row}) => {
+            newBoard[row][column] = value;
+          })
+
+          setYourBoard(newBoard);
+        } else {
+          setYourBoardCell(row, column, value)
+        }
+
+
+        // TODO add some logic for sending sunk values of the whole ship
+        socket.emit("server:shot-result", { player, roomName, value, column, row, sunkCells })
+
+        setShips(shipsAfterShot);
+        
         setCurrentPlayer(player);
       } else {
         // shot to the same cell as before (theoretically not possible, but maybe just in case
@@ -80,15 +109,26 @@ export const GameSocketHandler = () => {
       column: number;
       row: number;
       value: BoardCellType;
-      playerFromServer: string
+      playerFromServer: string;
+      sunkCells: ShipCell[];
     }
     
     socket.on("player:receive-shot-result", (
-      { column, row, value, playerFromServer }: ReceiveShotResultType
+      { column, row, value, playerFromServer, sunkCells }: ReceiveShotResultType
     ) => {
       if (playerFromServer === player) return;
+          
+      if (value === "sunk") {
+        const newBoard = opponentBoard.map(row => [...row]);
 
-      setOpponentBoardCell(row, column, value);
+        sunkCells.forEach(({column, row}) => {
+          newBoard[row][column] = value;
+        })
+        setOpponentBoard(newBoard);
+      } else {
+        setOpponentBoardCell(row, column, value);
+      }
+
       setCurrentPlayer(playerFromServer);
     })
 
@@ -98,7 +138,7 @@ export const GameSocketHandler = () => {
       socket.off("player:receive-shot");
       socket.off("player:receive-shot-result");
     }
-  }, [gameStatus, player, currentPlayer])
+  }, [gameStatus, player, currentPlayer, ships, opponentBoard])
 
   return null;
 }

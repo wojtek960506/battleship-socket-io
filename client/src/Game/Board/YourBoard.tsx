@@ -2,8 +2,8 @@ import { useCallback, useState } from "react"
 import { calculateShipCells, type Ship } from "../../helpers/utils"
 import { useGameStore } from "../../store/GameStore"
 import "./Board.css"
-import { canShipBePlaced, findShip } from "../../helpers/shipPlacement"
-import { type ShipCells } from "../../helpers/utils"
+import { canShipBePlaced } from "../../helpers/shipPlacement"
+import { type ShipCell, findShip } from "../../helpers/utils"
 import { BoardGrid } from "./BoardGrid"
 
 
@@ -17,7 +17,7 @@ export const YourBoard = () => {
     removeShipFromBoard,
     gameStatus,
   } = useGameStore()
-  const [hoverPreview, setHoverPreview] = useState<ShipCells[]>([])
+  const [hoverPreview, setHoverPreview] = useState<ShipCell[]>([])
 
   const handleCellClick = useCallback((rowIndex: number, columnIndex: number) => {
     // clicking on your board outside of the ship placement phase

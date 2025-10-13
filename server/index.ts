@@ -52,6 +52,7 @@ type MoveSendData = {
 }
 
 type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";
+type ShipCell = { row: number, column: number }
 
 type ShotResultData = {
   roomName: string;
@@ -59,6 +60,7 @@ type ShotResultData = {
   row: number;
   player: string;
   value: BoardCellType;
+  sunkCells: ShipCell[];
 }
 
 const isInRoom = (socketId: string, room: string) => {
@@ -224,10 +226,11 @@ io.on("connection", (socket) => {
     column,
     row,
     value,
+    sunkCells
   }: ShotResultData) => {
     socket.to(roomName).emit(
       "player:receive-shot-result",
-      { playerFromServer: player, column, row, value }
+      { playerFromServer: player, column, row, value, sunkCells }
     )
   })
 

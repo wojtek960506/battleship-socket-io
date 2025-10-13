@@ -4,7 +4,7 @@ export type Direction = "horizontal" | "vertical"
 
 export type ShipStatus = "not-placed" | "placed" | "sunk"
 
-export type ShipCells = { column: number, row: number }
+export type ShipCell = { column: number, row: number }
 
 export type BoardType = BoardCellType[][];
 
@@ -16,8 +16,9 @@ export type Ship = {
   startColumn: number | null // in UI: 1,2,...
   startRow: number | null // in UI: A,B,...
   length: number
-  cells: ShipCells[] // maybe for easier detection of sunk
-  surroundingCells: ShipCells[],
+  cells: ShipCell[] // maybe for easier detection of sunk
+  surroundingCells: ShipCell[],
+  hitCells: ShipCell[],
   status: ShipStatus
 }
 
@@ -34,18 +35,19 @@ export const getDefaultShips = (): Ship[] => (
     length,
     cells: [],
     surroundingCells: [],
+    hitCells: [],
     status: "not-placed"
   }))
 )
 
 type AllShipCells = {
-  shipCells: ShipCells[];
-  surroundingCells: ShipCells[];
+  shipCells: ShipCell[];
+  surroundingCells: ShipCell[];
 }
 
 export const calculateShipCells = (ship: Ship): AllShipCells => {
-  let shipCells: ShipCells[] = [];
-  let surroundingCells: ShipCells[] = [];
+  let shipCells: ShipCell[] = [];
+  let surroundingCells: ShipCell[] = [];
 
   for (let i = 0 ; i < ship.length ; i++) {
     let column = ship.startColumn!;
@@ -79,7 +81,7 @@ export const calculateShipCells = (ship: Ship): AllShipCells => {
       surroundingCells.push({ row: startRow + ship.length, column: startColumn + num })
     });
   }
-    
+
   return { shipCells, surroundingCells };
 }
 
@@ -134,4 +136,42 @@ const classMapBoardCell: Record<BoardCellType, string> = {
 
 export const getBoardCellClass = (boardCell: BoardCellType): string => {
   return classMapBoardCell[boardCell];
+}
+
+export const findShip = (ships: Ship[], row: number, column: number) => (
+  ships.find(s => isInShipCells(s.cells, row, column))
+)
+
+export const isInShipCells = (cells: ShipCell[], row: number, column: number) => (
+  cells.some(cell => cell.row === row && cell.column === column)
+)
+
+export const areAllCellsHit = (ship: Ship) => {
+  if (ship.cells.length !== ship.hitCells.length) return false;
+
+  for (const hitCell of ship.hitCells) {
+    if (!isInShipCells(ship.cells, hitCell.row, hitCell.column)) return false;
+  }
+  return true;
+}
+
+export const getShipsAfterShot = (ships: Ship[], row: number, column: number) => {
+  const hitShip = findShip(ships, row, column);
+  if (!hitShip) return { shipsAfterShot: ships, hitShip };
+
+  const hitShipCopy = {...hitShip}
+
+  console.log('123456', hitShipCopy)
+
+  
+  if (isInShipCells(hitShipCopy.cells, row, column)) {
+    hitShipCopy.hitCells.push({ row, column });
+  }
+
+  if (areAllCellsHit(hitShipCopy)) hitShipCopy.status = "sunk";
+
+  return { 
+    shipsAfterShot: ships.map(s => s.id === hitShipCopy.id ? hitShipCopy : s),
+    hitShip: hitShipCopy,
+  }
 }
