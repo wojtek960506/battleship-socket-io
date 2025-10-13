@@ -5,6 +5,9 @@ import { BoardsContainer } from "./BoardsContainer";
 import "./Game.css"
 import { InfoPanel } from "./InfoPanel";
 
+export type BoardAreaProps = {
+  mode: "ship-dock" | "waiting" | "opponent-board";
+}
 
 export const Game = () => {
 
