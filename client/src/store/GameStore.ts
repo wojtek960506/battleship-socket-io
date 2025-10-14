@@ -4,47 +4,47 @@ import type { BoardCellType, BoardType, GameStatus, Ship } from "@/helpers/types
 
 
 type GameState = {
-  yourBoard: BoardType;
-  opponentBoard: BoardType;
-  currentPlayer: string | null;
   ships: Ship[];
-  gameStatus: GameStatus;
+  yourBoard: BoardType;
   winner: string | null;
-  chosenShipId: number | null;
+  gameStatus: GameStatus;
   isOtherBoardSet: boolean;
-
+  opponentBoard: BoardType;
+  chosenShipId: number | null;
+  currentPlayer: string | null;
+  
   // actions
-  setYourBoard: (newBoard: BoardCellType[][]) => void;
-  setOpponentBoard: (newBoard: BoardCellType[][]) => void;
   setShips: (ships: Ship[]) => void;
   setWinner: (winner: string) => void;
   setGameStatus: (gameStatus: GameStatus) => void;
+  setYourBoard: (newBoard: BoardCellType[][]) => void;
   setChosenShipId: (chosenShipId: number | null) => void;
   setIsOtherBoardSet: (isOtherBoardSet: boolean) => void;
+  setOpponentBoard: (newBoard: BoardCellType[][]) => void;
   setCurrentPlayer: (currentPlayer: string | null) => void;
   setYourBoardAndShips: (yourBoard: BoardType, ships: Ship[]) => void;
 }
 
 const initialGameState: Omit<
   GameState,
-  "setYourBoard" |
-  "setOpponentBoard" |
   "setShips" |
   "setWinner" |
+  "setYourBoard" |
   "setGameStatus" |
   "setChosenShipId" |
-  "setIsOtherBoardSet" |
   "setCurrentPlayer" |
+  "setOpponentBoard" |
+  "setIsOtherBoardSet" |  
   "setYourBoardAndShips"
 > = {
-  yourBoard: getEmptyBoard(),
-  opponentBoard: getEmptyBoard(),
-  currentPlayer: null,
-  ships: getDefaultShips(),
-  gameStatus: "setting-board",
   winner: null,
   chosenShipId: null,
+  currentPlayer: null,
   isOtherBoardSet: false,
+  ships: getDefaultShips(),
+  yourBoard: getEmptyBoard(),
+  gameStatus: "setting-board",
+  opponentBoard: getEmptyBoard(),
 }
 
 export const useGameStore = create<GameState>((set) => ({
