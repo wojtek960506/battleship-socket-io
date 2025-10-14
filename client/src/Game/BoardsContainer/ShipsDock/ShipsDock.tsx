@@ -5,6 +5,7 @@ import { useRoomStore } from "@/store/RoomStore"
 import { useRandomShips } from "@/hooks/useRandomShips"
 import { useSocket } from "@/context/SocketContext"
 import "./ShipsDock.css"
+import { useShips } from "@/hooks/useShips"
 
 
 export const ShipsDock = () => {
@@ -15,12 +16,12 @@ export const ShipsDock = () => {
     chosenShipId,
     isOtherBoardSet,
     setChosenShipId,
-    updateShipsDirection,
     setGameStatus,
     setCurrentPlayer,
   } = useGameStore()
   const { roomName, player } = useRoomStore();
   const { placeShipsRandomly } = useRandomShips();
+  const { updateShipsDirection } = useShips();
   const socket = useSocket();
   
   const shipsToSet = ships.filter(s => s.status === "not-placed")

@@ -1,11 +1,11 @@
 import React from "react";
 
 import { BOARD_SIZE, getBoardCellClass } from "@/helpers/utils"
-import type { BoardType, ShipCell } from "@/helpers/types";
+import type { BoardType, Cell } from "@/helpers/types";
 
 type BoardGridProps = {
   board: BoardType,
-  hoverPreview: ShipCell[],
+  hoverPreview: Cell[],
   onCellClick: (row: number, column: number) => void,
   onCellEnter?: (row: number, column: number) => void,
   onCellLeave?: (row: number, column: number) => void,

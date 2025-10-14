@@ -27,16 +27,16 @@ type GameState = {
   setOpponentBoard: (newBoard: BoardCellType[][]) => void;
   setOpponentBoardCell: (row:number, column: number, value: BoardCellType) => void;
   setYourBoardCell: (row:number, column: number, value: BoardCellType) => void;
-  setShips: (newShips: Ship[]) => void;
+  setShips: (ships: Ship[]) => void;
   updateShipsDirection: (ids: number[], direction: Direction) => void;
   placeShipOnBoard: (id: number, startRow: number, startColumn: number) => void;
   removeShipFromBoard: (id: number) => void;
-  moveShipOnBoard: (id: number, startRow: number, startColumn: number) => void;
   setWinner: (winner: string) => void;
   setGameStatus: (gameStatus: GameStatus) => void;
   setChosenShipId: (chosenShipId: number | null) => void;
   setIsOtherBoardSet: (isOtherBoardSet: boolean) => void;
   setCurrentPlayer: (currentPlayer: string | null) => void;
+  setYourBoardAndShips: (yourBoard: BoardType, ships: Ship[]) => void;
 }
 
 const initialGameState: Omit<
@@ -49,12 +49,12 @@ const initialGameState: Omit<
   "updateShipsDirection" |
   "placeShipOnBoard" |
   "removeShipFromBoard" |
-  "moveShipOnBoard" |
   "setWinner" |
   "setGameStatus" |
   "setChosenShipId" |
   "setIsOtherBoardSet" |
-  "setCurrentPlayer"
+  "setCurrentPlayer" |
+  "setYourBoardAndShips"
 > = {
   yourBoard: getEmptyBoard(),
   opponentBoard: getEmptyBoard(),
@@ -69,9 +69,9 @@ const initialGameState: Omit<
 export const useGameStore = create<GameState>((set) => ({
   ...initialGameState,
  
-  setYourBoard: (newBoard: BoardCellType[][]) => set({ yourBoard: newBoard }),
+  setYourBoard: (yourBoard: BoardCellType[][]) => set({ yourBoard }),
 
-  setOpponentBoard: (newBoard: BoardCellType[][]) => set({ opponentBoard: newBoard }),
+  setOpponentBoard: (opponentBoard: BoardCellType[][]) => set({ opponentBoard }),
 
   setWinner: (winner: string | null) => set({ winner }),
 
@@ -82,6 +82,11 @@ export const useGameStore = create<GameState>((set) => ({
   setIsOtherBoardSet: (isOtherBoardSet: boolean) => set({ isOtherBoardSet }),
 
   setCurrentPlayer: (currentPlayer: string | null) => set({ currentPlayer }),
+
+  setYourBoardAndShips: (yourBoard: BoardType, ships: Ship[]) => set({
+    yourBoard,
+    ships
+  }),
 
   // TODO add some helper function as both functions below are almost the same
   setOpponentBoardCell: (row: number, column: number, value: BoardCellType) => set(state => ({
@@ -104,7 +109,7 @@ export const useGameStore = create<GameState>((set) => ({
     })
   })),
 
-  setShips: (newShips: Ship[]) => set({ ships: newShips }),
+  setShips: (ships: Ship[]) => set({ ships }),
 
   // should be used only for ships which are not yet placed
   updateShipsDirection: (ids: number[], direction: Direction) => set(state => ({
@@ -130,18 +135,6 @@ export const useGameStore = create<GameState>((set) => ({
     const yourBoard = getBoardRemovingShip(state.yourBoard, ship)
     const removedShip = getRemovedShip(ship)
     const ships = state.ships.map(s => (s.id === id ? removedShip : s))
-    return { yourBoard, ships }
-  }),
-
-  moveShipOnBoard: (id: number, startRow: number, startColumn: number) => set(state => {
-    const ship = state.ships.find(s => s.id === id)
-    if (!ship) return state;
-
-    let yourBoard = getBoardRemovingShip(state.yourBoard, ship)
-    const removedShip = getRemovedShip(ship)
-    const placedShip = getPlacedShip(removedShip, startRow, startColumn);
-    yourBoard = getBoardPlacingShip(yourBoard, placedShip);
-    const ships = state.ships.map(s => s.id === id ? placedShip : s)
     return { yourBoard, ships }
   }),
 

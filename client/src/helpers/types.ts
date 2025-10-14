@@ -20,7 +20,7 @@ export type ReceiveShotResultType = {
   row: number;
   value: BoardCellType;
   playerFromServer: string;
-  sunkCells: ShipCell[];
+  sunkCells: Cell[];
   isFinished: boolean;
 }
 
@@ -36,7 +36,7 @@ export type Direction = "horizontal" | "vertical"
 
 export type ShipStatus = "not-placed" | "placed" | "sunk"
 
-export type ShipCell = { column: number, row: number }
+export type Cell = { column: number, row: number }
 
 export type BoardType = BoardCellType[][];
 
@@ -46,8 +46,8 @@ export type Ship = {
   startColumn: number | null // in UI: 1,2,...
   startRow: number | null // in UI: A,B,...
   length: number
-  cells: ShipCell[] // maybe for easier detection of sunk
-  surroundingCells: ShipCell[],
-  hitCells: ShipCell[],
+  cells: Cell[] // maybe for easier detection of sunk
+  surroundingCells: Cell[],
+  hitCells: Cell[],
   status: ShipStatus
 }

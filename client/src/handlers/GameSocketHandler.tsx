@@ -3,7 +3,8 @@ import { useSocket } from "@/context/SocketContext";
 import { useGameStore } from "@/store/GameStore";
 import { useRoomStore } from "@/store/RoomStore";
 import { getShipsAfterShot } from "@/helpers/utils";
-import type { BoardCellType, ReceiveShotResultType, ReceiveShotType, ShipCell } from "@/helpers/types";
+import type { BoardCellType, ReceiveShotResultType, ReceiveShotType, Cell } from "@/helpers/types";
+import { getUpdatedBoard } from "@/helpers/boardHelper";
 
 
 export const GameSocketHandler = () => {
@@ -60,19 +61,14 @@ export const GameSocketHandler = () => {
       } else if (currentValue === "taken") {
         // hit or sunk shot
         let value: BoardCellType = "hit";
-        let sunkCells: ShipCell[] = [];
+        let sunkCells: Cell[] = [];
 
 
         const { shipsAfterShot, hitShip } = getShipsAfterShot(ships, row, column);  
         if (hitShip?.status === "sunk") {
           value = "sunk";
           sunkCells = hitShip.hitCells;
-          
-          const newBoard = yourBoard.map(row => [...row]);
-          sunkCells.forEach(({column, row}) => {
-            newBoard[row][column] = value;
-          })
-
+          const newBoard = getUpdatedBoard(yourBoard, sunkCells, value)
           setYourBoard(newBoard);
         } else {
           setYourBoardCell(row, column, value)
@@ -84,7 +80,10 @@ export const GameSocketHandler = () => {
         if (shipsAfterShot.every(s => s.status === "sunk")) isFinished = true;
 
       
-        socket.emit("server:shot-result", { player, roomName, value, column, row, sunkCells, isFinished })
+        socket.emit(
+          "server:shot-result",
+          { player, roomName, value, column, row, sunkCells, isFinished }
+        )
 
         setShips(shipsAfterShot);  
         setCurrentPlayer(player);

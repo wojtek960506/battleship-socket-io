@@ -1,4 +1,4 @@
-import type { BoardCellType, BoardType, Ship, ShipCell } from "./types";
+import type { BoardCellType, BoardType, Ship, Cell } from "./types";
 
 export const BOARD_SIZE = 10;
 
@@ -21,13 +21,13 @@ export const getDefaultShips = (): Ship[] => (
 )
 
 type AllShipCells = {
-  shipCells: ShipCell[];
-  surroundingCells: ShipCell[];
+  shipCells: Cell[];
+  surroundingCells: Cell[];
 }
 
 export const calculateShipCells = (ship: Ship): AllShipCells => {
-  const shipCells: ShipCell[] = [];
-  const surroundingCells: ShipCell[] = [];
+  const shipCells: Cell[] = [];
+  const surroundingCells: Cell[] = [];
 
   for (let i = 0 ; i < ship.length ; i++) {
     let column = ship.startColumn!;
@@ -122,7 +122,7 @@ export const findShip = (ships: Ship[], row: number, column: number) => (
   ships.find(s => isInShipCells(s.cells, row, column))
 )
 
-export const isInShipCells = (cells: ShipCell[], row: number, column: number) => (
+export const isInShipCells = (cells: Cell[], row: number, column: number) => (
   cells.some(cell => cell.row === row && cell.column === column)
 )
 
