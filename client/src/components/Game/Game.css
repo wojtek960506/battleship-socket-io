@@ -40,8 +40,8 @@
 }
 
 .board-cell {
-  height: 35px;
-  width: 35px;
+  height: 40px;
+  width: 40px;
   border: 2px solid black;
   margin: 1px;
   box-sizing: border-box;
@@ -64,7 +64,7 @@
 }
 
 .leave-room-btn {
-  margin-top: 40px;
+  margin: 20px 0 40px 0;
   height: 35px;
   font-size: 1rem;
   border: none;
@@ -85,4 +85,8 @@
   box-shadow: 0 0 10px #b36565;
 }
 
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .board-cell { width: 30px; height: 30px; }
+}
 
