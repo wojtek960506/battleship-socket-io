@@ -51,3 +51,11 @@ export type Ship = {
   hitCells: Cell[],
   status: ShipStatus
 }
+
+export type GameStatus = "setting-board" | "board-set" | "playing" | "finished";
+
+export type Room = {
+  name: string;
+  owner: string;
+  size: number;
+}

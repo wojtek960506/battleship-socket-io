@@ -5,7 +5,6 @@ import { useGameStore } from "@/store/GameStore"
 
 
 export const useBoard = () => {
-
   const {
     ships,
     yourBoard,

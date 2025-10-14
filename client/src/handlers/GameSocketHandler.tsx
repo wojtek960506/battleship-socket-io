@@ -4,27 +4,24 @@ import { useGameStore } from "@/store/GameStore";
 import { useRoomStore } from "@/store/RoomStore";
 import { getShipsAfterShot } from "@/helpers/utils";
 import type { BoardCellType, ReceiveShotResultType, ReceiveShotType, Cell } from "@/helpers/types";
-import { getUpdatedBoard } from "@/helpers/boardHelper";
+import { useBoard } from "@/hooks/useBoard";
 
 
 export const GameSocketHandler = () => {
   const socket = useSocket();
   const { 
-    setIsOtherBoardSet,
+    ships,
+    yourBoard,
     gameStatus,
+    currentPlayer,
+    opponentBoard,
+    setShips,
+    setWinner,
     setGameStatus,
     setCurrentPlayer,
-    currentPlayer,
-    yourBoard,
-    ships,
-    setShips,
-    setYourBoardCell,
-    setOpponentBoardCell,
-    opponentBoard,
-    setYourBoard,
-    setOpponentBoard,
-    setWinner,
+    setIsOtherBoardSet,
   } = useGameStore();
+  const { updateYourBoard, updateOpponentBoard } = useBoard();
   const { player, roomName } = useRoomStore();
 
   useEffect(() => {
@@ -56,7 +53,7 @@ export const GameSocketHandler = () => {
         const value = "missed"
         socket.emit("server:shot-result", { player, roomName, value, column, row })
 
-        setYourBoardCell(row, column, value)
+        updateYourBoard([{ row,column }], value)
         setCurrentPlayer(player);
       } else if (currentValue === "taken") {
         // hit or sunk shot
@@ -68,12 +65,10 @@ export const GameSocketHandler = () => {
         if (hitShip?.status === "sunk") {
           value = "sunk";
           sunkCells = hitShip.hitCells;
-          const newBoard = getUpdatedBoard(yourBoard, sunkCells, value)
-          setYourBoard(newBoard);
+          updateYourBoard(sunkCells, value)
         } else {
-          setYourBoardCell(row, column, value)
+          updateYourBoard([{ row, column }], value)
         }
-
 
         // check game status
         let isFinished = false;
@@ -99,37 +94,28 @@ export const GameSocketHandler = () => {
         console.log('TODO - wrong shot - send some response')
       }
     })
-
-    
-    
+  
     // TODO - detect strange defect which occurs when on mobile phone you use "Version for computer"
     // then sunk ships are not properly handled and thus the winner is not correctly marked when
     // we sunk all ships on phone (colors are also not updated). It was only when I switched to
     // the "Version on computer". When I started second game it works fine
-    socket.on("player:receive-shot-result", (
-      { column, row, value, playerFromServer, sunkCells, isFinished }: ReceiveShotResultType
-    ) => {
-      if (playerFromServer === player) return;
-          
-      if (value === "sunk") {
-        const newBoard = opponentBoard.map(row => [...row]);
+    socket.on(
+      "player:receive-shot-result", 
+      ({ column, row, value, playerFromServer, sunkCells, isFinished }: ReceiveShotResultType) => {
+        if (playerFromServer === player) return;
+            
+        if (value === "sunk") updateOpponentBoard(sunkCells, value);
+        else updateOpponentBoard([{ row, column }], value);
 
-        sunkCells.forEach(({column, row}) => {
-          newBoard[row][column] = value;
-        })
-        setOpponentBoard(newBoard);
-      } else {
-        setOpponentBoardCell(row, column, value);
+        if (isFinished) {
+          setGameStatus("finished")
+          setWinner(player!);
+          setCurrentPlayer(null);
+        } else {
+          setCurrentPlayer(playerFromServer);
+        }
       }
-
-      if (isFinished) {
-        setGameStatus("finished")
-        setWinner(player!);
-        setCurrentPlayer(null);
-      } else {
-        setCurrentPlayer(playerFromServer);
-      }
-    })
+    )
 
     return () => {
       socket.off("player:board-set");
@@ -137,7 +123,7 @@ export const GameSocketHandler = () => {
       socket.off("player:receive-shot");
       socket.off("player:receive-shot-result");
     }
-  }, [gameStatus, player, currentPlayer, ships, opponentBoard, socket, setIsOtherBoardSet, setGameStatus, setCurrentPlayer, yourBoard, roomName, setYourBoardCell, setShips, setYourBoard, setWinner, setOpponentBoard, setOpponentBoardCell])
+  }, [gameStatus, player, currentPlayer, ships, opponentBoard, socket, setIsOtherBoardSet, setGameStatus, setCurrentPlayer, yourBoard, roomName, setShips, setWinner])
 
   return null;
 }

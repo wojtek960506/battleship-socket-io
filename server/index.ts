@@ -19,6 +19,8 @@ const io = new Server(server, {
   },
 });
 
+const roomsMetadata: Map<string, RoomData> = new Map();
+
 const ShotType = {
   HIT: "hit",
   SUNK: "sunk",
@@ -41,8 +43,6 @@ type RoomData = {
   members: string[];
   messages: MessageData[];
 }
-
-const roomsMetadata: Map<string, RoomData> = new Map();
 
 type MoveSendData = {
   roomName: string;

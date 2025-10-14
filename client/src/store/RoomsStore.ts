@@ -1,10 +1,7 @@
+import type { Room } from "@/helpers/types";
 import { create } from "zustand";
 
-type Room = {
-  name: string;
-  owner: string;
-  size: number;
-}
+
 
 type RoomsState = {
   rooms: Room[];

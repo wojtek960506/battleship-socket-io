@@ -5,6 +5,7 @@ import "./Board.css"
 import { canShipBePlaced } from "@/helpers/shipPlacement"
 import { BoardGrid } from "./BoardGrid"
 import type { Ship, Cell } from "@/helpers/types"
+import { useBoard } from "@/hooks/useBoard"
 
 
 export const YourBoard = () => {
@@ -13,10 +14,9 @@ export const YourBoard = () => {
     chosenShipId,
     ships,
     setChosenShipId,
-    placeShipOnBoard,
-    removeShipFromBoard,
     gameStatus,
   } = useGameStore()
+  const { placeShipOnBoard, removeShipFromBoard } = useBoard();
   const [hoverPreview, setHoverPreview] = useState<Cell[]>([])
 
   const handlePlaceShip = useCallback((rowIndex: number, columnIndex: number) => {
