@@ -1,9 +1,9 @@
-import { RoomSelection } from './RoomSelection/RoomSelection';
+import { RoomSelection } from './components/RoomSelection/RoomSelection';
 import { RoomSocketHandler } from './handlers/RoomSocketHandler';
 import { RoomsSocketHandler } from './handlers/RoomsSocketHandler';
 import { useRoomStore } from './store/RoomStore';
 import './App.css'
-import { Game } from './Game/Game';
+import { Game } from './components/Game/Game';
 import { GameSocketHandler } from './handlers/GameSocketHandler';
 import { SocketProvider } from './context/SocketProvider';
 
