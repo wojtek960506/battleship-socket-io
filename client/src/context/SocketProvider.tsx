@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from "react";
-import { socket } from "../socket/socket";
+import { socket } from "@/socket/socket";
 import { SocketContext } from "./SocketContext";
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {

@@ -1,5 +1,5 @@
-import { getRandomlyPlacedShips } from "../helpers/shipPlacement";
-import { useGameStore } from "../store/GameStore"
+import { getRandomlyPlacedShips } from "@/helpers/shipPlacement";
+import { useGameStore } from "@/store/GameStore"
 
 export const useRandomShips = () => {
   const { ships, yourBoard, setYourBoard, setShips, setChosenShipId } = useGameStore();

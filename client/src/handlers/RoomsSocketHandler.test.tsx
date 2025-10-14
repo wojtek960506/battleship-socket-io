@@ -1,6 +1,6 @@
-import { renderWithMockSocket } from "../helpers/renderWithMockSocket";
-import { triggerSocketEvent, type MockSocketType } from "../helpers/testHelpers";
-import { resetRoomsStore, useRoomsStore } from "../store/RoomsStore";
+import { renderWithMockSocket } from "@/helpers/renderWithMockSocket";
+import { triggerSocketEvent, type MockSocketType } from "@/helpers/testHelpers";
+import { resetRoomsStore, useRoomsStore } from "@/store/RoomsStore";
 import { RoomsSocketHandler } from "./RoomsSocketHandler";
 
 describe("test RoomsSocketHandler", () => {

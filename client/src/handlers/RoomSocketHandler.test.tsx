@@ -1,8 +1,8 @@
 import { act } from "@testing-library/react";
-import { renderWithMockSocket } from "../helpers/renderWithMockSocket"
-import { resetRoomStore, useRoomStore } from "../store/RoomStore";
+import { renderWithMockSocket } from "@/helpers/renderWithMockSocket"
+import { resetRoomStore, useRoomStore } from "@/store/RoomStore";
 import { RoomSocketHandler } from "./RoomSocketHandler"
-import { triggerSocketEvent, type MockSocketType } from "../helpers/testHelpers";
+import { triggerSocketEvent, type MockSocketType } from "@/helpers/testHelpers";
 
 
 describe("test RoomSocketHandler", () => {

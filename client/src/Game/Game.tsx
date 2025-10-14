@@ -1,6 +1,6 @@
-import { useSocket } from "../context/SocketContext";
-import { resetGameStore } from "../store/GameStore";
-import { useRoomStore } from "../store/RoomStore";
+import { useSocket } from "@/context/SocketContext";
+import { resetGameStore } from "@/store/GameStore";
+import { useRoomStore } from "@/store/RoomStore";
 import { BoardsContainer } from "./BoardsContainer/BoardsContainer";
 import "./Game.css"
 import { InfoPanel } from "./BoardsContainer/InfoPanel";

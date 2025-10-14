@@ -1,9 +1,9 @@
 import { screen, fireEvent, within } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 
-import { useRoomsStore } from "../../store/RoomsStore";
+import { useRoomsStore } from "@/store/RoomsStore";
 import { ChooseRoom } from "./ChooseRoom";
-import { renderWithMockSocket } from "../../helpers/renderWithMockSocket";
+import { renderWithMockSocket } from "@/helpers/renderWithMockSocket";
 
 
 describe("ChooseRoom with mocked socket", () => {

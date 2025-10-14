@@ -1,5 +1,5 @@
-import { useGameStore } from "../../store/GameStore";
-import { useRoomStore } from "../../store/RoomStore";
+import { useGameStore } from "@/store/GameStore";
+import { useRoomStore } from "@/store/RoomStore";
 
 export const InfoPanel = () => {
   const { player } = useRoomStore();

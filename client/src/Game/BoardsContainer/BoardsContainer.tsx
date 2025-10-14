@@ -1,4 +1,4 @@
-import { useGameStore } from "../../store/GameStore";
+import { useGameStore } from "@/store/GameStore";
 import { YourBoard } from "./Board/YourBoard";
 import { BoardArea } from "./BoardArea";
 import type { BoardAreaProps } from "../Game";

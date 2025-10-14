@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useSocket } from "../context/SocketContext"
-import { useRoomStore } from "../store/RoomStore";
-import { resetGameStore } from "../store/GameStore";
+import { useSocket } from "@/context/SocketContext"
+import { useRoomStore } from "@/store/RoomStore";
+import { resetGameStore } from "@/store/GameStore";
 
 export const RoomSocketHandler = () => {
   const socket = useSocket();

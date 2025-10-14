@@ -6,8 +6,8 @@ import {
   getBoardPlacingShip,
   getBoardRemovingShip,
   getRemovedShip
-} from "../helpers/utils";
-import type { BoardCellType, BoardType, Direction, Ship } from "../helpers/types";
+} from "@/helpers/utils";
+import type { BoardCellType, BoardType, Direction, Ship } from "@/helpers/types";
 
 type GameStatus = "setting-board" | "board-set" | "playing" | "finished"
 

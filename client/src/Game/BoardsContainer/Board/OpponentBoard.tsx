@@ -1,9 +1,9 @@
 import { useCallback } from "react"
-import { useGameStore } from "../../../store/GameStore"
+import { useGameStore } from "@/store/GameStore"
 import "./Board.css";
 import { BoardGrid } from "./BoardGrid";
-import { useRoomStore } from "../../../store/RoomStore";
-import { useSocket } from "../../../context/SocketContext";
+import { useRoomStore } from "@/store/RoomStore";
+import { useSocket } from "@/context/SocketContext";
 
 
 export const OpponentBoard = () => {

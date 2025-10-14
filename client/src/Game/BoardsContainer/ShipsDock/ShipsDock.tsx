@@ -51,10 +51,11 @@ export const ShipsDock = () => {
   }
 
   const ShipToShow = ({ ship }: { ship: Ship }) => {
+    const className = `ship ${ship.direction}-ship ${chosenShipId === ship.id ? "chosen" : ""}`
     return (
       <div 
       key={ship.id}
-      className={`ship ${ship.direction}-ship ${chosenShipId === ship.id ? "chosen" : ""}` }
+      className={className}
       onClick={(event) => {
         event.stopPropagation()
         handleShipClick(ship.id)
@@ -65,7 +66,6 @@ export const ShipsDock = () => {
       ))}
     </div>
     )
-
   }
 
   const ShipsToShow = () => {

@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useSocket } from "../context/SocketContext";
-import { useGameStore } from "../store/GameStore";
-import { useRoomStore } from "../store/RoomStore";
-import { getShipsAfterShot } from "../helpers/utils";
-import type { BoardCellType, ReceiveShotResultType, ReceiveShotType, ShipCell } from "../helpers/types";
+import { useSocket } from "@/context/SocketContext";
+import { useGameStore } from "@/store/GameStore";
+import { useRoomStore } from "@/store/RoomStore";
+import { getShipsAfterShot } from "@/helpers/utils";
+import type { BoardCellType, ReceiveShotResultType, ReceiveShotType, ShipCell } from "@/helpers/types";
 
 
 export const GameSocketHandler = () => {

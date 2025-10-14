@@ -1,6 +1,6 @@
-import { useSocket } from "../../context/SocketContext";
-import { useGameStore } from "../../store/GameStore";
-import { useRoomStore } from "../../store/RoomStore";
+import { useSocket } from "@/context/SocketContext";
+import { useGameStore } from "@/store/GameStore";
+import { useRoomStore } from "@/store/RoomStore";
 
 export const WaitingShipsDock = () => {
   
