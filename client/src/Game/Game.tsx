@@ -1,9 +1,9 @@
 import { useSocket } from "../context/SocketContext";
 import { resetGameStore } from "../store/GameStore";
 import { useRoomStore } from "../store/RoomStore";
-import { BoardsContainer } from "./BoardsContainer";
+import { BoardsContainer } from "./BoardsContainer/BoardsContainer";
 import "./Game.css"
-import { InfoPanel } from "./InfoPanel";
+import { InfoPanel } from "./BoardsContainer/InfoPanel";
 
 export type BoardAreaProps = {
   mode: "ship-dock" | "waiting" | "opponent-board";

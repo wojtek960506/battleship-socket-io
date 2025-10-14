@@ -1,8 +1,7 @@
 import { OpponentBoard } from "./Board/OpponentBoard";
-import type { BoardAreaProps } from "./Game";
+import type { BoardAreaProps } from "../Game";
 import { ShipsDock } from "./ShipsDock/ShipsDock";
 import { WaitingShipsDock } from "./WaitingShipsDock";
-
 
 export const BoardArea = ({ mode }: BoardAreaProps) => {
   switch (mode) {
