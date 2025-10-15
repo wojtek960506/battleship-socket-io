@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { useRoomStore } from './store/RoomStore';
 import App from './App';
-import { renderWithMockSocket } from './helpers/renderWithMockSocket';
+import { useRoomStore } from './store/RoomStore';
+import { renderWithMockSocket } from './test-utils/renderWithMockSocket';
 
 
 describe("App", () => {

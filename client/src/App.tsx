@@ -1,11 +1,11 @@
+import { Game } from './components/Game/Game';
 import { RoomSelection } from './components/RoomSelection/RoomSelection';
+import { SocketProvider } from './context/SocketProvider';
+import { GameSocketHandler } from './handlers/GameSocketHandler';
 import { RoomSocketHandler } from './handlers/RoomSocketHandler';
 import { RoomsSocketHandler } from './handlers/RoomsSocketHandler';
 import { useRoomStore } from './store/RoomStore';
 import './App.css'
-import { Game } from './components/Game/Game';
-import { GameSocketHandler } from './handlers/GameSocketHandler';
-import { SocketProvider } from './context/SocketProvider';
 
 
 function App() {

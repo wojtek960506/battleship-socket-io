@@ -1,11 +1,13 @@
 import { useCallback, useState } from "react"
+import { canShipBePlaced } from "@/helpers/shipPlacement"
+import type { Ship, Cell } from "@/helpers/types"
 import { calculateShipCells, findShip } from "@/helpers/utils"
+import { useBoard } from "@/hooks/useBoard"
 import { useGameStore } from "@/store/GameStore"
 import "./Board.css"
-import { canShipBePlaced } from "@/helpers/shipPlacement"
 import { BoardGrid } from "./BoardGrid"
-import type { Ship, Cell } from "@/helpers/types"
-import { useBoard } from "@/hooks/useBoard"
+
+
 
 
 export const YourBoard = () => {

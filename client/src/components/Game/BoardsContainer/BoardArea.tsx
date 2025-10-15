@@ -1,5 +1,5 @@
-import { OpponentBoard } from "./Board/OpponentBoard";
 import type { BoardAreaProps } from "../Game";
+import { OpponentBoard } from "./Board/OpponentBoard";
 import { ShipsDock } from "./ShipsDock/ShipsDock";
 import { WaitingShipsDock } from "./WaitingShipsDock";
 

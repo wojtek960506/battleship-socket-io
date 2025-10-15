@@ -16,20 +16,20 @@ const ShipCells = ({ length }: { length: number}) => (
 )
 
 const ShipToShow = ({ ship, chosenShipId, handleShipClick }: ShipToShowProps) => {
-    const className = `ship ${ship.direction}-ship ${chosenShipId === ship.id ? "chosen" : ""}`
-    return (
-      <div 
-        key={ship.id}
-        className={className}
-        onClick={(event) => {
-          event.stopPropagation()
-          handleShipClick(ship.id)
-        }}
-      >
-        <ShipCells length={ship.length} />
-      </div>
-    )
-  }
+  const className = `ship ${ship.direction}-ship ${chosenShipId === ship.id ? "chosen" : ""}`
+  return (
+    <div 
+      key={ship.id}
+      className={className}
+      onClick={(event) => {
+        event.stopPropagation()
+        handleShipClick(ship.id)
+      }}
+    >
+      <ShipCells length={ship.length} />
+    </div>
+  )
+}
 
 
 type ShipsToShowProps = {

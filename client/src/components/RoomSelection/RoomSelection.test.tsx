@@ -1,7 +1,6 @@
 import { screen } from "@testing-library/react";
-
 import { useRoomStore } from "@/store/RoomStore";
-import { renderWithMockSocket } from "@/helpers/renderWithMockSocket";
+import { renderWithMockSocket } from "@/test-utils/renderWithMockSocket";
 import { RoomSelection } from "./RoomSelection";
 
 describe("RoomSelection with socket mock", () => {

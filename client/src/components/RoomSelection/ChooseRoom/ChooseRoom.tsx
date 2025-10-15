@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useRoomStore } from "@/store/RoomStore";
-import { useRoomsStore } from "@/store/RoomsStore";
 import { useSocket } from "@/context/SocketContext";
+import { useRoomsStore } from "@/store/RoomsStore";
+import { useRoomStore } from "@/store/RoomStore";
 
 export const ChooseRoom = () => {
 

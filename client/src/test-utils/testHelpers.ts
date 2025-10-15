@@ -11,5 +11,6 @@ export const triggerSocketEvent = (mockSocket: MockSocketType, eventName: string
     .find(([name]) => name === eventName)?.[1];
   if (!handler) throw new Error(`Handler for '${eventName}' not found`);
 
-  act(() => handler(args))
+  // handler(args) doesn’t return a promise, and I know for sure this is purely synchronous:
+  void act(() => handler(args))
 }

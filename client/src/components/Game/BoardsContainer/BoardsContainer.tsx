@@ -1,7 +1,7 @@
 import { useGameStore } from "@/store/GameStore";
+import type { BoardAreaProps } from "../Game";
 import { YourBoard } from "./Board/YourBoard";
 import { BoardArea } from "./BoardArea";
-import type { BoardAreaProps } from "../Game";
 
 
 export const BoardsContainer = () => {

@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useSocket } from "@/context/SocketContext";
+import type { BoardCellType, ReceiveShotResultType, ReceiveShotType, Cell } from "@/helpers/types";
+import { getShipsAfterShot } from "@/helpers/utils";
+import { useBoard } from "@/hooks/useBoard";
+import { useGame } from "@/hooks/useGame";
 import { useGameStore } from "@/store/GameStore";
 import { useRoomStore } from "@/store/RoomStore";
-import { getShipsAfterShot } from "@/helpers/utils";
-import type { BoardCellType, ReceiveShotResultType, ReceiveShotType, Cell } from "@/helpers/types";
-import { useBoard } from "@/hooks/useBoard";
 
 
 export const GameSocketHandler = () => {
@@ -24,18 +25,10 @@ export const GameSocketHandler = () => {
   const { updateYourBoard, updateOpponentBoard } = useBoard();
   const { player, roomName } = useRoomStore();
 
-  useEffect(() => {
-    socket.on("player:board-set", ({ otherPlayer }: { otherPlayer: string}) => {
-      // just in case message was emited to the sender
-      if (player === otherPlayer) return;
+  const { handleBoardSet } = useGame();
 
-      setIsOtherBoardSet(true);
-      if (gameStatus === "board-set") {
-        setGameStatus("playing")
-      } else {
-        setCurrentPlayer(otherPlayer)
-      }
-    });
+  useEffect(() => {
+    socket.on("player:board-set", handleBoardSet)
 
     socket.on("player:reposition-ships", ({ otherPlayer }: { otherPlayer: string }) => {
       if (player === otherPlayer) return;
@@ -118,12 +111,12 @@ export const GameSocketHandler = () => {
     )
 
     return () => {
-      socket.off("player:board-set");
+      socket.off("player:board-set", handleBoardSet);
       socket.off("player:reposition-ships");
       socket.off("player:receive-shot");
       socket.off("player:receive-shot-result");
     }
-  }, [gameStatus, player, currentPlayer, ships, opponentBoard, socket, setIsOtherBoardSet, setGameStatus, setCurrentPlayer, yourBoard, roomName, setShips, setWinner])
+  }, [gameStatus, player, currentPlayer, ships, opponentBoard, socket, setIsOtherBoardSet, setGameStatus, setCurrentPlayer, yourBoard, roomName, setShips, setWinner, handleBoardSet, updateYourBoard, updateOpponentBoard])
 
   return null;
 }
