@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSocket } from "@/context/SocketContext";
-import { useGameSocketHandler } from "@/hooks/useGameSocketHandler";
+import { useGameSocketHandlers } from "@/hooks/useGameSocketHandlers/useGameSocketHandlers";
 
 
 export const GameSocketHandler = () => {
@@ -10,7 +10,7 @@ export const GameSocketHandler = () => {
     handleRepositionShips,
     handleReceiveShot,
     handleReceiveShotResult,
-  } = useGameSocketHandler();
+  } = useGameSocketHandlers();
 
   useEffect(() => {
     socket.on("player:board-set", handleBoardSet)
