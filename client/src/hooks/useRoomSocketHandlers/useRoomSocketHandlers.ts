@@ -1,98 +1,47 @@
-import { useCallback } from "react";
 import { useSocket } from "@/context/SocketContext"
-import { resetGameStore } from "@/store/GameStore";
 import { useRoomStore } from "@/store/RoomStore";
+import type { CreatedRoomType } from "./types";
+import { useJoinRoomHandlers } from "./useJoinRoomHandlers";
+import { useLeaveRoomHandlers } from "./useLeaveRoomHandlers";
 
 export const useRoomSocketHandlers = () => {
   const socket = useSocket();
-    const {
-      player,
-      setRoom,
-      setPlayer,
-      setPlayers,
-      addPlayer,
-      removePlayer,
-      setStatus,
-      setErrorMessage,
-      setPlayerWhoLeft,
-    } = useRoomStore();
+  const {
+    setRoom,
+    setPlayer,
+    addPlayer,
+    setStatus,
+    setErrorMessage,
+    setPlayerWhoLeft,
+  } = useRoomStore();
+  const joinRoomHandlers = useJoinRoomHandlers();
+  const leaveRoomHandlers = useLeaveRoomHandlers();
 
-    const handleSetPlayer = (playerId: string) => setPlayer(playerId);
+  const handleSetPlayer = (playerId: string) => setPlayer(playerId);
 
-    type CreatedRoomType = {
-      room: string,
-      message: string,
-      playerId: string,
-    }
+  const handleCreatedRoom = ({ room, message, playerId }: CreatedRoomType) => {
+    setRoom(room);
+    addPlayer({ id: playerId });
+    setStatus("waiting");
+    setErrorMessage('');
+    setPlayerWhoLeft(null);
 
-    type YouJoinedRoomType = Omit<CreatedRoomType, "playerId"> & {
-      ownerId: string
-    }
+    console.log(message)
 
-    type SomeoneJoinedRoomType = Omit<CreatedRoomType, "room">;
+    // update list for every user of server
+    socket.emit("server:list-rooms")
+    socket.emit("server:list-rooms-for-everyone")
+  }
 
-    type SomeoneLeftRoomType = Omit<CreatedRoomType, "room">;
+  const handleRoomAlreadyExists = ({ message }: { message: string }) => {
+    setErrorMessage(message);
+  }
 
-    const handleCreatedRoom = ({ room, message, playerId }: CreatedRoomType) => {
-      setRoom(room);
-      addPlayer({ id: playerId });
-      setStatus("waiting");
-      setErrorMessage('');
-      setPlayerWhoLeft(null);
-
-      console.log(message)
-
-      // update list for every user of server
-      socket.emit("server:list-rooms")
-      socket.emit("server:list-rooms-for-everyone")
-    }
-
-    const handleRoomAlreadyExists = ({ message }: { message: string }) => {
-      setErrorMessage(message);
-    }
-
-    const handleYouJoinedRoom = useCallback(({ room, message, ownerId }: YouJoinedRoomType) => {
-      setRoom(room)
-      setStatus("ready")
-      setErrorMessage('')
-      setPlayers([{ id: ownerId }, { id: player! }])
-
-      console.log(message)
-    }, [player, setErrorMessage, setPlayers, setRoom, setStatus])
-
-    const handleSomeoneJoinedRoom = useCallback(({ message, playerId }: SomeoneJoinedRoomType) => {
-      setStatus("ready");
-      setPlayers([{ id: player!}, { id: playerId }]);
-      
-      console.log(message);
-    }, [player, setPlayers, setStatus])
-
-    const handleYouLeftRoom = () => {
-      setRoom(null);
-      setPlayers([]);
-      setStatus("idle");
-      setErrorMessage("");
-      
-      resetGameStore();
-    }
-
-    const handleSomeoneLeftRoom = ({ message, playerId }: SomeoneLeftRoomType) => {
-      setStatus("waiting");      
-      removePlayer(playerId);
-      setPlayerWhoLeft(playerId);
-
-      resetGameStore();
-
-      console.log(message);
-    }
-
-    return {
-      handleSetPlayer,
-      handleCreatedRoom,
-      handleRoomAlreadyExists,
-      handleYouJoinedRoom,
-      handleSomeoneJoinedRoom,
-      handleYouLeftRoom,
-      handleSomeoneLeftRoom,
-    }
+  return {
+    ...joinRoomHandlers,
+    ...leaveRoomHandlers,
+    handleSetPlayer,
+    handleCreatedRoom,
+    handleRoomAlreadyExists,
+  }
 }
