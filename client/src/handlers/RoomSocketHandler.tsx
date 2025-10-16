@@ -1,84 +1,53 @@
 import { useEffect } from "react";
 import { useSocket } from "@/context/SocketContext"
-import { resetGameStore } from "@/store/GameStore";
-import { useRoomStore } from "@/store/RoomStore";
+import { useRoomSocketHandlers } from "@/hooks/useRoomSocketHandlers/useRoomSocketHandlers";
 
 export const RoomSocketHandler = () => {
   const socket = useSocket();
   const {
-    player,
-    players,
-    setRoom,
-    setPlayer,
-    setPlayers,
-    addPlayer,
-    removePlayer,
-    setStatus,
-    setErrorMessage,
-    setPlayerWhoLeft,
-  } = useRoomStore();
+    handleSetPlayer,
+    handleCreatedRoom,
+    handleRoomAlreadyExists,
+    handleYouJoinedRoom,
+    handleSomeoneJoinedRoom,
+    handleYouLeftRoom,
+    handleSomeoneLeftRoom,
+  } = useRoomSocketHandlers();
 
   useEffect(() => {
-    socket.on("room:set-player", playerId => {
-      setPlayer(playerId);
-    })
+    socket.on("room:set-player", handleSetPlayer)
 
-    socket.on("room:created", ({ room, message, playerId }) => {
-      setRoom(room);
-      addPlayer({ id: playerId });
-      setStatus("waiting");
-      setErrorMessage('');
-      setPlayerWhoLeft(null);
+    socket.on("room:created", handleCreatedRoom);
+    
+    socket.on("room:already-exists", handleRoomAlreadyExists);
 
-      console.log(message)
-      // update list for every user of server
-      socket.emit("server:list-rooms")
-      socket.emit("server:list-rooms-for-everyone")
-    });
-    socket.on("room:already-exists", (data) => {
-      setErrorMessage(data.message)
-    });
+    socket.on("room:you-joined", handleYouJoinedRoom);
 
-    socket.on("room:you-joined", ({ room, message, ownerId }) => {
-      console.log(message)
-      setRoom(room)
-      setStatus("ready")
-      setErrorMessage('')
-      setPlayers([{ id: ownerId }, { id: player }])
-    });
+    socket.on("room:someone-joined", handleSomeoneJoinedRoom);  
 
-    socket.on("room:someone-joined", ({ message, playerId }) => {
-      console.log(message)
-      setStatus("ready")
-      setPlayers([{ id: player}, { id: playerId }])
-    });  
+    socket.on("room:you-left", handleYouLeftRoom);
 
-    socket.on("room:you-left", () => {
-      setErrorMessage("")
-      setStatus("idle")
-      setRoom(null)
-      setPlayers([])
-      resetGameStore();
-    });
-
-    socket.on("room:someone-left", ({ message, playerId }) => {
-      setStatus("waiting")
-      console.log(message);
-      removePlayer(playerId);
-      setPlayerWhoLeft(playerId);
-      resetGameStore();
-    });
+    socket.on("room:someone-left", handleSomeoneLeftRoom);
 
     return () => {
-      socket.off("room:set-player");
-      socket.off("room:created");
-      socket.off("room:already-exists");
-      socket.off("room:you-joined");
-      socket.off("room:someone-joined");
-      socket.off("room:you-left");
-      socket.off("room:someone-left");
+      socket.off("room:set-player", handleSetPlayer);
+      socket.off("room:created", handleCreatedRoom);
+      socket.off("room:already-exists", handleRoomAlreadyExists);
+      socket.off("room:you-joined", handleYouJoinedRoom);
+      socket.off("room:someone-joined", handleSomeoneJoinedRoom);
+      socket.off("room:you-left", handleYouLeftRoom);
+      socket.off("room:someone-left", handleSomeoneLeftRoom);
     }
-  }, [addPlayer, player, players, removePlayer, setErrorMessage, setPlayer, setPlayerWhoLeft, setPlayers, setRoom, setStatus, socket])
+  }, [
+    handleCreatedRoom,
+    handleRoomAlreadyExists,
+    handleSetPlayer,
+    handleSomeoneJoinedRoom,
+    handleYouJoinedRoom,
+    handleYouLeftRoom,
+    handleSomeoneLeftRoom,
+    socket
+  ])
 
   return null;
 }
