@@ -27,32 +27,26 @@ describe("GameSocketHandler", () => {
     jest.clearAllMocks();
   });
 
-  it.each([
-    ["subscribes", "mount", "on", false],
-    ["unsubscribes", "unmount", "off", true],
-  ])('%s to socket events on $s', 
-    (_title1, _title2, method, isUnmounting) => {
+
+  it.each<[description: string, method: "on" | "off"]>([
+    ["subscribes to socket events on mount", "on"],
+    ["unsubscribes to socket events on unmount", "off"],
+  ])('%s', (_desc, method) => {
     const { unmount } = render(<GameSocketHandler />);
-    if (isUnmounting) unmount();
+    if (method === "off") unmount();
 
-    expect(mockSocket[method as "on" | "off"]).toHaveBeenCalledWith(
-      "player:board-set",
-      handlers.handleBoardSet
-    );
-    expect(mockSocket[method as "on" | "off"]).toHaveBeenCalledWith(
-      "player:reposition-ships",
-      handlers.handleRepositionShips
-    );
-    expect(mockSocket[method as "on" | "off"]).toHaveBeenCalledWith(
-      "player:receive-shot",
-      handlers.handleReceiveShot
-    );
-    expect(mockSocket[method as "on" | "off"]).toHaveBeenCalledWith(
-      "player:receive-shot-result",
-      handlers.handleReceiveShotResult
-    );
+    const events = [
+      ["player:board-set", handlers.handleBoardSet],
+      ["player:reposition-ships", handlers.handleRepositionShips],
+      ["player:receive-shot", handlers.handleReceiveShot],
+      ["player:receive-shot-result", handlers.handleReceiveShotResult],
+    ]
+
+    for (const [event, handler] of events) {
+      expect(mockSocket[method]).toHaveBeenCalledWith(event, handler);
+    }
+
+    expect(mockSocket[method]).toHaveBeenCalledTimes(events.length);
   })
-
-
   
 })
