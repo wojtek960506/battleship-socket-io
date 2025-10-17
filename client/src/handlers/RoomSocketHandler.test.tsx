@@ -15,47 +15,51 @@ describe("test RoomSocketHandler", () => {
     jest.clearAllMocks();
   })
 
+  // TODO add tests as in GameSocketHandler.test.tsx and then helper function
 
-  test("handling 'room:set-player'", () => {
-    renderWithMockSocket(<RoomSocketHandler />, mockSocket);
-    const PLAYER_ID = 'player1'
+  // moved to useRoomSocketHandlers.test.ts
+  // test("handling 'room:set-player'", () => {
+  //   renderWithMockSocket(<RoomSocketHandler />, mockSocket);
+  //   const PLAYER_ID = 'player1'
 
-    triggerSocketEvent(mockSocket, "room:set-player", PLAYER_ID);
+  //   triggerSocketEvent(mockSocket, "room:set-player", PLAYER_ID);
 
-    const roomState = useRoomStore.getState();
-    expect(roomState.player).toBe(PLAYER_ID);
+  //   const roomState = useRoomStore.getState();
+  //   expect(roomState.player).toBe(PLAYER_ID);
 
-  })
+  // })
 
-  test("handling 'room:created'", () => {
-    renderWithMockSocket(<RoomSocketHandler />, mockSocket);
-    const args = {
-      room: "roomName",
-      playerId: "player1"
-    }
+  // moved to useRoomSocketHandlers.test.ts
+  // test("handling 'room:created'", () => {
+  //   renderWithMockSocket(<RoomSocketHandler />, mockSocket);
+  //   const args = {
+  //     room: "roomName",
+  //     playerId: "player1"
+  //   }
 
-    triggerSocketEvent(mockSocket, "room:created", args);
+  //   triggerSocketEvent(mockSocket, "room:created", args);
 
-    const roomState = useRoomStore.getState();
-    expect(roomState.roomName).toBe(args.room);
-    expect(roomState.players).toStrictEqual([{ id: args.playerId }]);
-    expect(roomState.status).toBe("waiting");
-    expect(roomState.errorMessage).toBe("");
-    expect(roomState.playerWhoLeft).toBe(null);
-    expect(mockSocket.emit).toHaveBeenCalledTimes(2);
-    expect(mockSocket.emit).toHaveBeenNthCalledWith(1, "server:list-rooms")
-    expect(mockSocket.emit).toHaveBeenNthCalledWith(2, "server:list-rooms-for-everyone")
-  })
+  //   const roomState = useRoomStore.getState();
+  //   expect(roomState.roomName).toBe(args.room);
+  //   expect(roomState.players).toStrictEqual([{ id: args.playerId }]);
+  //   expect(roomState.status).toBe("waiting");
+  //   expect(roomState.errorMessage).toBe("");
+  //   expect(roomState.playerWhoLeft).toBe(null);
+  //   expect(mockSocket.emit).toHaveBeenCalledTimes(2);
+  //   expect(mockSocket.emit).toHaveBeenNthCalledWith(1, "server:list-rooms")
+  //   expect(mockSocket.emit).toHaveBeenNthCalledWith(2, "server:list-rooms-for-everyone")
+  // })
 
-  test("handling 'room:already-exists", () => {
-    renderWithMockSocket(<RoomSocketHandler />, mockSocket);
-    const args = { message: 'error' }
+  // // moved to useRoomSocketHandlers.test.ts
+  // test("handling 'room:already-exists", () => {
+  //   renderWithMockSocket(<RoomSocketHandler />, mockSocket);
+  //   const args = { message: 'error' }
 
-    triggerSocketEvent(mockSocket, "room:already-exists", args);
+  //   triggerSocketEvent(mockSocket, "room:already-exists", args);
 
-    const roomState = useRoomStore.getState();
-    expect(roomState.errorMessage).toBe(args.message);
-  })
+  //   const roomState = useRoomStore.getState();
+  //   expect(roomState.errorMessage).toBe(args.message);
+  // })
 
   test("handling 'room:you-joined", () => {
     const PLAYER_ID = 'player2'
