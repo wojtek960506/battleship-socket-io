@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSocket } from "@/context/SocketContext";
+import type { Room } from "@/helpers/types";
 import { useRoomsStore } from "@/store/RoomsStore";
 
 
@@ -8,12 +9,10 @@ export const RoomsSocketHandler = () => {
   const { setRooms } = useRoomsStore();
 
   useEffect(() => {
-    socket.on("rooms:list", (rooms) => {
-      setRooms(rooms)
-    })
-    return () => {
-      socket.off("rooms:list")
-    }
+    const handleRoomsList = (rooms: Room[]) => setRooms(rooms);
+    
+    socket.on("rooms:list", handleRoomsList);
+    return () => { socket.off("rooms:list", handleRoomsList) };
   }, [setRooms, socket])
 
   return null;
