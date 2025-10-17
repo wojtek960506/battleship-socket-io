@@ -1,21 +1,25 @@
-import { act, renderHook } from "@testing-library/react";
+import { act, renderHook, type RenderHookResult } from "@testing-library/react";
 import { useSocket } from "@/context/SocketContext";
 import { resetRoomStore, useRoomStore } from "@/store/RoomStore"
 import { useRoomSocketHandlers } from "./useRoomSocketHandlers";
+
+type HookReturn = ReturnType<typeof useRoomSocketHandlers>;
 
 jest.mock("@/context/SocketContext");
 
 describe("test useRoomSocketHandlers" , () => {
   const mockSocket = { emit: jest.fn(), on: jest.fn(), off: jest.fn() };
+  let result: RenderHookResult<HookReturn, undefined>["result"];
 
   beforeEach(() => {
     (useSocket as jest.Mock).mockReturnValue(mockSocket);
     resetRoomStore();
     jest.clearAllMocks();
+    const hook = renderHook<HookReturn, undefined>(() => useRoomSocketHandlers());
+    result = hook.result;
   });
 
   test("handleSetPlayer", () => {
-    const { result } = renderHook(() => useRoomSocketHandlers());
     expect(useRoomStore.getState().player).toBeNull();
 
     const player_id = 'player_id'
@@ -26,7 +30,6 @@ describe("test useRoomSocketHandlers" , () => {
 
   test("handleRoomCreated", () => {
     const args = { room: "roomName", playerId: "player1", message: "" };
-    const { result } = renderHook(() => useRoomSocketHandlers());
 
     act(() => result.current.handleCreatedRoom(args));
 
@@ -43,7 +46,6 @@ describe("test useRoomSocketHandlers" , () => {
 
   test("handleRoomAlreadyExists", () => {
     const args = { message: 'error' };
-    const { result } = renderHook(() => useRoomSocketHandlers());
 
     act(() => result.current.handleRoomAlreadyExists(args));
 
