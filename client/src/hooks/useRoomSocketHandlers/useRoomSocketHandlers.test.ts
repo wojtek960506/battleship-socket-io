@@ -3,13 +3,12 @@ import { useSocket } from "@/context/SocketContext";
 import { resetRoomStore, useRoomStore } from "@/store/RoomStore"
 import { useRoomSocketHandlers } from "./useRoomSocketHandlers";
 
-type HookReturn = ReturnType<typeof useRoomSocketHandlers>;
-
 jest.mock("@/context/SocketContext");
 
 describe("test useRoomSocketHandlers" , () => {
-  const mockSocket = { emit: jest.fn(), on: jest.fn(), off: jest.fn() };
+  type HookReturn = ReturnType<typeof useRoomSocketHandlers>;
   let result: RenderHookResult<HookReturn, undefined>["result"];
+  const mockSocket = { emit: jest.fn(), on: jest.fn(), off: jest.fn() };
 
   beforeEach(() => {
     (useSocket as jest.Mock).mockReturnValue(mockSocket);

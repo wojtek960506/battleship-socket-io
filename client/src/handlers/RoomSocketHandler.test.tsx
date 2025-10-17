@@ -61,34 +61,36 @@ describe("test RoomSocketHandler", () => {
   //   expect(roomState.errorMessage).toBe(args.message);
   // })
 
-  test("handling 'room:you-joined", () => {
-    const PLAYER_ID = 'player2'
-    act(() => useRoomStore.getState().setPlayer(PLAYER_ID));
-    renderWithMockSocket(<RoomSocketHandler />, mockSocket);
-    const args = { room: 'room1', ownerId: '123' }
+  // moved to useJoinRoomHandlers.test.ts
+  // test("handling 'room:you-joined", () => {
+  //   const PLAYER_ID = 'player2'
+  //   act(() => useRoomStore.getState().setPlayer(PLAYER_ID));
+  //   renderWithMockSocket(<RoomSocketHandler />, mockSocket);
+  //   const args = { room: 'room1', ownerId: '123' }
     
-    triggerSocketEvent(mockSocket, "room:you-joined", args);
+  //   triggerSocketEvent(mockSocket, "room:you-joined", args);
 
-    const roomState = useRoomStore.getState();
-    expect(roomState.roomName).toBe(args.room);
-    expect(roomState.status).toBe("ready");
-    expect(roomState.errorMessage).toBe('');
-    expect(roomState.player).toBe(PLAYER_ID);
-    expect(roomState.players).toEqual([{ id: args.ownerId }, { id: PLAYER_ID }]);
-  })
+  //   const roomState = useRoomStore.getState();
+  //   expect(roomState.roomName).toBe(args.room);
+  //   expect(roomState.status).toBe("ready");
+  //   expect(roomState.errorMessage).toBe('');
+  //   expect(roomState.player).toBe(PLAYER_ID);
+  //   expect(roomState.players).toEqual([{ id: args.ownerId }, { id: PLAYER_ID }]);
+  // })
 
-  test("handling 'room:someone-joined", () => {
-    const PLAYER_ID = 'player2'
-    act(() => useRoomStore.getState().setPlayer(PLAYER_ID));
-    renderWithMockSocket(<RoomSocketHandler />, mockSocket);
-    const args = { playerId: 'player1' }
+  // moved to useJoinRoomHandlers.test.ts
+  // test("handling 'room:someone-joined", () => {
+  //   const PLAYER_ID = 'player2'
+  //   act(() => useRoomStore.getState().setPlayer(PLAYER_ID));
+  //   renderWithMockSocket(<RoomSocketHandler />, mockSocket);
+  //   const args = { playerId: 'player1' }
     
-    triggerSocketEvent(mockSocket, "room:someone-joined", args);
+  //   triggerSocketEvent(mockSocket, "room:someone-joined", args);
 
-    const roomState = useRoomStore.getState();
-    expect(roomState.status).toBe("ready");
-    expect(roomState.players).toEqual([{ id: PLAYER_ID }, { id: args.playerId }]);
-  })
+  //   const roomState = useRoomStore.getState();
+  //   expect(roomState.status).toBe("ready");
+  //   expect(roomState.players).toEqual([{ id: PLAYER_ID }, { id: args.playerId }]);
+  // })
 
   test("handling 'room:you-left", () => {
     renderWithMockSocket(<RoomSocketHandler />, mockSocket);
