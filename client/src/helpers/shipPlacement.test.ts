@@ -1,7 +1,9 @@
-import { getRandomlyPlacedShips } from "./shipPlacement";
+import { canShipBePlaced, getRandomlyPlacedShips, isWithinBoard } from "./shipPlacement";
+import type { Ship } from "./types";
 import { BOARD_SIZE, getBoardPlacingShip, getDefaultShips, getEmptyBoard, getPlacedShip } from "./utils"
 
-
+// TODO maybe later extract those functions to single files and do
+// more tests as now all cases for every function are in one test
 describe("shipPlacement", () => {
   test.each([
     ["when no ships are placed", false],
@@ -44,6 +46,65 @@ describe("shipPlacement", () => {
   })
 
 
-  
+  test("isWithinBoard", () => {
+    let ship = {
+      startColumn: 1,
+      startRow: 1,
+      direction: "horizontal",
+      length: 5,
+    } as Ship;
 
+    expect(isWithinBoard(ship)).toBeTruthy();
+    ship.direction = "vertical";
+    expect(isWithinBoard(ship)).toBeTruthy();
+
+    ship.startColumn = null;
+    expect(isWithinBoard(ship)).toBeFalsy();
+    ship.startColumn = 10;
+    expect(isWithinBoard(ship)).toBeFalsy();
+    ship.startColumn = -1;
+    expect(isWithinBoard(ship)).toBeFalsy();
+
+    ship.startColumn = 1;
+    ship.startRow = null;
+    expect(isWithinBoard(ship)).toBeFalsy();
+    ship.startRow = 10;
+    expect(isWithinBoard(ship)).toBeFalsy();
+    ship.startRow = -1;
+    expect(isWithinBoard(ship)).toBeFalsy();
+
+    ship.startColumn = 6;
+    ship.startRow = 6;
+    expect(isWithinBoard(ship)).toBeFalsy();
+
+    ship.direction = "horizontal";
+    expect(isWithinBoard(ship)).toBeFalsy();  
+  })
+
+  test("canShipBePlaced", () => {
+    let ship = {
+      startColumn: null,
+      startRow: null,
+      direction: "horizontal",
+      length: 4,
+    } as Ship;
+    expect(canShipBePlaced(ship, [])).toBeFalsy();
+
+    const ships = [getDefaultShips()[0]];
+    ship.startColumn = 1;
+    ship.startRow = 1;
+    expect(canShipBePlaced(ship, ships)).toBeTruthy();
+
+    ships[0] = getPlacedShip(ships[0], 2, 2);
+    expect(canShipBePlaced(ship, ships)).toBeFalsy();
+
+    ship.startColumn = 0;
+    ship.startRow = 0;
+    expect(canShipBePlaced(ship, ships)).toBeTruthy();
+
+    ship.direction = "vertical";
+    ship.startColumn = 6;
+    ship.startRow = 2;
+    expect(canShipBePlaced(ship, ships)).toBeFalsy();
+  })
 })
