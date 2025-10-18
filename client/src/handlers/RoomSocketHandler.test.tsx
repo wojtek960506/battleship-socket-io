@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 import { useSocket } from "@/context/SocketContext";
-import { useRoomSocketHandlers } from "@/hooks/useRoomSocketHandlers/useRoomSocketHandlers";
+import { useRoomSocketHandlers } from "@/hooks/useRoomSocketHandlers";
 import { RoomSocketHandler } from "./RoomSocketHandler"
 
 jest.mock("@/context/SocketContext");
-jest.mock("@/hooks/useRoomSocketHandlers/useRoomSocketHandlers");
+jest.mock("@/hooks/useRoomSocketHandlers");
 
 describe("test RoomSocketHandler", () => {
   const mockSocket = {

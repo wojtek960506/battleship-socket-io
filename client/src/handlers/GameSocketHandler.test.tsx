@@ -6,8 +6,6 @@ import { GameSocketHandler } from "./GameSocketHandler";
 jest.mock("@/context/SocketContext");
 jest.mock("@/hooks/useGameSocketHandlers");
 
-
-
 describe("GameSocketHandler", () => {
   const mockSocket = {
     on: jest.fn(),

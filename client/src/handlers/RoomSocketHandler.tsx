@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSocket } from "@/context/SocketContext"
-import { useRoomSocketHandlers } from "@/hooks/useRoomSocketHandlers/useRoomSocketHandlers";
+import { useRoomSocketHandlers } from "@/hooks/useRoomSocketHandlers";
 
 export const RoomSocketHandler = () => {
   const socket = useSocket();
