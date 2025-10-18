@@ -1,16 +1,4 @@
-import type { BoardCellType, BoardType, Ship, Cell } from "@/types";
-
-export const getBoardCellClass = (boardCell: BoardCellType): string => {
-  const classMapBoardCell: Record<BoardCellType, string> = {
-    hit: "hit-cell",
-    sunk: "sunk-cell",
-    missed: "missed-cell",
-    taken: "taken-cell",
-    empty: "empty-cell",
-  };
-  
-  return classMapBoardCell[boardCell];
-}
+import type { Ship, Cell } from "@/types";
 
 export const findShip = (ships: Ship[], row: number, column: number) => (
   ships.find(s => isInShipCells(s.cells, row, column))
