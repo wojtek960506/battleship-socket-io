@@ -1,45 +1,5 @@
 import type { BoardCellType, BoardType, Ship, Cell } from "@/types";
 
-
-
-
-
-
-export const getRemovedShip = (ship: Ship): Ship => {
-  return {
-    ...ship,
-    startColumn: null,
-    startRow: null,
-    cells: [],
-    surroundingCells: [],
-    status: "not-placed",
-  }
-}
-
-export const getBoardPlacingShip = (board: BoardType, ship: Ship) => {
-  // copy of board as it is mostly coming from store
-  const newBoard = board.map(row => [...row]);
-
-  ship.cells.forEach(({column, row}) => {
-    newBoard[row][column] = "taken"
-  })
-
-  return newBoard;
-}
-
-export const getBoardRemovingShip = (board: BoardType, ship: Ship) => {
-  // copy of board as it is mostly coming from store
-  const newBoard = board.map(row => [...row]);
-
-  ship.cells.forEach(({column, row}) => {
-    newBoard[row][column] = "empty"
-  })
-
-  return newBoard;
-}
-
-
-
 export const getBoardCellClass = (boardCell: BoardCellType): string => {
   const classMapBoardCell: Record<BoardCellType, string> = {
     hit: "hit-cell",

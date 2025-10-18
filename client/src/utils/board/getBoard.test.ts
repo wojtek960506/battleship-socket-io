@@ -1,6 +1,7 @@
 import { BOARD_SIZE } from "@/constants";
 import type { Cell } from "@/types";
-import { getEmptyBoard, getUpdatedBoard } from "./getBoard";
+import { getDefaultShips, getPlacedShip } from "@/utils/ship";
+import { getBoardPlacingShip, getBoardRemovingShip, getEmptyBoard, getUpdatedBoard } from "./getBoard";
 
 describe("getBoard", () => {
   
@@ -29,5 +30,28 @@ describe("getBoard", () => {
     board[3][1] = "sunk";
     board[4][1] = "sunk";
     expect(newBoard).toEqual(board);
+  })
+
+  test("placing and removing ship from board", () => {
+    let board = getEmptyBoard();
+    const ships = getDefaultShips();
+
+    const ship = getPlacedShip(ships[0], 1, 1)
+
+    for (const { column, row } of ship.cells) {
+      expect(board[row][column]).toBe("empty")
+    }
+
+    board = getBoardPlacingShip(board, ship);
+
+    for (const { column, row } of ship.cells) {
+      expect(board[row][column]).toBe("taken")
+    }
+
+    board = getBoardRemovingShip(board, ship);
+
+    for (const { column, row } of ship.cells) {
+      expect(board[row][column]).toBe("empty")
+    }    
   })
 })
