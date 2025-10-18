@@ -1,7 +1,7 @@
 import { useGameStore } from "@/store/GameStore"
 import type { BoardCellType, Cell } from "@/types";
 import { getUpdatedBoard } from "@/utils/board";
-import { getBoardPlacingShip, getBoardRemovingShip, getPlacedShip, getRemovedShip } from "@/utils/general";
+import { getBoardPlacingShip, getBoardRemovingShip, getPlacedShip, getRemovedShip } from "@/utils/general_tmp";
 
 
 export const useBoard = () => {

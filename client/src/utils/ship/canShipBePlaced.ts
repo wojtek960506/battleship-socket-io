@@ -1,5 +1,5 @@
 import type { Ship } from "@/types";
-import { calculateShipCells } from "@/utils/general/calculateShipCells";
+import { calculateShipCells } from "@/utils/general";
 import { isWithinBoard } from "./isWithinBoard";
 
 export const canShipBePlaced = (ship: Ship, ships: Ship[]) => {

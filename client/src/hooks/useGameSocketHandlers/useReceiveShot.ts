@@ -3,7 +3,7 @@ import { useSocket } from "@/context/SocketContext";
 import { useGameStore } from "@/store/GameStore";
 import { useRoomStore } from "@/store/RoomStore";
 import type { BoardCellType, Cell } from "@/types";
-import { getShipsAfterShot } from "@/utils/general";
+import { getShipsAfterShot } from "@/utils/general_tmp";
 import { useBoard } from "../useBoard";
 import { useSwitchPlayers } from "./useSwitchPlayers";
 

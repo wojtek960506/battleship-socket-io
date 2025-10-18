@@ -1,5 +1,5 @@
 import type { BoardCellType, BoardType, Ship, Cell } from "@/types";
-import { calculateShipCells } from "@/utils/general/calculateShipCells";
+import { calculateShipCells } from "@/utils/general";
 
 
 
