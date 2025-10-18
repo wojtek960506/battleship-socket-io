@@ -1,6 +1,6 @@
 import type { Ship } from "@/types";
-import { getDefaultShips, getPlacedShip } from "@/utils/general";
-import { canShipBePlaced } from "@/utils/ship";
+import { getPlacedShip } from "@/utils/general";
+import { canShipBePlaced, getDefaultShips } from "@/utils/ship";
 
 test("canShipBePlaced", () => {
     let ship = {

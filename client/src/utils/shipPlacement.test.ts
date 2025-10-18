@@ -1,7 +1,8 @@
 import { BOARD_SIZE } from "@/constants";
 import type { Ship } from "@/types";
+import { getDefaultShips } from "@/utils/ship";
 import { getEmptyBoard } from "./board";
-import { getBoardPlacingShip, getDefaultShips, getPlacedShip } from "./general"
+import { getBoardPlacingShip, getPlacedShip } from "./general"
 import { getRandomlyPlacedShips, isWithinBoard } from "./shipPlacement";
 
 // TODO maybe later extract those functions to single files and do
