@@ -1,4 +1,6 @@
-import { BOARD_SIZE, getBoardPlacingShip, getDefaultShips, getEmptyBoard, getPlacedShip } from "./general"
+import { BOARD_SIZE } from "@/constants";
+import { getEmptyBoard } from "./board";
+import { getBoardPlacingShip, getDefaultShips, getPlacedShip } from "./general"
 import { getRandomlyPlacedShips, isWithinBoard } from "./shipPlacement";
 import type { Ship } from "./types";
 

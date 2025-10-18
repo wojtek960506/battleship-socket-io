@@ -1,4 +1,5 @@
-import { BOARD_SIZE, calculateShipCells, getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getDefaultShips, getEmptyBoard, getPlacedShip, getRemovedShip } from "./general";
+import { getEmptyBoard } from "./board";
+import { calculateShipCells, getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getDefaultShips, getPlacedShip, getRemovedShip } from "./general";
 import type { BoardCellType, Ship } from "./types";
 
 const COMMON_SHIP: Ship = {
@@ -15,16 +16,7 @@ const COMMON_SHIP: Ship = {
 
 describe("test utils", () => {
 
-  test("getEmptyBoard", () => {
-    const emptyBoard = getEmptyBoard();
-    expect(emptyBoard).toHaveLength(BOARD_SIZE);
-    for (const row of emptyBoard) {
-      expect(row).toHaveLength(BOARD_SIZE);
-      for (const cell of row) {
-        expect(cell).toBe("empty")
-      }
-    }
-  })
+  
 
   test("getDefaultShips", () => {
     const defaultShips = getDefaultShips();

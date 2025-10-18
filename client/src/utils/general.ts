@@ -1,10 +1,5 @@
 import type { BoardCellType, BoardType, Ship, Cell } from "./types";
 
-export const BOARD_SIZE = 10;
-
-export const getEmptyBoard = (): BoardCellType[][] => (
-  Array(BOARD_SIZE).fill(null).map(() => Array(BOARD_SIZE).fill("empty"))
-);
 
 export const getDefaultShips = (): Ship[] => (
   [5,4,3,3,2].map((length, i) => ({
