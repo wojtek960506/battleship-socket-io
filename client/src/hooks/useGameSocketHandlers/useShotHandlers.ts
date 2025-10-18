@@ -21,7 +21,6 @@ export const useShotHandlers = () => {
     if (player === playerFromServer) return;
 
     const currentValue = yourBoard[row][column]
-    console.log('currentValue', currentValue);
     if (currentValue === "empty") {
       receiveMissedShot(row, column);
     } else if (currentValue === "taken") {
