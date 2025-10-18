@@ -1,11 +1,9 @@
 import { BOARD_SIZE } from "@/constants";
+import { getBoardPlacingShip, getPlacedShip } from "@/utils/general";
 import { getDefaultShips } from "@/utils/ship";
-import { getEmptyBoard } from "./board";
-import { getBoardPlacingShip, getPlacedShip } from "./general"
-import { getRandomlyPlacedShips } from "./shipPlacement";
+import { getEmptyBoard } from "./getEmptyBoard";
+import { getRandomlyPlacedShips } from "./getRandomlyPlacedShips";
 
-// TODO maybe later extract those functions to single files and do
-// more tests as now all cases for every function are in one test
 describe("shipPlacement", () => {
   test.each([
     ["when no ships are placed", false],
@@ -46,9 +44,4 @@ describe("shipPlacement", () => {
     expect(emptyCellsCount).toEqual(expectedEmptyCells);
     expect(takenCellsCount).toEqual(expectedTakenCells);
   })
-
-
-  
-
-  
 })

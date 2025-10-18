@@ -1,5 +1,5 @@
 import { useGameStore } from "@/store/GameStore"
-import { getRandomlyPlacedShips } from "@/utils/shipPlacement";
+import { getRandomlyPlacedShips } from "@/utils/board";
 
 export const useRandomShips = () => {
   const { ships, yourBoard, setYourBoard, setShips, setChosenShipId } = useGameStore();
