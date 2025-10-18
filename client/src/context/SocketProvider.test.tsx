@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
-import { socket } from "@/socket/socket";
 import { SocketProvider } from "./SocketProvider";
+import { socket } from "@/socket";
 
 
-jest.mock("@/socket/socket", () => ({
+jest.mock("@/socket", () => ({
   socket: { connect: jest.fn(), disconnect: jest.fn() },
 }));
 
