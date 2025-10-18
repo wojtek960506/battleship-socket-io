@@ -2,7 +2,7 @@ import { act, renderHook } from "@testing-library/react"
 import { resetGameStore, useGameStore } from "@/store/GameStore"
 import type { BoardCellType, Ship } from "@/types"
 import { getEmptyBoard } from "@/utils/board"
-import { calculateShipCells } from "@/utils/general"
+import { calculateShipCells } from "@/utils/general/calculateShipCells"
 import { getDefaultShips } from "@/utils/ship"
 import { useBoard } from "./useBoard"
 

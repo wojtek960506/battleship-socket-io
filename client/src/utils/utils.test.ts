@@ -1,6 +1,6 @@
 import type { BoardCellType, Ship } from "@/types";
 import { getEmptyBoard } from "./board";
-import { calculateShipCells, getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getPlacedShip, getRemovedShip } from "./general";
+import { getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getPlacedShip, getRemovedShip } from "./general";
 import { getDefaultShips } from "./ship";
 
 const COMMON_SHIP: Ship = {
@@ -21,33 +21,7 @@ describe("test utils", () => {
 
   
 
-  test("calculateShipCells - horizontal", () => {
-    const { shipCells } = calculateShipCells(COMMON_SHIP);
-    expect(shipCells).toHaveLength(COMMON_SHIP.length);
-    expect(shipCells).toEqual([
-      { column: 1, row: 2 },
-      { column: 2, row: 2 },
-      { column: 3, row: 2 },
-      { column: 4, row: 2 },
-    ])
-  });
-
-  test("calculateShipCells - vertical", () => {
-    const ship: Ship = {
-      ...COMMON_SHIP,
-      direction: "vertical",
-      length: 5,
-    }
-    const { shipCells } = calculateShipCells(ship);
-    expect(shipCells).toHaveLength(ship.length);
-    expect(shipCells).toEqual([
-      { column: 1, row: 2 },
-      { column: 1, row: 3 },
-      { column: 1, row: 4 },
-      { column: 1, row: 5 },
-      { column: 1, row: 6 },
-    ])
-  })
+  
 
   test("getPlacedShip", () => {
     const ship: Ship = {
