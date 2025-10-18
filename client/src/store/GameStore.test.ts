@@ -1,4 +1,4 @@
-import type { BoardCellType } from "@/utils/types"
+import type { BoardCellType } from "@/types"
 import { resetGameStore, useGameStore } from "./GameStore"
 
 

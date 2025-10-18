@@ -1,8 +1,8 @@
 import React from "react";
 
 import { BOARD_SIZE } from "@/constants";
+import type { BoardType, Cell } from "@/types";
 import { getBoardCellClass } from "@/utils/general"
-import type { BoardType, Cell } from "@/utils/types";
 
 type BoardGridProps = {
   board: BoardType,

@@ -1,4 +1,4 @@
-import type { BoardCellType, BoardType, Ship, Cell } from "./types";
+import type { BoardCellType, BoardType, Ship, Cell } from "@/types";
 
 
 export const getDefaultShips = (): Ship[] => (

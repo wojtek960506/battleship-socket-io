@@ -1,4 +1,4 @@
-import type { BoardCellType, BoardType, Cell } from "./types";
+import type { BoardCellType, BoardType, Cell } from "@/types";
 
 export const getUpdatedBoard = (
   board: BoardType,

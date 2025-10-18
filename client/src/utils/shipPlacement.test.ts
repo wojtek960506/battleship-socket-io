@@ -1,8 +1,8 @@
 import { BOARD_SIZE } from "@/constants";
+import type { Ship } from "@/types";
 import { getEmptyBoard } from "./board";
 import { getBoardPlacingShip, getDefaultShips, getPlacedShip } from "./general"
 import { getRandomlyPlacedShips, isWithinBoard } from "./shipPlacement";
-import type { Ship } from "./types";
 
 // TODO maybe later extract those functions to single files and do
 // more tests as now all cases for every function are in one test

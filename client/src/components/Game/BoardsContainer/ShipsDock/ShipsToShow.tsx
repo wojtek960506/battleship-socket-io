@@ -1,5 +1,5 @@
 import { useGameStore } from "@/store/GameStore";
-import type { Ship } from "@/utils/types"
+import type { Ship } from "@/types"
 
 type ShipToShowProps = {
   ship: Ship,

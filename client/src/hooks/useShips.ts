@@ -1,5 +1,5 @@
 import { useGameStore } from "@/store/GameStore";
-import type { Direction } from "@/utils/types";
+import type { Direction } from "@/types";
 
 export const useShips = () => {
 

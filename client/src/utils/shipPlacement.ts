@@ -1,7 +1,7 @@
 import { BOARD_SIZE } from "@/constants";
+import type { BoardType, Direction, Ship } from "@/types";
 import { canShipBePlaced } from "@/utils/ship";
 import { getBoardPlacingShip, getPlacedShip } from "./general";
-import type { BoardType, Direction, Ship } from "./types";
 
 export const isWithinBoard = (ship: Ship) => {
   if (ship.startColumn === null || ship.startRow === null) return false;

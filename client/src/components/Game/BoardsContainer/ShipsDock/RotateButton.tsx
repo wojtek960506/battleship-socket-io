@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useShips } from "@/hooks/useShips";
-import type { Direction, Ship } from "@/utils/types";
+import type { Direction, Ship } from "@/types";
 
 
 type RotateShipsButtonProps = {

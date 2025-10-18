@@ -1,6 +1,6 @@
+import type { BoardCellType, Ship } from "@/types";
 import { getEmptyBoard } from "./board";
 import { calculateShipCells, getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getDefaultShips, getPlacedShip, getRemovedShip } from "./general";
-import type { BoardCellType, Ship } from "./types";
 
 const COMMON_SHIP: Ship = {
   id: 1,

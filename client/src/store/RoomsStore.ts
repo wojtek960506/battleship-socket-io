@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Room } from "@/utils/types";
+import type { Room } from "@/types";
 
 
 

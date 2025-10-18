@@ -1,7 +1,7 @@
 import { create } from "zustand";
+import type { BoardCellType, BoardType, GameStatus, Ship } from "@/types";
 import { getEmptyBoard } from "@/utils/board";
 import { getDefaultShips } from "@/utils/general";
-import type { BoardCellType, BoardType, GameStatus, Ship } from "@/utils/types";
 
 
 type GameState = {
