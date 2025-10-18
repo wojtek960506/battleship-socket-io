@@ -1,7 +1,7 @@
 import { BOARD_SIZE } from "@/constants";
+import { getEmptyBoard } from "@/utils/board";
 import { getBoardPlacingShip } from "@/utils/general_tmp";
 import { getDefaultShips, getPlacedShip } from "@/utils/ship";
-import { getEmptyBoard } from "./getEmptyBoard";
 import { getRandomlyPlacedShips } from "./getRandomlyPlacedShips";
 
 describe("shipPlacement", () => {

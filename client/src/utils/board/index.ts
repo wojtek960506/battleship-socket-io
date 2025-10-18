@@ -1,3 +1,2 @@
-export * from "./getEmptyBoard";
+export * from "./getBoard";
 export * from "./getRandomlyPlacedShips";
-export * from "./getUpdatedBoard";

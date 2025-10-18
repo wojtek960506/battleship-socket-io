@@ -1,4 +1,9 @@
-import type { BoardCellType, BoardType, Cell } from "@/types";
+import { BOARD_SIZE } from "@/constants";
+import { type BoardCellType, type BoardType, type Cell } from "@/types";
+
+export const getEmptyBoard = (): BoardCellType[][] => (
+  Array(BOARD_SIZE).fill(null).map(() => Array(BOARD_SIZE).fill("empty"))
+);
 
 export const getUpdatedBoard = (
   board: BoardType,
