@@ -1,5 +1,5 @@
 import { useGameStore } from "@/store/GameStore"
-import { getUpdatedBoard } from "@/utils/boardHelper";
+import { getUpdatedBoard } from "@/utils/getUpdatedBoard";
 import { getBoardPlacingShip, getBoardRemovingShip, getPlacedShip, getRemovedShip } from "@/utils/general";
 import type { BoardCellType, Cell } from "@/utils/types";
 
