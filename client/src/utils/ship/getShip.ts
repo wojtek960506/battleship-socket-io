@@ -6,3 +6,14 @@ export const getPlacedShip = (ship: Ship, startRow: number, startColumn: number 
   const { shipCells, surroundingCells } = calculateShipCells(newShip)
   return { ...newShip, cells: shipCells, surroundingCells }
 }
+
+export const getRemovedShip = (ship: Ship): Ship => {
+  return {
+    ...ship,
+    startColumn: null,
+    startRow: null,
+    cells: [],
+    surroundingCells: [],
+    status: "not-placed",
+  }
+}

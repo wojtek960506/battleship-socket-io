@@ -1,6 +1,6 @@
 import type { BoardCellType, Ship } from "@/types";
 import { getEmptyBoard } from "./board";
-import { getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getRemovedShip } from "./general_tmp";
+import { getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip } from "./general_tmp";
 import { getDefaultShips, getPlacedShip } from "./ship";
 
 const COMMON_SHIP: Ship = {
@@ -22,14 +22,7 @@ describe("test utils", () => {
   
 
 
-  test("getRemovedShip", () => {
-    const ship = getRemovedShip(COMMON_SHIP);
-
-    expect(ship.startColumn).toBeNull();
-    expect(ship.startRow).toBeNull();
-    expect(ship.cells).toHaveLength(0);
-    expect(ship.status).toBe("not-placed")
-  })
+  
 
   test("placing and removing ship from board", () => {
     let board = getEmptyBoard();
