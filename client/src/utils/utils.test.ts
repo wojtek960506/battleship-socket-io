@@ -1,5 +1,5 @@
+import { BOARD_SIZE, calculateShipCells, getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getDefaultShips, getEmptyBoard, getPlacedShip, getRemovedShip } from "./general";
 import type { BoardCellType, Ship } from "./types";
-import { BOARD_SIZE, calculateShipCells, getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getDefaultShips, getEmptyBoard, getPlacedShip, getRemovedShip } from "./utils";
 
 const COMMON_SHIP: Ship = {
   id: 1,

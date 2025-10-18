@@ -1,7 +1,7 @@
 import { act, renderHook } from "@testing-library/react"
-import type { Ship } from "@/helpers/types"
-import { getDefaultShips } from "@/helpers/utils"
 import { resetGameStore, useGameStore } from "@/store/GameStore"
+import { getDefaultShips } from "@/utils/general"
+import type { Ship } from "@/utils/types"
 import { useShips } from "./useShips"
 
 

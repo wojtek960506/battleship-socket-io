@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSocket } from "@/context/SocketContext";
-import type { Room } from "@/helpers/types";
 import { useRoomsStore } from "@/store/RoomsStore";
+import type { Room } from "@/utils/types";
 
 
 export const RoomsSocketHandler = () => {

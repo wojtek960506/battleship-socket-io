@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { useSocket } from "@/context/SocketContext";
-import type { BoardCellType, Cell } from "@/helpers/types";
-import { getShipsAfterShot } from "@/helpers/utils";
 import { useGameStore } from "@/store/GameStore";
 import { useRoomStore } from "@/store/RoomStore";
+import { getShipsAfterShot } from "@/utils/general";
+import type { BoardCellType, Cell } from "@/utils/types";
 import { useBoard } from "../useBoard";
 import { useSwitchPlayers } from "./useSwitchPlayers";
 

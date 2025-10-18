@@ -1,5 +1,5 @@
-import type { Direction } from "@/helpers/types";
 import { useGameStore } from "@/store/GameStore";
+import type { Direction } from "@/utils/types";
 
 export const useShips = () => {
 

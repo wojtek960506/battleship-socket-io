@@ -1,6 +1,6 @@
+import { BOARD_SIZE, getBoardPlacingShip, getDefaultShips, getEmptyBoard, getPlacedShip } from "./general"
 import { canShipBePlaced, getRandomlyPlacedShips, isWithinBoard } from "./shipPlacement";
 import type { Ship } from "./types";
-import { BOARD_SIZE, getBoardPlacingShip, getDefaultShips, getEmptyBoard, getPlacedShip } from "./utils"
 
 // TODO maybe later extract those functions to single files and do
 // more tests as now all cases for every function are in one test

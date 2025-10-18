@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import type { ReceiveShotResultType, ReceiveShotType } from "@/helpers/types";
 import { useGameStore } from "@/store/GameStore";
 import { useRoomStore } from "@/store/RoomStore";
+import type { ReceiveShotResultType, ReceiveShotType } from "@/utils/types";
 import { useBoard } from "../useBoard";
 import { useReceiveShot } from "./useReceiveShot";
 
