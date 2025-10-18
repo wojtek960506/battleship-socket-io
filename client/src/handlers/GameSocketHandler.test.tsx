@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 import { useSocket } from "@/context/SocketContext";
-import { useGameSocketHandlers } from "@/hooks/useGameSocketHandlers/useGameSocketHandlers";
+import { useGameSocketHandlers } from "@/hooks/useGameSocketHandlers";
 import { GameSocketHandler } from "./GameSocketHandler";
 
 jest.mock("@/context/SocketContext");
-jest.mock("@/hooks/useGameSocketHandlers/useGameSocketHandlers");
+jest.mock("@/hooks/useGameSocketHandlers");
 
 
 

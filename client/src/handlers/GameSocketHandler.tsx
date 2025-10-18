@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSocket } from "@/context/SocketContext";
-import { useGameSocketHandlers } from "@/hooks/useGameSocketHandlers/useGameSocketHandlers";
+import { useGameSocketHandlers } from "@/hooks/useGameSocketHandlers";
 
 
 export const GameSocketHandler = () => {
