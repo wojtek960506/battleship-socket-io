@@ -1,15 +1,9 @@
 import type { BoardCellType, BoardType, Ship, Cell } from "@/types";
-import { calculateShipCells } from "@/utils/general";
 
 
 
 
 
-export const getPlacedShip = (ship: Ship, startRow: number, startColumn: number ) => {
-  const newShip: Ship = { ...ship, startColumn, startRow, status: "placed" };
-  const { shipCells, surroundingCells } = calculateShipCells(newShip)
-  return { ...newShip, cells: shipCells, surroundingCells }
-}
 
 export const getRemovedShip = (ship: Ship): Ship => {
   return {

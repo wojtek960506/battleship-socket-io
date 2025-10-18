@@ -1,6 +1,6 @@
 import type { BoardType, Direction, Ship } from "@/types";
-import { getBoardPlacingShip, getPlacedShip } from "@/utils/general_tmp";
-import { canShipBePlaced } from "@/utils/ship";
+import { getBoardPlacingShip } from "@/utils/general_tmp";
+import { canShipBePlaced, getPlacedShip } from "@/utils/ship";
 
 const getRandomInt = (min: number, max: number) => {
   // ensure min and max are integers

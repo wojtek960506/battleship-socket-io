@@ -1,7 +1,7 @@
 import type { BoardCellType, Ship } from "@/types";
 import { getEmptyBoard } from "./board";
-import { getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getPlacedShip, getRemovedShip } from "./general_tmp";
-import { getDefaultShips } from "./ship";
+import { getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getRemovedShip } from "./general_tmp";
+import { getDefaultShips, getPlacedShip } from "./ship";
 
 const COMMON_SHIP: Ship = {
   id: 1,
@@ -21,27 +21,6 @@ describe("test utils", () => {
 
   
 
-  
-
-  test("getPlacedShip", () => {
-    const ship: Ship = {
-      ...COMMON_SHIP,
-      startColumn: null,
-      startRow: null,
-      status: "not-placed"
-    }
-
-    const newShip = getPlacedShip(ship, 3, 2);
-    expect(newShip).not.toEqual(ship)
-    expect(newShip.startColumn).toBe(2)
-    expect(newShip.startRow).toBe(3)
-    expect(newShip.cells).toEqual([
-      { column: 2, row: 3 },
-      { column: 3, row: 3 },
-      { column: 4, row: 3 },
-      { column: 5, row: 3 },
-    ])
-  })
 
   test("getRemovedShip", () => {
     const ship = getRemovedShip(COMMON_SHIP);
