@@ -1,5 +1,5 @@
-import type { Ship } from "./types";
-import { BOARD_SIZE, calculateShipCells, getBoardPlacingShip, getBoardRemovingShip, getDefaultShips, getEmptyBoard, getPlacedShip, getRemovedShip } from "./utils";
+import type { BoardCellType, Ship } from "./types";
+import { BOARD_SIZE, calculateShipCells, getBoardCellClass, getBoardPlacingShip, getBoardRemovingShip, getDefaultShips, getEmptyBoard, getPlacedShip, getRemovedShip } from "./utils";
 
 const COMMON_SHIP: Ship = {
   id: 1,
@@ -120,5 +120,11 @@ describe("test utils", () => {
     for (const { column, row } of ship.cells) {
       expect(board[row][column]).toBe("empty")
     }    
+  })
+
+  test("getBoardCellClass", () => {
+    for (const cellType of ["empty", "hit", "sunk", "missed", "taken"]) {
+      expect(getBoardCellClass(cellType as BoardCellType)).toBe(`${cellType}-cell`)
+    }
   })
 })
