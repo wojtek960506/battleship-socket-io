@@ -86,7 +86,8 @@ describe("areAllCellsHit", () => {
     const ship: Ship = {
       ...COMMON_SHIP,
       hitCells: [
-        ...COMMON_CELLS,
+        { ...COMMON_CELLS[0] },
+        { ...COMMON_CELLS[1] },
         { row: 2, column: 3 }, // invalid hit cell
       ],
     };

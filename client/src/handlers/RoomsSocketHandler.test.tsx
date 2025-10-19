@@ -22,10 +22,14 @@ describe("test RoomsSocketHandler", () => {
     ]
     renderWithMockSocket(<RoomsSocketHandler />, mockSocket);
     
-
     triggerSocketEvent(mockSocket, "rooms:list", roomsList);
     
     const roomsState = useRoomsStore.getState()
     expect(roomsState.rooms).toEqual(roomsList);
+  })
+
+  test("handling non-existing event", () => {
+    renderWithMockSocket(<RoomsSocketHandler />, mockSocket);
+    expect(() => triggerSocketEvent(mockSocket, 'wrong', {})).toThrow(Error);
   })
 })
