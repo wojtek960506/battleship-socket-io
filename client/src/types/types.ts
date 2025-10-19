@@ -32,13 +32,13 @@ export type ReceiveShotType = {
 
 export type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";
 
+export type BoardType = BoardCellType[][];
+
 export type Direction = "horizontal" | "vertical"
 
 export type ShipStatus = "not-placed" | "placed" | "sunk"
 
 export type Cell = { column: number, row: number }
-
-export type BoardType = BoardCellType[][];
 
 export type Ship = {
   id: number;

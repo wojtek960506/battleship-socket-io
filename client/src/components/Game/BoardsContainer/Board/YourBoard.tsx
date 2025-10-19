@@ -3,8 +3,7 @@ import { useBoard } from "@/hooks/useBoard"
 import { useGameStore } from "@/store/GameStore"
 import type { Ship, Cell } from "@/types"
 import { calculateShipCells } from "@/utils/general"
-import { findShip } from "@/utils/general_tmp"
-import { canShipBePlaced } from "@/utils/ship";
+import { canShipBePlaced, findShip } from "@/utils/ship";
 import "./Board.css"
 import { BoardGrid } from "./BoardGrid"
 
