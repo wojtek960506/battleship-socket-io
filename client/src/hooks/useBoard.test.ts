@@ -39,7 +39,16 @@ describe("test useBoard", () => {
     expect(useGameStore.getState()[getter]).toEqual(smallBoard)
   })
 
-  test("placeShipOnBoard", () => {
+  test("placeShipOnBoard - ship not found", () => {
+    const { result } = renderHook(() => useBoard());
+    act(() => result.current.placeShipOnBoard(5, 5, 5));
+
+    const gameState = useGameStore.getState();
+    expect(gameState.yourBoard).toEqual(getEmptyBoard());
+    expect(gameState.ships).toEqual(getDefaultShips());
+  });
+
+  test("placeShipOnBoard - ship found", () => {
     const { result } = renderHook(() => useBoard());
     act(() => {
       result.current.placeShipOnBoard(0, 1, 2);  
@@ -71,7 +80,16 @@ describe("test useBoard", () => {
     expect(useGameStore.getState().ships).toEqual(ships);
   })
 
-  test("removeShipFromBoard", () => {
+  test("removeShipFromBoard - ship not found", () => {
+    const { result } = renderHook(() => useBoard());
+    act(() => result.current.removeShipFromBoard(6));
+
+    const gameState = useGameStore.getState();
+    expect(gameState.yourBoard).toEqual(getEmptyBoard());
+    expect(gameState.ships).toEqual(getDefaultShips());
+  });
+
+  test("removeShipFromBoard - ship found", () => {
     const { result } = renderHook(() => useBoard());
     act(() => {
       result.current.placeShipOnBoard(2, 4, 6);
