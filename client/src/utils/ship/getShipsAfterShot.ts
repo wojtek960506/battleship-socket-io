@@ -1,12 +1,12 @@
 import type { Ship } from "@/types";
-import { areAllCellsHit, findShip, isInShipCells } from "./ship/findShip";
+import { areAllCellsHit, findShip, isInShipCells } from "./findShip";
 
 
 export const getShipsAfterShot = (ships: Ship[], row: number, column: number) => {
   const hitShip = findShip(ships, row, column);
   if (!hitShip) return { shipsAfterShot: ships, hitShip };
 
-  const hitShipCopy = {...hitShip}
+  const hitShipCopy = JSON.parse(JSON.stringify((hitShip)));
   
   if (isInShipCells(hitShipCopy.cells, row, column)) {
     hitShipCopy.hitCells.push({ row, column });
@@ -15,7 +15,7 @@ export const getShipsAfterShot = (ships: Ship[], row: number, column: number) =>
   if (areAllCellsHit(hitShipCopy)) hitShipCopy.status = "sunk";
 
   return { 
-    shipsAfterShot: ships.map(s => s.id === hitShipCopy.id ? hitShipCopy : s),
+    shipsAfterShot: ships.map(s => s.id === hitShipCopy.id ? hitShipCopy : {...s}),
     hitShip: hitShipCopy,
   }
 }
