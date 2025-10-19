@@ -1,21 +1,20 @@
-import { act, renderHook, type RenderHookResult } from "@testing-library/react";
+import { act } from "@testing-library/react";
 import { useSocket } from "@/context/SocketContext";
 import { resetRoomStore, useRoomStore } from "@/store/RoomStore";
+import { getHookResult, type HookResult } from "@/test-utils/getHookResult";
 import { useJoinRoomHandlers } from "./useJoinRoomHandlers"
 
 jest.mock("@/context/SocketContext");
 
 describe("test useJoinRoomHandlers", () => {
-  type HookReturn = ReturnType<typeof useJoinRoomHandlers>;
-  let result: RenderHookResult<HookReturn, undefined>["result"];
+  let result: HookResult<typeof useJoinRoomHandlers>;
   const mockSocket = { emit: jest.fn(), on: jest.fn(), off: jest.fn() };
 
   beforeEach(() => {
     (useSocket as jest.Mock).mockReturnValue(mockSocket);
     resetRoomStore();
     jest.clearAllMocks();
-    const hook = renderHook(() => useJoinRoomHandlers());
-    result = hook.result;
+    result = getHookResult(useJoinRoomHandlers);
   });
 
   test("handleYouJoinedRoom", () => {
