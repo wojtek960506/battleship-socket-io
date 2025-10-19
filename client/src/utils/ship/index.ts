@@ -1,3 +1,4 @@
+export * from "./calculateShipCells";
 export * from "./canShipBePlaced";
 export * from "./findShip";
 export * from "./getDefaultShips";

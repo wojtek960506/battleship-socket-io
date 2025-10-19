@@ -1,5 +1,5 @@
 import type { Ship } from "@/types";
-import { calculateShipCells } from "../general";
+import { calculateShipCells } from "./calculateShipCells";
 
 export const getPlacedShip = (ship: Ship, startRow: number, startColumn: number ) => {
   const newShip: Ship = { ...ship, startColumn, startRow, status: "placed" };
