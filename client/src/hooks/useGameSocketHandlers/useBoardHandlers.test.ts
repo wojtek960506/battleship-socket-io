@@ -7,10 +7,6 @@ import { useBoardHandlers } from "./useBoardHandlers";
 const PLAYER_ID = "player_1";
 const OTHER_PLAYER_ID = "player_2";
 
-jest.mock("@/context/SocketContext", () => ({
-  useSocket: { emit: jest.fn(), on: jest.fn(), off: jest.fn() }
-}))
-
 describe("useBoardHandlers", () => {
   let result: HookResult<typeof useBoardHandlers>;
 
