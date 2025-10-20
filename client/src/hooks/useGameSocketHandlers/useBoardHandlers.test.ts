@@ -1,11 +1,9 @@
 import { act } from "@testing-library/react";
 import { resetGameStore, useGameStore } from "@/store/GameStore";
 import { useRoomStore } from "@/store/RoomStore";
+import { OTHER_PLAYER_ID, PLAYER_ID } from "@/test-utils/constants";
 import { getHookResult, type HookResult } from "@/test-utils/getHookResult";
 import { useBoardHandlers } from "./useBoardHandlers";
-
-const PLAYER_ID = "player_1";
-const OTHER_PLAYER_ID = "player_2";
 
 describe("useBoardHandlers", () => {
   let result: HookResult<typeof useBoardHandlers>;
