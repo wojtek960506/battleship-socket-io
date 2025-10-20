@@ -1,10 +1,9 @@
-// import * as socketContext from "@/context/SocketContext";
+import { act } from "@testing-library/react";
 import { useSocket } from "@/context/SocketContext";
 import { resetGameStore } from "@/store/GameStore";
 import { useRoomStore } from "@/store/RoomStore";
 import { getHookResult, type HookResult } from "@/test-utils/getHookResult"
 import { useReceiveShot } from "./useReceiveShot"
-import { act } from "@testing-library/react";
 
 const PLAYER_ID = "player_1";
 const ROOM_NAME = "room_1";

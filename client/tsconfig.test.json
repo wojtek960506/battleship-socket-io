@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "NodeNext",   // Jest needs Node resolution
+    "types": ["jest", "node"],
+    "composite": true
+  },
+  "include": [
+    "src/setupTests.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+  ]
+}
