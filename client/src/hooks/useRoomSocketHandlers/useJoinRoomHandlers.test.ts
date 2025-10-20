@@ -1,17 +1,12 @@
 import { act } from "@testing-library/react";
-import { useSocket } from "@/context/SocketContext";
 import { resetRoomStore, useRoomStore } from "@/store/RoomStore";
 import { getHookResult, type HookResult } from "@/test-utils/getHookResult";
 import { useJoinRoomHandlers } from "./useJoinRoomHandlers"
 
-jest.mock("@/context/SocketContext");
-
 describe("test useJoinRoomHandlers", () => {
   let result: HookResult<typeof useJoinRoomHandlers>;
-  const mockSocket = { emit: jest.fn(), on: jest.fn(), off: jest.fn() };
 
   beforeEach(() => {
-    (useSocket as jest.Mock).mockReturnValue(mockSocket);
     resetRoomStore();
     jest.clearAllMocks();
     result = getHookResult(useJoinRoomHandlers);

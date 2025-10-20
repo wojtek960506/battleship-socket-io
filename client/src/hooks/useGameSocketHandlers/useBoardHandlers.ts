@@ -6,7 +6,7 @@ export const useBoardHandlers = () => {
 
   const {       
     gameStatus,
-    currentPlayer,      
+    currentPlayer,
     setGameStatus,
     setCurrentPlayer,
     setIsOtherBoardSet,
@@ -15,14 +15,14 @@ export const useBoardHandlers = () => {
 
   const handleBoardSet = useCallback(({ otherPlayer }: { otherPlayer: string}) => {
     // just in case message was emited to the sender
-      if (player === otherPlayer) return;
+    if (player === otherPlayer) return;
 
-      setIsOtherBoardSet(true);
-      if (gameStatus === "board-set") {
-        setGameStatus("playing")
-      } else {
-        setCurrentPlayer(otherPlayer)
-      }
+    setIsOtherBoardSet(true);
+    if (gameStatus === "board-set") {
+      setGameStatus("playing")
+    } else {
+      setCurrentPlayer(otherPlayer)
+    }
   }, [player, setIsOtherBoardSet, gameStatus, setGameStatus, setCurrentPlayer])
 
   const handleRepositionShips = useCallback(({ otherPlayer }: { otherPlayer: string }) => {
