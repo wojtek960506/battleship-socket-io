@@ -11,8 +11,13 @@
     "paths": {
       "@/*": ["src/*"]  
     },
+    "types": ["jest", "node"],
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "src/setupTests.ts",
+    "jest.config.ts"
+  ],
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

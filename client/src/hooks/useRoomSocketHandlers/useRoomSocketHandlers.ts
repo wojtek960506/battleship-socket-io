@@ -26,7 +26,7 @@ export const useRoomSocketHandlers = () => {
     setErrorMessage('');
     setPlayerWhoLeft(null);
 
-    console.log(message)
+    console.log(message);
 
     // update list for every user of server
     socket.emit("server:list-rooms")
