@@ -29,6 +29,7 @@ export const useShotHandlers = () => {
       // shot to the cell already shot (theoretically not possible,
       // but maybe just in case there should be some handling)
       console.log('TODO - wrong shot - send some response')
+      throw new Error("wrong shot");
     }
   }, [player, receiveHitShot, receiveMissedShot, yourBoard])
 

@@ -1,4 +1,5 @@
 import type { Direction, Ship, ShipStatus } from "@/types";
+import { getEmptyBoard } from "@/utils/board";
 
 export const PLAYER_ID = "player_1";
 export const OTHER_PLAYER_ID = "player_2";
@@ -38,4 +39,16 @@ export const COMMON_SHIP_2: Ship = {
     { row: 5, column: 5 },
   ],
   status: "placed" as ShipStatus,
+}
+
+export const getBoardWithCommonShips = () => {
+  const board = getEmptyBoard();
+  board[1][1] = "taken";
+  board[1][2] = "taken";
+  board[1][3] = "taken";
+
+  board[4][5] = "hit";
+  board[5][5] = "hit";
+  board[6][5] = "taken";
+  return board;
 }

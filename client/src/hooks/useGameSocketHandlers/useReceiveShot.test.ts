@@ -2,24 +2,10 @@ import { act } from "@testing-library/react";
 import { useSocket } from "@/context/SocketContext";
 import { resetGameStore, useGameStore } from "@/store/GameStore";
 import { useRoomStore } from "@/store/RoomStore";
-import { COMMON_SHIP_1, COMMON_SHIP_2, OTHER_PLAYER_ID, PLAYER_ID, ROOM_NAME } from "@/test-utils/constants";
+import { COMMON_SHIP_1, COMMON_SHIP_2, getBoardWithCommonShips, OTHER_PLAYER_ID, PLAYER_ID, ROOM_NAME } from "@/test-utils/constants";
 import { getHookResult, type HookResult } from "@/test-utils/getHookResult"
 import type { Ship, ShipStatus } from "@/types";
-import { getEmptyBoard } from "@/utils/board";
 import { useReceiveShot } from "./useReceiveShot"
-
-
-const getInitialBoard = () => {
-  const board = getEmptyBoard();
-  board[1][1] = "taken";
-  board[1][2] = "taken";
-  board[1][3] = "taken";
-
-  board[4][5] = "hit";
-  board[5][5] = "hit";
-  board[6][5] = "taken";
-  return board;
-}
 
 jest.mock("@/context/SocketContext");
 
@@ -57,12 +43,12 @@ describe("useReceiveShot", () => {
     const ships = [{...COMMON_SHIP_1}, {...COMMON_SHIP_2}];
     act(() => {
       useGameStore.getState().setShips([...ships]);
-      useGameStore.getState().setYourBoard(getInitialBoard())
+      useGameStore.getState().setYourBoard(getBoardWithCommonShips())
     })
 
     act(() => result.current.receiveHitShot(1, 1, OTHER_PLAYER_ID));
 
-    const board = getInitialBoard();
+    const board = getBoardWithCommonShips();
     board[1][1] = "hit";
     ships[0].hitCells = [{ row: 1, column: 1 }];
   
@@ -94,12 +80,12 @@ describe("useReceiveShot", () => {
     ];
     act(() => {
       useGameStore.getState().setShips([...ships]);
-      useGameStore.getState().setYourBoard(getInitialBoard())
+      useGameStore.getState().setYourBoard(getBoardWithCommonShips())
     })
 
     act(() => result.current.receiveHitShot(6, 5, OTHER_PLAYER_ID));
 
-    const board = getInitialBoard();
+    const board = getBoardWithCommonShips();
     board[4][5] = "sunk";
     board[5][5] = "sunk";
     board[6][5] = "sunk";
