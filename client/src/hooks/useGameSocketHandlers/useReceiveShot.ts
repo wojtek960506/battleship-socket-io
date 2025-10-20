@@ -21,7 +21,7 @@ export const useReceiveShot = () => {
   const calculateHitShot = useCallback((row: number, column: number) => {
     let value: BoardCellType = "hit";
     let sunkCells: Cell[] = [];
-    const { shipsAfterShot, hitShip } = getShipsAfterShot(ships, row, column);  
+    const { shipsAfterShot, hitShip } = getShipsAfterShot(ships, row, column);
     setShips(shipsAfterShot);  
     if (hitShip?.status === "sunk") {
       value = "sunk";
