@@ -11,7 +11,5 @@ export const BoardArea = ({ mode }: BoardAreaProps) => {
       return <WaitingShipsDock />
     case "opponent-board":
       return <OpponentBoard />
-    default:
-      return null
   }
 }
