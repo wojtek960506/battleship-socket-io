@@ -9,7 +9,7 @@ export const BoardsContainer = () => {
   const { gameStatus, setChosenShipId } = useGameStore();
   
   const getBoardAreaMode = (): BoardAreaProps["mode"] => {
-    if (gameStatus === "setting-board") return "ship-dock";
+    if (gameStatus === "setting-board") return "ships-dock";
     if (gameStatus === "board-set") return "waiting";
     return "opponent-board"
   }
@@ -17,6 +17,7 @@ export const BoardsContainer = () => {
   return (
     <div 
       onClick={() => setChosenShipId(null)}
+      data-testid="boards-container"
       className="boards-container"
     >
       <YourBoard />

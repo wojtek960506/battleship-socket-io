@@ -44,7 +44,7 @@ export const ShipsDock = () => {
   )
 
   return (
-    <div className="ships-container">
+    <div data-testid="ships-dock" className="ships-container">
       {shipsToSet.length === 0 ? (
         <StartButton />
       ) :  (

@@ -33,6 +33,7 @@ export const OpponentBoard = () => {
   return <BoardGrid
     board={opponentBoard}
     hoverPreview={[]}
+    dataTestId="opponent-board"
     onCellClick={handleCellClick}
   />
 }

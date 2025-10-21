@@ -5,7 +5,7 @@ import { WaitingShipsDock } from "./WaitingShipsDock";
 
 export const BoardArea = ({ mode }: BoardAreaProps) => {
   switch (mode) {
-    case "ship-dock":
+    case "ships-dock":
       return <ShipsDock />
     case "waiting":
       return <WaitingShipsDock />

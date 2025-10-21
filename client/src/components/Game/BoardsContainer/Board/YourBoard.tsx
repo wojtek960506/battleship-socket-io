@@ -98,6 +98,7 @@ export const YourBoard = () => {
   return <BoardGrid
     board={yourBoard}
     hoverPreview={hoverPreview}
+    dataTestId="your-board"
     onCellClick={handleCellClick}
     onCellEnter={handleCellEnter}
     onCellLeave={handleCellLeave}

@@ -7,6 +7,7 @@ import { getBoardCellClass } from "@/utils/board/getBoardCellClass";
 type BoardGridProps = {
   board: BoardType,
   hoverPreview: Cell[],
+  dataTestId: string,
   onCellClick: (row: number, column: number) => void,
   onCellEnter?: (row: number, column: number) => void,
   onCellLeave?: (row: number, column: number) => void,
@@ -21,8 +22,8 @@ const ColumnLabels = () => (
 )
 
 export const BoardGrid = React.memo(
-  ({ board, hoverPreview, onCellClick, onCellEnter, onCellLeave } : BoardGridProps) => (
-    <div className="board-container">
+  ({ board, hoverPreview, dataTestId, onCellClick, onCellEnter, onCellLeave } : BoardGridProps) => (
+    <div data-testid={dataTestId} className="board-container">
       <ColumnLabels />
       <>
         {board.map((boardRow, rowIndex) => (
