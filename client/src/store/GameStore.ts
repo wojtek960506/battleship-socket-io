@@ -16,7 +16,7 @@ type GameState = {
   
   // actions
   setShips: (ships: Ship[]) => void;
-  setWinner: (winner: string) => void;
+  setWinner: (winner: string | null) => void;
   setGameStatus: (gameStatus: GameStatus) => void;
   setYourBoard: (newBoard: BoardCellType[][]) => void;
   setChosenShipId: (chosenShipId: number | null) => void;
