@@ -25,7 +25,13 @@ export const Game = () => {
     <div className="game-container">
       <InfoPanel />
       <BoardsContainer />    
-      <button className="leave-room-btn" onClick={handleLeaveRoom}>Leave room</button>
+      <button
+        className="leave-room-btn"
+        onClick={handleLeaveRoom}
+        data-testid="leave-room-btn-game"
+      >
+        Leave room
+      </button>
     </div>
   )
 }
