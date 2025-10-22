@@ -7,15 +7,15 @@ export function registerJoinRoomSocket(io: Server, socket: Socket) {
     const roomData = roomStore.getRoom(room)
     
     if (!roomData) {
-      socket.emit("room_not_found", { room, message: `Room '${room}' does not exist.` })
+      socket.emit("room:not-found", { room, message: `Room '${room}' does not exist.` })
       return;
     } 
     if (isInRoom(io, socket.id, room)) {
-      socket.emit("already_in_room", { room, message: `You are already in room '${room}'` });
+      socket.emit("room:already-in", { room, message: `You are already in room '${room}'` });
       return;
     } 
     if (roomData.size >= 2) {
-      socket.emit("room_full", { room, message: `Room '${room}' is already full.` });
+      socket.emit("room:is-full", { room, message: `Room '${room}' is already full.` });
       return; 
     }
 

@@ -1,4 +1,4 @@
-export type MessageData = {
+export type Message = {
   senderId: string;
   message: string;
   order: number;
@@ -6,19 +6,27 @@ export type MessageData = {
   date: string;
 }
 
-export type RoomData = {
+export type Room = {
   name: string;
   owner: string;
   size: number;
   members: string[];
-  messages: MessageData[];
+  messages?: Message[];
 }
 
-export type MoveSendData = {
+export type SendShotData = {
   roomName: string;
   player: string;
   row: number;
   column: number;
+}
+
+export type ReceiveShotData = Omit<SendShotData, "roomName" | "player"> & {
+  playerFromServer: string;
+}
+
+export type ReceiveShotResultData = Omit<ShotResultData, "roomName" | "player"> & {
+  playerFromServer: string
 }
 
 export type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";

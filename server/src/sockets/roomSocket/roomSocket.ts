@@ -3,8 +3,12 @@ import { roomStore } from "@/data/store";
 import { getRoomsList } from "@/sockets/utils";
 import { registerJoinRoomSocket } from "./joinRoomSocket";
 import { registerLeaveRoomSocket } from "./leaveRoomSocket";
+import { ClientToServerEvents, ServerToClientEvents } from "@/types/socketEventsTypes";
 
-export function registerRoomSocket(io: Server, socket: Socket) {
+export function registerRoomSocket(
+  io: Server<ClientToServerEvents, ServerToClientEvents>,
+  socket: Socket<ClientToServerEvents, ServerToClientEvents>
+) {
 
   socket.on("server:create-room", (room: string) => {
     if (!roomStore.getRoom(room)) {

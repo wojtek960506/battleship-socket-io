@@ -1,11 +1,11 @@
 import { Socket } from "socket.io";
-import { MoveSendData, RoomNamePlayer, ShotResultData } from "@/types/socketTypes";
+import { SendShotData, RoomNamePlayer, ShotResultData } from "@/types/socketTypes";
 
 
 export function registerGameSocket(socket: Socket) {
 
 
-  socket.on("server:send-shot", ({ roomName, player, ...data }: MoveSendData) => {
+  socket.on("server:send-shot", ({ roomName, player, ...data }: SendShotData) => {
     socket.to(roomName).emit("player:receive-shot", { playerFromServer: player, ...data })
   })
 

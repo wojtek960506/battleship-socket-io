@@ -6,14 +6,15 @@ export type MessageData = {
   date: string;
 }
 
-export type RoomData = {
+export type Room = {
   name: string;
   owner: string;
   size: number;
-  messages: MessageData[];
+  members: string[];
+  messages?: MessageData[];
 }
 
-export type RoomsData = Map<string, RoomData>;
+export type RoomsData = Map<string, Room>;
 
 export type ReceiveShotResultType = {
   column: number;
@@ -54,8 +55,3 @@ export type Ship = {
 
 export type GameStatus = "setting-board" | "board-set" | "playing" | "finished";
 
-export type Room = {
-  name: string;
-  owner: string;
-  size: number;
-}

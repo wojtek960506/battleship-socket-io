@@ -7,11 +7,11 @@ export function registerLeaveRoomSocket(io: Server, socket: Socket) {
     const roomData = roomStore.getRoom(room)
 
     if (!roomData) {
-      socket.emit("room_not_found", { room, message: `Room '${room}' does not exist.` });
+      socket.emit("room:not-found", { room, message: `Room '${room}' does not exist.` });
       return;
     } 
     if (!isInRoom(io, socket.id, room)) {
-      socket.emit("not_in_room", { room, message: `You are not in a room '${room}'` });
+      socket.emit("room:not-in", { room, message: `You are not in a room '${room}'` });
       return;
     }
 

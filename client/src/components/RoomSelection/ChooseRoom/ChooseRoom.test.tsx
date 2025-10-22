@@ -14,9 +14,9 @@ describe("ChooseRoom with mocked socket", () => {
     // setup rooms store state
     useRoomsStore.setState({
       rooms: [
-        { name: "Room1", owner: "Player1", size: 1},
-        { name: "Room2", owner: "Player2", size: 2},
-        { name: "Room3", owner: "Player3", size: 1}
+        { name: "Room1", owner: "Player1", size: 1, members: ["Player1"]},
+        { name: "Room2", owner: "Player2", size: 2, members: ["Player2", "Player4"]},
+        { name: "Room3", owner: "Player3", size: 1, members: ["Player3"]}
       ],
     });
   });

@@ -1,12 +1,12 @@
-import { RoomData } from "@/types/socketTypes";
+import { Room } from "@/types/socketTypes";
 
 
 class RoomStore {
-  private rooms: Map<string, RoomData> = new Map();
+  private rooms: Map<string, Room> = new Map();
   
   createRoom(name: string, owner: string) {
     if (this.rooms.has(name)) throw new Error("Room already exists");
-    const room: RoomData = {
+    const room: Room = {
       name,
       owner,
       size: 1,
@@ -25,7 +25,7 @@ class RoomStore {
     return Array.from(this.rooms.values());
   }
 
-  updateRoom(name: string, data: Partial<RoomData>) {
+  updateRoom(name: string, data: Partial<Room>) {
     const existing = this.rooms.get(name);
     if (!existing) return;
     this.rooms.set(name, { ...existing, ...data });

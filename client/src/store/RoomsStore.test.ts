@@ -8,7 +8,7 @@ describe("test RoomsStore", () => {
   })
 
   test("setRooms", () => {
-    useRoomsStore.getState().setRooms([{ name: 'a', owner: 'b', size: 1}])
+    useRoomsStore.getState().setRooms([{ name: 'a', owner: 'b', size: 1, members: ["b", "c"]}])
     expect(useRoomsStore.getState().rooms).toHaveLength(1);
   })
 })
