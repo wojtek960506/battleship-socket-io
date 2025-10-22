@@ -14,7 +14,7 @@ export const WaitingShipsDock = () => {
 
   const handleShipsReposition = () => {
     setGameStatus("setting-board");
-    socket.emit("server:reposition-ships", { roomName, player })
+    socket.emit("server:reposition-ships", { roomName: roomName!, player: player! })
     
     if (!isOtherBoardSet) {
       setCurrentPlayer(null)

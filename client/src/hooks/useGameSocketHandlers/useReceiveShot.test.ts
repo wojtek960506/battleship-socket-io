@@ -35,7 +35,15 @@ describe("useReceiveShot", () => {
 
     expect(mockSocket.emit).toHaveBeenCalledWith(
       "server:shot-result",
-      { player: PLAYER_ID, roomName: ROOM_NAME, value: "missed", row: 1, column: 1 }
+      { 
+        player: PLAYER_ID,
+        roomName: ROOM_NAME,
+        value: "missed",
+        row: 1,
+        column: 1,
+        sunkCells: [],
+        isFinished: false
+      }
     )
   })
 

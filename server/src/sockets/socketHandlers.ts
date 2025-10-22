@@ -2,8 +2,11 @@ import { Server } from "socket.io";
 import { registerRoomSocket } from "./roomSocket";
 import { registerGameSocket } from "./gameSocket";
 import { registerDisconnectingSocket } from "./disconnectingSocket";
+import { ClientToServerEvents, ServerToClientEvents } from "@/types/socketEventsTypes";
 
-export function registerSocketHandlers(io: Server) {
+export function registerSocketHandlers(
+  io: Server<ClientToServerEvents, ServerToClientEvents>
+) {
   io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
 

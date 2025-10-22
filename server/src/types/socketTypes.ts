@@ -29,10 +29,6 @@ export type ReceiveShotResultData = Omit<ShotResultData, "roomName" | "player"> 
   playerFromServer: string
 }
 
-export type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";
-
-export type ShipCell = { row: number, column: number }
-
 export type ShotResultData = {
   roomName: string;
   column: number;
@@ -44,3 +40,7 @@ export type ShotResultData = {
 }
 
 export type RoomNamePlayer = { roomName: string, player: string }
+
+export type BoardCellType = "empty" | "hit" | "sunk" | "missed" | "taken";
+
+export type ShipCell = { row: number, column: number }

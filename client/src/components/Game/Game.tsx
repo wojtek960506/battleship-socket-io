@@ -16,7 +16,7 @@ export const Game = () => {
   const socket = useSocket();
   
   const handleLeaveRoom = () => {
-    socket.emit("server:leave-room", roomName)
+    socket.emit("server:leave-room", roomName!)
     resetGameStore();
   }
 

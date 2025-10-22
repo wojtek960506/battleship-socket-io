@@ -27,7 +27,10 @@ export const OpponentBoard = () => {
     // clicking on a cell which has been clicked before has no effect
     if (value !== "empty") return;
 
-    socket.emit("server:send-shot", { roomName, player, row: rowIndex, column: columnIndex })
+    socket.emit(
+      "server:send-shot",
+      { roomName: roomName!, player: player!, row: rowIndex, column: columnIndex }
+    )
   }, [currentPlayer, gameStatus, opponentBoard, player, roomName, socket])
 
   return <BoardGrid

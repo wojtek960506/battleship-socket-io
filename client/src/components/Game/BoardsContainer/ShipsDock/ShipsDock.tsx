@@ -27,7 +27,7 @@ export const ShipsDock = () => {
       setGameStatus("board-set");
       setCurrentPlayer(player)
     }
-    socket.emit("server:board-set", { roomName, player })
+    socket.emit("server:board-set", { roomName: roomName!, player: player! })
   }
 
   const StartButton = () => (

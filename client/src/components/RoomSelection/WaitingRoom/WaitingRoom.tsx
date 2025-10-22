@@ -10,7 +10,7 @@ export const WaitingRoom = () => {
   const { roomName, playerWhoLeft } = useRoomStore();
 
    const handleLeaveRoom = () => {
-    socket.emit("server:leave-room", roomName);
+    socket.emit("server:leave-room", roomName!);
     resetGameStore();
   }
 

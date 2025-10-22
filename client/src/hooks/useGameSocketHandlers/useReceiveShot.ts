@@ -43,13 +43,16 @@ export const useReceiveShot = () => {
     switchPlayers(playerFromServer, isFinished);
     socket.emit(
       "server:shot-result",
-      { player, roomName, value, column, row, sunkCells, isFinished }
+      { player:player!, roomName: roomName!, value, column, row, sunkCells, isFinished }
     )
   }, [calculateHitShot, player, roomName, socket, switchPlayers])
 
   const receiveMissedShot = useCallback((row: number, column: number) => {
     const value = "missed"
-    socket.emit("server:shot-result", { player, roomName, value, column, row })
+    socket.emit(
+      "server:shot-result",
+      { player: player!, roomName: roomName!, value, column, row, sunkCells: [], isFinished: false }
+    )
 
     updateYourBoard([{ row,column }], value)
     setCurrentPlayer(player);
