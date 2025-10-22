@@ -6,7 +6,9 @@
     "dev": "tsx watch src/server.ts",
     "start": "node --enable-source-maps dist/server.js",
     "build": "tsup",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -17,8 +19,12 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.9.1",
     "@types/socket.io": "^3.0.1",
+    "@vitest/coverage-v8": "^4.0.1",
+    "ts-node": "^10.9.2",
     "tsup": "^8.5.0",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vtest": "^1.1.0"
   }
 }
