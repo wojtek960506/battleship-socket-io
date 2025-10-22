@@ -3,7 +3,6 @@ import { registerRoomSocket } from "./roomSocket";
 import { registerGameSocket } from "./gameSocket";
 import { registerDisconnectingSocket } from "./disconnectingSocket";
 
-
 export function registerSocketHandlers(io: Server) {
   io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
