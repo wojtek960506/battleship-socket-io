@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
-import { roomStore } from "../../../data/store";
-import { getRoomsList, isInRoom } from "../../utils";
+import { roomStore } from "@/data/store";
+import { getRoomsList, isInRoom } from "@/sockets/utils";
 
 export function registerLeaveRoomSocket(io: Server, socket: Socket) {
   socket.on("server:leave-room", (room: string) => {

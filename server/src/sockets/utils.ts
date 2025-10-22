@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import { roomStore } from "../data/store";
+import { roomStore } from "@/data/store";
 
 export const getRoomsList = () => roomStore.getRooms();
 

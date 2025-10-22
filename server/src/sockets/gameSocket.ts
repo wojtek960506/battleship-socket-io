@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { MoveSendData, RoomNamePlayer, ShotResultData } from "../types/socketTypes";
+import { MoveSendData, RoomNamePlayer, ShotResultData } from "@/types/socketTypes";
 
 
 export function registerGameSocket(socket: Socket) {

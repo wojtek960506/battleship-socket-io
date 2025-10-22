@@ -1,4 +1,4 @@
-import { RoomData } from "../types/socketTypes";
+import { RoomData } from "@/types/socketTypes";
 
 
 class RoomStore {

@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
-import { roomStore } from "../../data/store";
-import { getRoomsList } from "../utils";
+import { roomStore } from "@/data/store";
+import { getRoomsList } from "@/sockets/utils";
 import { registerJoinRoomSocket } from "./joinRoomSocket";
 import { registerLeaveRoomSocket } from "./leaveRoomSocket";
 

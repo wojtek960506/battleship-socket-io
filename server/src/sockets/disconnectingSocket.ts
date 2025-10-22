@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io"
-import { roomStore } from "../data/store";
+import { roomStore } from "@/data/store";
 import { getRoomsList } from "./utils";
 
 export function registerDisconnectingSocket(io: Server, socket: Socket) {
