@@ -1,7 +1,6 @@
 import { Server, Socket } from "socket.io";
 import { roomStore } from "../data/store";
-import { MoveSendData, RoomNamePlayer, ShotResultData } from "../types/socketTypes";
-
+import { getRoomsList } from "./utils";
 
 export function registerRoomSocket(io: Server, socket: Socket) {
 
@@ -10,9 +9,7 @@ export function registerRoomSocket(io: Server, socket: Socket) {
     return roomMembers ? roomMembers.has(socketId) : false;
   }
 
-  const getRoomsList = () => roomStore.getRooms();
-
-  socket.on("server:create-room", (room) => {
+  socket.on("server:create-room", (room: string) => {
     if (!roomStore.getRoom(room)) {
       roomStore.createRoom(room, socket.id);
 
@@ -40,7 +37,7 @@ export function registerRoomSocket(io: Server, socket: Socket) {
     socket.broadcast.emit("rooms:list", getRoomsList())
   })
 
-  socket.on("server:join-room", (room) => {
+  socket.on("server:join-room", (room: string) => {
     const roomData = roomStore.getRoom(room)
     
     if (!roomData) {
@@ -127,73 +124,5 @@ export function registerRoomSocket(io: Server, socket: Socket) {
     console.log(`Player with ID: '${socket.id}' left room '${room}'`)
   })
 
-  socket.on("server:send-shot", ({ 
-    roomName,
-    player,
-    column,
-    row,
-  }: MoveSendData) => {
-    socket.to(roomName).emit(
-      "player:receive-shot",
-      { row, column, playerFromServer: player }
-    )
-  })
-
-  socket.on("server:shot-result", ({
-    roomName,
-    player,
-    column,
-    row,
-    value,
-    sunkCells,
-    isFinished,
-  }: ShotResultData) => {
-    socket.to(roomName).emit(
-      "player:receive-shot-result",
-      { playerFromServer: player, column, row, value, sunkCells, isFinished }
-    )
-  })
-
-  socket.on("server:board-set", ({ roomName, player }: RoomNamePlayer) => {
-    console.log(`Player '${player}' set its board in room '${roomName}'`)
-    socket.to(roomName).emit('player:board-set', { otherPlayer: player })
-  })
-
-  socket.on("server:reposition-ships", ({ roomName, player }: RoomNamePlayer) => {
-    console.log(`Player '${player}' is repositioning its ships in room '${roomName}'`)
-    socket.to(roomName).emit('player:reposition-ships', { otherPlayer: player })
-  })
-
-  socket.on("disconnecting", () => {
-    console.log(`User Disconnecting: ${socket.id}`);
-  
-    for (const [roomName, members] of io.sockets.adapter.rooms.entries()) {
-      if (members.has(socket.id)) {
-        const roomData = roomStore.getRoom(roomName)
-
-        if (roomData) { 
-          if (roomData.size <= 1) {
-            roomStore.deleteRoom(roomName)
-          } else {
-            const newMembers = roomData.members.filter(m => m !== socket.id)
-            roomStore.updateRoom(roomName, {
-              size: newMembers.length,
-              members: newMembers,
-              owner: newMembers[0]
-            })
-            // other members of this room has to be informed that room was left
-            socket.to(roomName).emit('room:someone-left', {
-              roomName,
-              message: `'${socket.id}' has just left room '${roomName}`,
-              playerId: socket.id,
-            })
-          }
-        }
-      }
-    }
-    
-    // update all rooms with changes
-    socket.broadcast.emit("rooms:list", getRoomsList())
-  })
 
 }
