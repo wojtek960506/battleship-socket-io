@@ -14,11 +14,12 @@ class RoomStore {
       messages: [],
     };
     this.rooms.set(name, room);
-    return room;
+    return { ...room };
   }
 
   getRoom(name: string) {
-    return this.rooms.get(name);
+    const room = this.rooms.get(name);
+    return room ? {...room} : undefined;
   }
 
   getRooms() {
@@ -33,6 +34,10 @@ class RoomStore {
 
   deleteRoom(name: string) {
     this.rooms.delete(name);
+  }
+
+  resetStore() {
+    this.rooms.clear(); // = new Map();
   }
 }
 
